@@ -1,0 +1,94 @@
+name: Identifier registration (FOCUS Program Manager)
+description: Register, change or deprecate a FOCUS WG-approved focus.* identifier.
+title: "Spec Change: focus."
+labels: ["spec change"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **This form is for the FOCUS Program Manager only.** It records a `focus.*` identifier that the FOCUS Working Group has already approved.
+
+        To suggest a new identifier, use the **Identifier proposal** form instead.
+
+        After opening this issue, open a pull request that links to it.
+
+  - type: dropdown
+    id: change-type
+    attributes:
+      label: Type of change
+      options:
+        - New identifier
+        - Change to a registered identifier
+        - Deprecation of a registered identifier
+    validations:
+      required: true
+
+  - type: input
+    id: identifier
+    attributes:
+      label: Identifier
+      description: The full identifier, in the focus.* namespace.
+      placeholder: focus.
+    validations:
+      required: true
+
+  - type: input
+    id: decision-record
+    attributes:
+      label: FOCUS WG decision record
+      description: Link to the minutes, issue or decision in which the FOCUS WG approved this identifier.
+    validations:
+      required: true
+
+  - type: input
+    id: focus-reference
+    attributes:
+      label: FOCUS reference
+      description: FOCUS version and requirement ID. Reference the requirement; do not copy FOCUS specification text.
+      placeholder: FOCUS 1.2, requirement ID
+    validations:
+      required: true
+
+  - type: input
+    id: replaces
+    attributes:
+      label: Replaces / deprecates
+      description: For changes and deprecations, the registered identifier this replaces or deprecates. Registered identifiers are never deleted or reused.
+      placeholder: None
+
+  - type: textarea
+    id: definition
+    attributes:
+      label: Proposed definition
+      description: Type, unit, stability, description and any other fields of the semantic-convention entry.
+      render: yaml
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale
+      description: Why this identifier is needed and what telemetry it links to FOCUS data.
+    validations:
+      required: true
+
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility considerations
+      description: Impact on existing identifiers, OpenTelemetry semantic conventions, and implementers.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: The FOCUS WG has approved this identifier, as recorded in the decision record above.
+          required: true
+        - label: The identifier is within the focus.* namespace and the repository Scope (02-scope.md).
+          required: true
+        - label: FOCUS requirements are cited by version and requirement ID, not copied.
+          required: true

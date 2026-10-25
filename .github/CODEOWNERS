@@ -1,0 +1,7 @@
+# Registry governance
+# Replace ORGANIZATION with the actual GitHub organization.
+
+* @ORGANIZATION/focusID-maintainers
+
+# Explicitly protect governance configuration
+/.github/ @ORGANIZATION/focusID-maintainers
