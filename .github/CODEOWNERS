@@ -1,7 +1,7 @@
 # Registry governance
-# Replace ORGANIZATION with the actual GitHub organization.
 
-* @ORGANIZATION/focusID-maintainers
+# Editors give final approval on all changes (Contribution Policy §4.3)
+* @FinOps-Open-Cost-and-Usage-Spec/focusID-editors
 
-# Explicitly protect governance configuration
-/.github/ @ORGANIZATION/focusID-maintainers
+# Governance configuration also needs Maintainer review
+/.github/ @FinOps-Open-Cost-and-Usage-Spec/focusID-editors @FinOps-Open-Cost-and-Usage-Spec/focusID-maintainers
