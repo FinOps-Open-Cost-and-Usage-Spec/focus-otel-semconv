@@ -1,0 +1,34 @@
+name: CLA checkbox
+
+# Checks that the pull request description contains the ticked Contributor License
+# Agreement checkbox from .github/pull_request_template.md.
+#
+# The required text is hard-coded here on purpose. Reading it from the template in
+# the pull request would let a pull request change the text it is checked against.
+# If the checkbox wording in the template changes, update REQUIRED_TEXT to match.
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+permissions: {}
+
+jobs:
+  cla-checkbox:
+    name: CLA checkbox
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for the ticked CLA checkbox
+        env:
+          # Passed through an environment variable, never interpolated into the
+          # script, so the description cannot inject shell commands.
+          PR_BODY: ${{ github.event.pull_request.body }}
+          REQUIRED_TEXT: "I confirm that this contribution is made under the [Community Specification Contributor License Agreement](https://github.com/FinOps-Open-Cost-and-Usage-Spec/focusID/blob/main/00-contributor-license-agreement.md), and that I am authorized to make it, including on behalf of my employer where applicable."
+        run: |
+          if printf '%s\n' "$PR_BODY" | tr -d '\r' | sed 's/^[[:space:]]*//; s/[[:space:]]*$//' \
+              | grep -Fqx -e "- [x] $REQUIRED_TEXT" -e "- [X] $REQUIRED_TEXT"; then
+            echo "CLA checkbox is ticked."
+          else
+            echo "::error title=CLA checkbox not ticked::Tick the Contributor License Agreement checkbox in the pull request description, without changing its wording. If you removed it, copy it back from .github/pull_request_template.md. This check re-runs when you edit the description."
+            exit 1
+          fi

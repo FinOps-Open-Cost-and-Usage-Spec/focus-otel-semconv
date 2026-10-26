@@ -44,7 +44,7 @@ All issues are opened through one of the following forms. Blank issues are disab
 
 | Form | Who uses it | Purpose | Label | Title prefix |
 |---|---|---|---|---|
-| [Identifier registration](.github/ISSUE_TEMPLATE/01-identifier-registration.yaml) | FOCUS Program Manager only | Register, change or deprecate a `focus.*` identifier already approved by the FOCUS WG | `spec change` | `Spec Change:` |
+| [Identifier registration](.github/ISSUE_TEMPLATE/01-identifier-registration.yaml) | FOCUS Program Manager only | Register, change or deprecate a `focus.*` identifier already approved by the FOCUS WG | `spec_change` | `Spec Change:` |
 | [Identifier proposal](.github/ISSUE_TEMPLATE/02-identifier-proposal.yaml) | Anyone | Suggest a new `focus.*` identifier for the FOCUS WG to consider | `proposal` | `Proposal:` |
 | [Discussion or question](.github/ISSUE_TEMPLATE/03-discussion.yaml) | Anyone | Questions, editorial or repository problems, and governance or process topics | `discussion` | `Discussion:` |
 

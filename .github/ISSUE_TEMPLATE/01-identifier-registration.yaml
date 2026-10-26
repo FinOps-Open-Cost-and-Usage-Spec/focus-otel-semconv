@@ -1,7 +1,7 @@
 name: Identifier registration (FOCUS Program Manager)
 description: Register, change or deprecate a FOCUS WG-approved focus.* identifier.
 title: "Spec Change: focus."
-labels: ["spec change"]
+labels: ["spec_change"]
 body:
   - type: markdown
     attributes:
