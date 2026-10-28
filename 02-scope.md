@@ -1,6 +1,6 @@
 # Scope
 
-This Working Group develops and maintains the FOCUS Identifiers Registry. The registry is a specification of identifiers in the `focus.*` namespace, for use as OpenTelemetry semantic conventions. These identifiers associate OpenTelemetry resources, metrics and traces with cost and usage data that conforms to the FinOps Open Cost and Usage Specification (FOCUS).
+This Working Group develops and maintains FOCUS Semantic Conventions for OpenTelemetry. The registry is a specification of identifiers in the `focus.*` namespace, for use as OpenTelemetry semantic conventions. These identifiers associate OpenTelemetry resources, metrics and traces with cost and usage data that conforms to the FinOps Open Cost and Usage Specification (FOCUS).
 
 ## In scope
 

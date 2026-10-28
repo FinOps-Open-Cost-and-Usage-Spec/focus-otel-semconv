@@ -1,7 +1,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: Code of Conduct contacts
-    url: https://github.com/FinOps-Open-Cost-and-Usage-Spec/focusID/blob/main/03-notices.md#code-of-conduct
+    url: https://github.com/FinOps-Open-Cost-and-Usage-Spec/focus-otel-semconv/blob/main/03-notices.md#code-of-conduct
     about: Report Code of Conduct concerns privately to the contacts listed in Notices, not in a public issue.
   - name: FOCUS specification
     url: https://focus.finops.org

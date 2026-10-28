@@ -23,7 +23,7 @@ jobs:
           # Passed through an environment variable, never interpolated into the
           # script, so the description cannot inject shell commands.
           PR_BODY: ${{ github.event.pull_request.body }}
-          REQUIRED_TEXT: "I confirm that this contribution is made under the [Community Specification Contributor License Agreement](https://github.com/FinOps-Open-Cost-and-Usage-Spec/focusID/blob/main/00-contributor-license-agreement.md), and that I am authorized to make it, including on behalf of my employer where applicable."
+          REQUIRED_TEXT: "I confirm that this contribution is made under the [Community Specification Contributor License Agreement](https://github.com/FinOps-Open-Cost-and-Usage-Spec/focus-otel-semconv/blob/main/00-contributor-license-agreement.md), and that I am authorized to make it, including on behalf of my employer where applicable."
         run: |
           if printf '%s\n' "$PR_BODY" | tr -d '\r' | sed 's/^[[:space:]]*//; s/[[:space:]]*$//' \
               | grep -Fqx -e "- [x] $REQUIRED_TEXT" -e "- [X] $REQUIRED_TEXT"; then

@@ -1,5 +1,5 @@
 <!--
-Thank you for contributing to the FOCUS Identifiers Registry.
+Thank you for contributing to FOCUS Semantic Conventions for OpenTelemetry.
 Please complete every section that applies to your pull request. Text inside these comment markers is not shown on the pull request.
 Pull requests without the Contributor License Agreement checkbox ticked will not be reviewed or merged.
 -->
@@ -37,7 +37,7 @@ Closes #
 
 ## Submitter checklist
 
-- [ ] The change is within the `focus.*` namespace and the [Scope](https://github.com/FinOps-Open-Cost-and-Usage-Spec/focusID/blob/main/02-scope.md).
+- [ ] The change is within the `focus.*` namespace and the [Scope](https://github.com/FinOps-Open-Cost-and-Usage-Spec/focus-otel-semconv/blob/main/02-scope.md).
 - [ ] FOCUS requirements are cited by version and requirement ID, not copied.
 - [ ] Any reviewer suggestions adopted are written in my own words, not copied from the reviewer's text.
 - [ ] No registered identifier is deleted or reused (deprecation only).
@@ -46,4 +46,4 @@ Closes #
 
 <!-- Required. Do not edit the wording of this checkbox: the automated check looks for this exact text. -->
 
-- [ ] I confirm that this contribution is made under the [Community Specification Contributor License Agreement](https://github.com/FinOps-Open-Cost-and-Usage-Spec/focusID/blob/main/00-contributor-license-agreement.md), and that I am authorized to make it, including on behalf of my employer where applicable.
+- [ ] I confirm that this contribution is made under the [Community Specification Contributor License Agreement](https://github.com/FinOps-Open-Cost-and-Usage-Spec/focus-otel-semconv/blob/main/00-contributor-license-agreement.md), and that I am authorized to make it, including on behalf of my employer where applicable.

@@ -1,10 +1,17 @@
-# FOCUS Identifiers Registry (`focus.*`)
+# FOCUS Semantic Conventions for OpenTelemetry (`focus.*`)
 
 This repository is the official registry of `focus.*` identifiers: OpenTelemetry semantic-convention identifiers that link OpenTelemetry telemetry (metrics, traces and resources) to [FOCUS](https://focus.finops.org) cost and usage data. Registering identifiers here does not change the FOCUS dataset itself.
 
 FOCUS owns the meaning of each identifier. The OpenTelemetry Semantic Conventions SIG reviews each identifier to make sure it is consistent with OpenTelemetry conventions and tooling (Weaver).
 
-The registry is developed under the [Community Specification](https://github.com/CommunitySpecification/1.0) process of the Joint Development Foundation.
+The registry is developed under the [Community Specification](https://github.com/CommunitySpecification) process of the Joint Development Foundation. The FOCUS Working Group charter is a Community Specification charter, and this repository is how that charter is put into practice.
+
+Registration takes two steps under two frameworks:
+
+1. **FOCUS WG Charter.** Identifiers are produced and approved by the FOCUS Working Group under the FOCUS WG Charter and the FOCUS license.
+2. **Community Specification.** The FOCUS Program Manager, with the Working Group's agreement, then submits each approved identifier to this registry under the Community Specification, the Contributor License Agreement and the pull request checkbox.
+
+An identifier is a pointer to the FOCUS specification. It does not restate or replace any part of it.
 
 ## Scope
 
@@ -15,13 +22,14 @@ The full Scope is in [02-scope.md](02-scope.md). That file is the "Scope.md" tha
 ## How a `focus.*` identifier is registered
 
 1. **FOCUS WG approval.** The FOCUS Working Group agrees on the identifier through its own process, which runs outside this repository.
-2. **Issue.** The FOCUS Program Manager opens an issue in this repository for the approved identifier, linking the FOCUS WG decision record.
+2. **Issue.** With the FOCUS WG's agreement, the FOCUS Program Manager opens an issue in this repository for the approved identifier, linking the FOCUS WG decision record.
 3. **Pull request.** The Program Manager opens a pull request to `main`, linked to the issue. The pull request describes the identifier, its rationale, compatibility considerations and the related FOCUS requirement, cited by FOCUS version and requirement ID. FOCUS specification text is referenced, not copied. The pull request must confirm the Contributor License Agreement (see [Contributing](#contributing)).
 4. **Automated checks.** GitHub Actions validates the pull request: CLA confirmation, schema compliance, uniqueness, references and the other registry rules.
-5. **OpenTelemetry review.** OpenTelemetry reviewers check the identifier for consistency with OpenTelemetry conventions. They are expected to review it within 7 days of submission. **If the reviewers do not agree, the pull request is blocked** and the Maintainers resolve it (see [Decisions and appeals](#decisions-and-appeals)).
-6. **Editor approval and merge.** Once the reviewers agree, an Editor approves and merges the pull request. Merging is blocked without Editor approval.
+5. **OpenTelemetry review.** OpenTelemetry reviewers check the identifier for consistency with OpenTelemetry conventions. They are expected to review it within 7 days of submission. If no review is received in that time, the Program Manager follows up with the OpenTelemetry reviewers for a response. **If the reviewers do not agree, the pull request is blocked** and the Maintainer resolves it (see [Decisions and appeals](#decisions-and-appeals)).
+6. **Suggested changes go back to the FOCUS WG.** Any change suggested by a third party, including the OpenTelemetry reviewers, goes back to the FOCUS WG for discussion, review and approval. Once the FOCUS WG has approved the revised identifier, the Program Manager updates the pull request and the OpenTelemetry reviewers review it a second time.
+7. **Editor approval and merge.** Once the reviewers agree, the Editor approves and merges the pull request. Merging is blocked without Editor approval.
 
-**A merged pull request is an official registration.** Once merged, the identifier is registered in the FOCUS Identifiers Registry, and `main` is always the authoritative registry.
+**A merged pull request is an official registration.** Once merged, the identifier is registered in FOCUS Semantic Conventions for OpenTelemetry, and `main` is always the authoritative registry.
 
 Every decision is recorded in the issue or pull request, including decisions taken in meetings, so each registration has an auditable history.
 
@@ -65,24 +73,25 @@ Pull requests without a ticked checkbox will not be reviewed or merged. By makin
 
 | Role | Who | Responsibilities |
 |---|---|---|
-| Maintainers | _[To be named]_ | Organize the work, determine consensus, resolve blocked or disputed pull requests, and handle appeals |
-| Editors | [@FinOps-Open-Cost-and-Usage-Spec/focusID-editors](https://github.com/orgs/FinOps-Open-Cost-and-Usage-Spec/teams/focusID-editors) | Make sure the registry reflects the decisions made, enforce formatting and content conventions, and approve and merge pull requests |
+| Maintainer | _[To be named]_ | Organize the work, determine consensus, resolve blocked or disputed pull requests, and handle appeals |
+| Editor | [@FinOps-Open-Cost-and-Usage-Spec/focusID-editors](https://github.com/orgs/FinOps-Open-Cost-and-Usage-Spec/teams/focusID-editors) | Make sure the registry reflects the decisions made, enforce formatting and content conventions, and approve and merge pull requests |
 | OpenTelemetry reviewers | _[To be named]_ | Review identifiers for consistency with OpenTelemetry semantic conventions |
 | FOCUS Program Manager | _[To be named]_ | Submit FOCUS WG-approved identifiers as issues and pull requests |
 
-New or additional Maintainers and Editors are selected with the approval of the Working Group Participants (Governance §1.1, §1.2).
+The Working Group has one Maintainer and one Editor, held by different people. A new or additional Maintainer, or a new Editor, is selected with the approval of the Working Group Participants (Governance §1.1, §1.2).
 
 ## Decisions and appeals
 
-The Maintainers make the final decision on blocked or disputed pull requests. They decide after considering the Participants' views in good faith, and they record their reasoning in writing on the issue or pull request (Governance §2.1).
+The Maintainer resolves blocked or disputed pull requests. The Maintainer decides after considering the Participants' views in good faith, and records the reasoning in writing on the issue or pull request (Governance §2.1). The Editor approves each Maintainer decision before it takes effect.
 
-When the OpenTelemetry reviewers block a pull request, the Maintainers will do one of the following:
+When the OpenTelemetry reviewers block a pull request, the Maintainer will do one of the following:
 
-- send the identifier back to the FOCUS WG, if resolving the objection would change what the FOCUS WG approved;
-- approve an editorial change that resolves the objection without changing the identifier's meaning; or
+- send the identifier back to the FOCUS WG, if resolving the objection needs any change to the pull request; or
 - decide, with written reasoning, that the objection does not prevent registration.
 
-Any decision may be appealed by opening an issue. The Maintainers will respond in writing within a reasonable time (Governance §2.2).
+The Maintainer does not change an identifier directly. Every change, including an editorial one, goes back to the FOCUS WG.
+
+Any decision may be appealed by opening an issue. The Maintainer will respond in writing within a reasonable time (Governance §2.2).
 
 ## Changes and deprecation
 
@@ -94,13 +103,13 @@ The Working Group will define the process for changing and deprecating identifie
 
 ## Licensing
 
-- **Specification content.** This includes the `focus.*` identifier definitions and their descriptions. It is licensed under the [Community Specification License 1.0](01-community-specification-license-v1.md).
+- **Specification content.** This includes the `focus.*` identifier definitions and their descriptions. It is licensed under the [Community Specification License](01-community-specification-license-v1.md).
 - **Source code.** Any source code in this repository is licensed under the MIT License unless otherwise marked. Supporting tooling, such as Weaver templates and scripts, is kept in a separate repository.
 - If the two licenses conflict, the Community Specification License applies.
 
 See [04-license.md](04-license.md) for details.
 
-Derivative works based on this registry must credit the FOCUS Identifiers Registry Working Group, including the material's name, version and source (License §1.2). Implementations do not need to give this credit.
+Derivative works based on this registry must credit the FOCUS Working Group, including the material's name, version and source (License §1.2). Implementations do not need to give this credit.
 
 ## Notices
 
