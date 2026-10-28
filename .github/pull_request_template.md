@@ -10,7 +10,7 @@ Pull requests without the Contributor License Agreement checkbox ticked will not
 
 - [ ] New `focus.*` identifier registration (submitted by the FOCUS Program Manager after FOCUS WG approval)
 - [ ] Change to or deprecation of a registered identifier (submitted by the FOCUS Program Manager after FOCUS WG approval)
-- [ ] Editorial or repository change (typos, documentation, CI). This must not change any identifier's meaning
+- [ ] Editorial or repository change (typos, documentation, CI). This must not change any identifier definition
 
 ## Related issue
 
