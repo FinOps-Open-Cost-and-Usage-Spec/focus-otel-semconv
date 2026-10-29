@@ -1,4 +1,4 @@
-name: Identifier registration (FOCUS Program Manager)
+name: Identifier registration (FOCUS Submitters)
 description: Register, change or deprecate a FOCUS WG-approved focus.* identifier.
 title: "Spec Change: focus."
 labels: ["spec_change"]
@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        **This form is for the FOCUS Program Manager only.** It records a `focus.*` identifier that the FOCUS Working Group has already approved.
+        **This form is for FOCUS Submitters only.** It records a `focus.*` identifier that the FOCUS Working Group has already approved.
 
         To suggest a new identifier, use the **Identifier proposal** form instead.
 
@@ -44,8 +44,8 @@ body:
     id: focus-reference
     attributes:
       label: FOCUS reference
-      description: FOCUS version and requirement ID. Reference the requirement; do not copy FOCUS specification text.
-      placeholder: FOCUS 1.2, requirement ID
+      description: FOCUS version and requirement ID, or FOCUS WG-approved companion specification / decision record. Reference the requirement; do not copy FOCUS specification text.
+      placeholder: e.g., FOCUS 1.2, requirement ID (or companion spec reference)
     validations:
       required: true
 

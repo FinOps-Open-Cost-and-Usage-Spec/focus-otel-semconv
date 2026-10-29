@@ -8,8 +8,8 @@ Pull requests without the Contributor License Agreement checkbox ticked will not
 
 <!-- Tick one. -->
 
-- [ ] New `focus.*` identifier registration (submitted by the FOCUS Program Manager after FOCUS WG approval)
-- [ ] Change to or deprecation of a registered identifier (submitted by the FOCUS Program Manager after FOCUS WG approval)
+- [ ] New `focus.*` identifier registration (submitted by a FOCUS Submitter after FOCUS WG approval)
+- [ ] Change to or deprecation of a registered identifier (submitted by a FOCUS Submitter after FOCUS WG approval)
 - [ ] Editorial or repository change (typos, documentation, CI). This must not change any identifier definition
 
 ## Related issue
@@ -24,7 +24,7 @@ Closes #
 
 - **Identifier:** `focus.`
 - **FOCUS WG decision record:** <!-- link to the minutes, issue or decision that approved this identifier -->
-- **FOCUS reference:** <!-- FOCUS version and requirement ID, e.g. FOCUS 1.2, requirement ID. Reference the requirement; do not copy FOCUS specification text. -->
+- **FOCUS reference:** <!-- FOCUS version and requirement ID (e.g. FOCUS 1.2, requirement ID), or a FOCUS WG-approved companion specification / decision record. Reference the requirement; do not copy FOCUS specification text. -->
 - **Replaces / deprecates:** <!-- for changes and deprecations only; otherwise "None" -->
 
 ### Rationale
@@ -38,7 +38,7 @@ Closes #
 ## Submitter checklist
 
 - [ ] The change is within the `focus.*` namespace and the [Scope](https://github.com/FinOps-Open-Cost-and-Usage-Spec/focus-otel-semconv/blob/main/02-scope.md).
-- [ ] FOCUS requirements are cited by version and requirement ID, not copied.
+- [ ] FOCUS requirements are cited by version and requirement ID, or by FOCUS WG-approved companion specification / decision record, not copied.
 - [ ] Any reviewer suggestions adopted are written in my own words, not copied from the reviewer's text.
 - [ ] No registered identifier is deleted or reused (deprecation only).
 
