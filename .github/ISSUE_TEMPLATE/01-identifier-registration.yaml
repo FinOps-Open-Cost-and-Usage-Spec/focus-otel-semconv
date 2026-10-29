@@ -1,4 +1,4 @@
-name: Identifier registration (FOCUS Program Manager)
+name: Identifier registration (FOCUS Submitters)
 description: Register, change or deprecate a FOCUS WG-approved focus.* identifier.
 title: "Spec Change: focus."
 labels: ["spec_change"]
@@ -6,11 +6,11 @@ body:
   - type: markdown
     attributes:
       value: |
-        **This form is for the FOCUS Program Manager only.** It records a `focus.*` identifier that the FOCUS Working Group has already approved.
+        **This form is for FOCUS Submitters only.** It records a `focus.*` identifier that the FOCUS Working Group has already approved. Open it after the FOCUS WG vote, not before: the decision record is required.
 
-        To suggest a new identifier, use the **Identifier proposal** form instead.
+        The YAML definition should already be drafted and passing checks on the `wg-staging` branch. To suggest a new identifier, use the **Identifier proposal** form instead. To help draft one before the vote, open a pull request against `wg-staging`.
 
-        After opening this issue, open a pull request that links to it.
+        After opening this issue, open a pull request from the approved `wg-staging` content that links to it.
 
   - type: dropdown
     id: change-type
@@ -36,7 +36,7 @@ body:
     id: decision-record
     attributes:
       label: FOCUS WG decision record
-      description: Link to the minutes, issue or decision in which the FOCUS WG approved this identifier.
+      description: Link to the minutes, issue or decision in which the FOCUS WG approved this identifier. This is required, so open this issue only after the vote.
     validations:
       required: true
 
@@ -44,8 +44,8 @@ body:
     id: focus-reference
     attributes:
       label: FOCUS reference
-      description: FOCUS version and requirement ID. Reference the requirement; do not copy FOCUS specification text.
-      placeholder: FOCUS 1.2, requirement ID
+      description: FOCUS version and requirement ID, or FOCUS WG-approved companion specification / decision record. Reference the requirement; do not copy FOCUS specification text.
+      placeholder: e.g., FOCUS 1.2, requirement ID (or companion spec reference)
     validations:
       required: true
 
@@ -90,5 +90,5 @@ body:
           required: true
         - label: The identifier is within the focus.* namespace and the repository Scope (02-scope.md).
           required: true
-        - label: FOCUS requirements are cited by version and requirement ID, not copied.
+        - label: FOCUS requirements are cited by version and requirement ID, or a companion specification by name, version and decision record, not copied.
           required: true
