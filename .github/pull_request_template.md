@@ -24,7 +24,7 @@ Closes #
 
 - **Identifier:** `focus.`
 - **FOCUS WG decision record:** <!-- link to the minutes, issue or decision that approved this identifier -->
-- **FOCUS reference:** <!-- FOCUS version and requirement ID (e.g. FOCUS 1.2, requirement ID), or a FOCUS WG-approved companion specification / decision record. Reference the requirement; do not copy FOCUS specification text. -->
+- **FOCUS reference:** <!-- FOCUS version and requirement ID (e.g. FOCUS 1.2, requirement ID), or a FOCUS WG-approved companion specification by name, version and decision record. Reference the requirement; do not copy FOCUS specification text. -->
 - **Replaces / deprecates:** <!-- for changes and deprecations only; otherwise "None" -->
 
 ### Rationale
@@ -38,9 +38,18 @@ Closes #
 ## Submitter checklist
 
 - [ ] The change is within the `focus.*` namespace and the [Scope](https://github.com/FinOps-Open-Cost-and-Usage-Spec/focus-otel-semconv/blob/main/02-scope.md).
-- [ ] FOCUS requirements are cited by version and requirement ID, or by FOCUS WG-approved companion specification / decision record, not copied.
+- [ ] FOCUS requirements are cited by version and requirement ID, or a FOCUS WG-approved companion specification by name, version and decision record, not copied.
 - [ ] Any reviewer suggestions adopted are written in my own words, not copied from the reviewer's text.
 - [ ] No registered identifier is deleted or reused (deprecation only).
+
+## OpenTelemetry review record
+
+<!-- Completed by the Editor before merge, for identifier registrations, changes and deprecations. Delete this section for editorial changes. -->
+
+- **Review window opened:** <!-- date this pull request was opened -->
+- **Outcome:** <!-- reviewed and no objection / reviewed with changes, now addressed / objection, resolved by the Maintainer (link) / no review within 7 days, follow-up sent (link) -->
+
+- [ ] The OpenTelemetry review outcome above is recorded, or the 7-day window closed without a review and the follow-up is linked.
 
 ## Contributor License Agreement
 

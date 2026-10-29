@@ -90,5 +90,5 @@ body:
           required: true
         - label: The identifier is within the focus.* namespace and the repository Scope (02-scope.md).
           required: true
-        - label: FOCUS requirements are cited by version and requirement ID, not copied.
+        - label: FOCUS requirements are cited by version and requirement ID, or a companion specification by name, version and decision record, not copied.
           required: true
