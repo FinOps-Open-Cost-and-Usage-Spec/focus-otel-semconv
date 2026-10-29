@@ -75,7 +75,7 @@ Pull requests without a ticked checkbox will not be reviewed or merged. The Edit
 | Role | Who | Responsibilities |
 |---|---|---|
 | Maintainer | _[To be named]_ | Initially proposed by FOCUS. Organize the work, determine and record consensus, resolve objections and disputes, mark pull requests as approved, coordinate appeals and publish releases |
-| Editor | [@FinOps-Open-Cost-and-Usage-Spec/focusID-editors](https://github.com/orgs/FinOps-Open-Cost-and-Usage-Spec/teams/focusID-editors) | Initially proposed by FOCUS. Make sure the registry accurately reflects the decisions made and follows the formatting and content conventions. Give final approval and merge pull requests |
+| Editor | [@FinOps-Open-Cost-and-Usage-Spec/focus-otel-semconv-editors](https://github.com/orgs/FinOps-Open-Cost-and-Usage-Spec/teams/focus-otel-semconv-editors) | Initially proposed by FOCUS. Make sure the registry accurately reflects the decisions made and follows the formatting and content conventions. Give final approval and merge pull requests |
 | OpenTelemetry reviewers | _[To be named]_ | Designated by the OpenTelemetry Semantic Conventions SIG. Review identifiers for technical consistency with OpenTelemetry semantic conventions and tooling. No veto or separate approval authority |
 | FOCUS Program Manager | _[To be named]_ | Submit FOCUS WG-approved identifiers as issues and pull requests |
 | Participants | Anyone who makes a Contribution under the Community Specification License | Take part in the consensus process (Governance §1.3) |
