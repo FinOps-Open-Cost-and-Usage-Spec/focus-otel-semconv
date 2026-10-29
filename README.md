@@ -21,10 +21,47 @@ The full Scope is in [02-scope.md](02-scope.md). That file is the "Scope.md" tha
 
 ## How a `focus.*` identifier is registered
 
+```mermaid
+flowchart TD
+    P["Identifier proposal issue<br/>anyone, no CLA"]
+
+    subgraph DRAFT["Drafting: Community Specification License"]
+        B["Contributor branch"]
+        S["wg-staging<br/>CI and Weaver run<br/>nothing is registered here"]
+        B -->|"pull request, CLA ticked"| S
+    end
+
+    subgraph WG["FOCUS WG Charter: outside this repository"]
+        V{"FOCUS WG reviews<br/>the YAML and votes"}
+    end
+
+    subgraph REG["Registration: Community Specification"]
+        I["Registration issue<br/>FOCUS Submitters only<br/>decision record required"]
+        PR["Pull request to main<br/>opens the 7-day OTel window"]
+        C["Automated checks<br/>CLA, schema, uniqueness"]
+        O["OpenTelemetry review<br/>7 days, no veto"]
+        M["Maintainer determines consensus"]
+        E["Editor completes the review record,<br/>approves and merges"]
+        I --> PR --> C --> O --> M --> E
+    end
+
+    MAIN["main: Draft Specification"]
+    REL["Approved Specification<br/>versioned release"]
+
+    P -.->|"WG takes it forward"| B
+    S --> V
+    V -->|"not approved, keep drafting"| S
+    V -->|"approved, decision record published"| I
+    O -->|"changes requested"| V
+    E --> MAIN --> REL
+```
+
+The branch an identifier passes through decides which agreement its drafting is made under. Work on `wg-staging` is contributed under the Community Specification License and its Contributor License Agreement. The FOCUS WG's own review and vote happen under the FOCUS WG Charter, outside this repository.
+
 1. **Drafting on `wg-staging`.** The YAML definition is authored on the long-lived `wg-staging` branch in this repository, so that CI and Weaver lint run against the real artifact. Anyone taking part in the FOCUS WG can propose changes to `wg-staging` by pull request, under the Contributor License Agreement checkbox, linked to the Identifier proposal issue where there is one. Work on `wg-staging` is drafting only: nothing there is registered, and the branch is never merged into `main` as a whole.
 2. **FOCUS WG approval.** The FOCUS Working Group reviews the YAML on `wg-staging` and decides whether to approve it, through its own process under the FOCUS WG Charter. The decision is written up as the FOCUS WG decision record.
 3. **Registration issue.** With the FOCUS WG's approval recorded, a FOCUS Submitter opens an identifier registration issue in this repository, linking the FOCUS WG decision record and the approved `wg-staging` content.
-4. **Pull request.** A FOCUS Submitter opens a pull request from the approved `wg-staging` content to `main`, linked to the issue and the FOCUS WG decision record. Opening this pull request starts the OpenTelemetry review window. The pull request describes the identifier, its rationale, compatibility considerations and the related FOCUS requirement, cited by FOCUS version and requirement ID, or the FOCUS WG-approved companion specification / decision record it comes from. FOCUS specification text is referenced, not copied. The pull request must confirm the Contributor License Agreement (see [Contributing](#contributing)).
+4. **Pull request.** A FOCUS Submitter opens a pull request from the approved `wg-staging` content to `main`, linked to the issue and the FOCUS WG decision record. Opening this pull request starts the OpenTelemetry review window. The pull request describes the identifier, its rationale, compatibility considerations and the related FOCUS requirement, cited by FOCUS version and requirement ID, or the FOCUS WG-approved companion specification it comes from, by name, version and decision record. FOCUS specification text is referenced, not copied. The pull request must confirm the Contributor License Agreement (see [Contributing](#contributing)).
 5. **Automated checks.** GitHub Actions validates the pull request: CLA confirmation, schema compliance, uniqueness, references and the other registry rules.
 6. **OpenTelemetry review.** OpenTelemetry reviewers check the identifier for consistency with OpenTelemetry conventions. They are expected to review it within 7 days of submission. If no review is received in that time, a FOCUS Submitter follows up with the OpenTelemetry reviewers for a response. Reviewers may comment, request changes or object. An objection is considered when consensus is determined. It is not an automatic veto (see [Consensus, objections and appeals](#consensus-objections-and-appeals)). The outcome, including a window that closed without a review, is recorded in the OpenTelemetry review record in the pull request, so that the review is auditable after the fact.
 7. **Suggested changes go back to the FOCUS WG.** Any change suggested by a third party, including the OpenTelemetry reviewers, goes back to the FOCUS WG for discussion, review and approval. The revision is made on `wg-staging` so the checks run against it. Once the FOCUS WG has approved the revised identifier, a FOCUS Submitter updates the pull request and the OpenTelemetry reviewers review it a second time.
