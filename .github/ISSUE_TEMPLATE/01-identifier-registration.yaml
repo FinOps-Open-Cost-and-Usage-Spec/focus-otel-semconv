@@ -6,11 +6,11 @@ body:
   - type: markdown
     attributes:
       value: |
-        **This form is for FOCUS Submitters only.** It records a `focus.*` identifier that the FOCUS Working Group has already approved.
+        **This form is for FOCUS Submitters only.** It records a `focus.*` identifier that the FOCUS Working Group has already approved. Open it after the FOCUS WG vote, not before: the decision record is required.
 
-        To suggest a new identifier, use the **Identifier proposal** form instead.
+        The YAML definition should already be drafted and passing checks on the `wg-staging` branch. To suggest a new identifier, use the **Identifier proposal** form instead. To help draft one before the vote, open a pull request against `wg-staging`.
 
-        After opening this issue, open a pull request that links to it.
+        After opening this issue, open a pull request from the approved `wg-staging` content that links to it.
 
   - type: dropdown
     id: change-type
@@ -36,7 +36,7 @@ body:
     id: decision-record
     attributes:
       label: FOCUS WG decision record
-      description: Link to the minutes, issue or decision in which the FOCUS WG approved this identifier.
+      description: Link to the minutes, issue or decision in which the FOCUS WG approved this identifier. This is required, so open this issue only after the vote.
     validations:
       required: true
 

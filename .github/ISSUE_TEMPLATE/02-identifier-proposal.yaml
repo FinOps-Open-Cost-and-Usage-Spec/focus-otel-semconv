@@ -11,6 +11,7 @@ body:
         - **This is a proposal, not a registration.** Proposals are sent to the FOCUS Working Group, which decides whether to approve them through its own process. If the WG approves, a FOCUS Submitter registers the identifier. The decision is recorded on this issue, and the issue is closed with the outcome. You can also take part in the FOCUS Working Group directly at https://focus.finops.org.
         - **Only the `focus.*` namespace is in scope.** Identifiers in other namespaces are not registered in this repository.
         - **A proposal may be declined** if it is outside the `focus.*` namespace or the Scope, does not correspond to a concept in a published FOCUS specification or FOCUS WG-approved initiative, or duplicates an existing identifier.
+        - **Drafting happens on `wg-staging`.** If the FOCUS WG takes the proposal forward, the YAML definition is drafted on the `wg-staging` branch, where CI and Weaver checks run against it, and linked back to this issue. Anyone taking part in the FOCUS WG can contribute there by pull request.
         - **No CLA is needed to open an issue.** If your idea is adopted, it will be written into the registry in the submitter's own words, not copied from this issue.
 
   - type: textarea
