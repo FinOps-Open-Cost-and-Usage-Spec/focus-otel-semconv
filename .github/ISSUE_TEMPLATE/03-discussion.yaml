@@ -1,0 +1,33 @@
+name: Discussion or question
+description: Ask a question, report an editorial or repository problem, or start a discussion.
+title: "Discussion: "
+labels: ["discussion"]
+body:
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Question
+        - Editorial or documentation problem
+        - Repository or CI problem
+        - Governance or process
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Describe your question or the problem. Link to the relevant identifier, file or pull request where applicable.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: I agree to follow this project's Code of Conduct (08-code-of-conduct.md).
+          required: true
