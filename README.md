@@ -42,6 +42,7 @@ See [docs/attributes.md](docs/attributes.md) for each attribute and [docs/placem
 | [model/focus/registry.yaml](model/focus/registry.yaml) | The `focus.*` attributes and attribute groups, each annotated with its FOCUS reference |
 | [model/focus/refinements.yaml](model/focus/refinements.yaml) | Signal-specific placement rules, as refinements of GenAI spans and metrics |
 | [docs/](docs/) | Attribute reference and placement rules |
+| [policies/](policies/) | Registry-specific Weaver policy: every defined attribute must be in `focus.*` |
 | [versions.env](versions.env), [Makefile](Makefile) | Weaver and policy pins; `make check` and `make package` |
 | [.github/workflows/weaver-check.yaml](.github/workflows/weaver-check.yaml) | Runs `weaver registry check` with OTel's naming and stability policies on every pull request |
 

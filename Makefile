@@ -13,9 +13,9 @@ endif
 
 .PHONY: check package clean
 
-## check: validate the registry against OTel's naming and stability policies
+## check: validate the registry against OTel's policies and this registry's own
 check:
-	$(WEAVER) registry check -r ./model --v2 --policy '$(POLICY)'
+	$(WEAVER) registry check -r ./model --v2 --policy '$(POLICY)' --policy ./policies
 
 ## package: write the resolved registry to ./.build/package
 package:

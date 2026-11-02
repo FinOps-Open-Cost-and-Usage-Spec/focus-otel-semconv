@@ -1,8 +1,9 @@
 name: Weaver registry check
 
 # Validates the focus.* registry with OpenTelemetry Weaver: schema, references
-# into the OTel registries it depends on, and OTel's naming and stability
-# policies, which also catch redefinition of existing OTel attributes.
+# into the OTel registries it depends on, OTel's naming and stability policies,
+# and policies/focus_namespace.rego, which rejects any attribute outside focus.*
+# and so any redefinition of an existing OTel attribute.
 
 on:
   pull_request:
@@ -44,6 +45,7 @@ jobs:
         run: >
           weaver registry check -r ./model --v2
           --policy "$POLICY"
+          --policy ./policies
           --diagnostic-format gh_workflow_command
 
       - name: Package resolved registry
