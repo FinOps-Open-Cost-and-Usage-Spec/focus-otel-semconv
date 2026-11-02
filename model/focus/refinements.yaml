@@ -4,7 +4,7 @@ file_format: definition/2
 # other registries own. They add focus.* attributes; they define no new
 # signals. Each refinement is a proposal until agreed with the owning SIG.
 #
-# Placement rules (docs/placement.md):
+# Placement rules (docs/focus/placement.md):
 #   1. Billing scope of the emitting service goes on the OTel Resource.
 #   2. Billing scope of a called service goes on the client span.
 #   3. Value-attribution IDs go on spans and travel in baggage.

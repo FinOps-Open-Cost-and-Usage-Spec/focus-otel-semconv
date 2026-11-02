@@ -11,11 +11,32 @@ ifeq ($(WEAVER),docker-weaver)
 WEAVER := $(DOCKER_WEAVER)
 endif
 
-.PHONY: check package clean
+.PHONY: check package generate-docs check-docs clean
 
 ## check: validate the registry against OTel's policies and this registry's own
 check:
 	$(WEAVER) registry check -r ./model --v2 --policy '$(POLICY)' --policy ./policies
+
+# The core templates read Weaver's v1 resolved schema, so docs targets omit --v2.
+## generate-docs: regenerate docs/registry and every <!-- semconv --> block
+generate-docs:
+	$(WEAVER) registry generate -r ./model --templates '$(TEMPLATES_URL)' \
+		markdown ./docs/registry
+	$(WEAVER) registry update-markdown -r ./model --templates '$(TEMPLATES_URL)' \
+		--target markdown --param registry_base_url=/docs/registry/ ./docs
+	# Only focus.* pages are generated here. Point generated links into
+	# OpenTelemetry's docs (other namespaces, and notes inherited from GenAI)
+	# at the published OpenTelemetry site, and drop the index link to entities,
+	# which this registry does not define.
+	find docs -name '*.md' -exec sed -i.bak -E \
+		-e 's#\(/docs/([a-z0-9/-]+)\.md(\#[a-z0-9-]+)?\)#(https://opentelemetry.io/docs/specs/semconv/\1/\2)#g' \
+		-e 's#\(https://opentelemetry.io/docs/specs/semconv/registry/attributes/focus/\)#(/docs/registry/attributes/focus.md)#g' \
+		-e '/^- \[Entities\]\(entities\/README\.md\)$$/d' {} + && find docs -name '*.bak' -delete
+
+## check-docs: fail if generated docs are out of date
+check-docs: generate-docs
+	git diff --exit-code -- docs || \
+		(echo "Generated docs are out of date. Run 'make generate-docs' and commit." && exit 1)
 
 ## package: write the resolved registry to ./.build/package
 package:

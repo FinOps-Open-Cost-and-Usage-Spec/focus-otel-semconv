@@ -48,6 +48,9 @@ jobs:
           --policy ./policies
           --diagnostic-format gh_workflow_command
 
+      - name: Check generated docs are up to date
+        run: make check-docs
+
       - name: Package resolved registry
         run: make package
 
