@@ -1,0 +1,16 @@
+file_format: definition_manifest/2.0
+name: focus
+description: >
+  FOCUS Semantic Conventions for OpenTelemetry. Attributes in the focus.*
+  namespace that join OpenTelemetry telemetry to FOCUS Cost and Usage charges
+  and to the Task, Outcome and Value datasets of the FOCUS value-attribution
+  companion specification.
+# Placeholder until the Working Group publishes a FOCUS-domain schema URL.
+schema_url: https://focus.finops.org/schemas/otel/0.1.0-dev
+stability: development
+dependencies:
+  # The GenAI registry supplies gen_ai.* (reused for the model join) and
+  # depends in turn on the core OpenTelemetry semantic conventions v1.45.0.
+  # It has no release tags yet, so it is pinned to a commit.
+  - schema_url: https://opentelemetry.io/schemas/gen-ai-dev/1.42.0-dev
+    registry_path: https://github.com/open-telemetry/semantic-conventions-genai.git@9d1e748280e64cf5688d7f348bf86be24c3fce12[model]

@@ -1,0 +1,69 @@
+file_format: definition/2
+
+# Signal-specific placement rules, written as refinements of signals that
+# other registries own. They add focus.* attributes; they define no new
+# signals. Each refinement is a proposal until agreed with the owning SIG.
+#
+# Placement rules (docs/placement.md):
+#   1. Billing scope of the emitting service goes on the OTel Resource.
+#   2. Billing scope of a called service goes on the client span.
+#   3. Value-attribution IDs go on spans and travel in baggage.
+#   4. Only low-cardinality keys go on metrics: never task or outcome IDs.
+
+span_refinements:
+  - id: focus.gen_ai.client.inference
+    ref: gen_ai.client.inference
+    brief: >
+      Adds FOCUS billing-scope keys and value-attribution IDs to the GenAI
+      inference client span, so each model call can be joined to its charge
+      and to the task it served.
+    stability: development
+    attributes:
+      - ref: focus.service_provider.name
+        requirement_level: recommended
+      - ref: focus.billing_account.id
+        requirement_level:
+          recommended: When known from configuration.
+      - ref: focus.sub_account.id
+        requirement_level:
+          recommended: When the charge is related to a sub account.
+      - ref: focus.resource.id
+        requirement_level:
+          conditionally_required: >
+            When the called model is billed as a resource, such as provisioned
+            throughput. Unset for pay-per-token usage.
+      - ref: focus.service.name
+        requirement_level: recommended
+      - ref: focus.workload.id
+        requirement_level: recommended
+      - ref: focus.task.id
+        requirement_level:
+          recommended: When the task is known at runtime.
+      - ref: focus.outcome.id
+        requirement_level: opt_in
+
+metric_refinements:
+  - id: focus.gen_ai.client.inference.usage.input_tokens
+    ref: gen_ai.client.inference.usage.input_tokens
+    brief: >
+      Adds low-cardinality FOCUS keys to the input-token usage metric, so exact
+      token totals can be joined to charges by billing scope and workload.
+    stability: development
+    attributes: &focus_metric_attributes
+      - ref: focus.service_provider.name
+        requirement_level: recommended
+      - ref: focus.billing_account.id
+        requirement_level:
+          recommended: When known from configuration.
+      - ref: focus.service.name
+        requirement_level: recommended
+      - ref: focus.workload.id
+        requirement_level: recommended
+
+  - id: focus.gen_ai.client.inference.usage.output_tokens
+    ref: gen_ai.client.inference.usage.output_tokens
+    brief: >
+      Adds low-cardinality FOCUS keys to the output-token usage metric, so exact
+      token totals can be joined to charges by billing scope and workload.
+    stability: development
+    attributes: *focus_metric_attributes

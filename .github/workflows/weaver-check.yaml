@@ -1,0 +1,55 @@
+name: Weaver registry check
+
+# Validates the focus.* registry with OpenTelemetry Weaver: schema, references
+# into the OTel registries it depends on, and OTel's naming and stability
+# policies, which also catch redefinition of existing OTel attributes.
+
+on:
+  pull_request:
+  push:
+    branches: [main, wg-staging]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Registry check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Load version pins
+        id: versions
+        run: |
+          grep -E '^[A-Z_]+=' versions.env >> "$GITHUB_OUTPUT"
+          # setup-weaver takes the version without the leading "v".
+          grep -E '^WEAVER_VERSION=' versions.env | sed 's/=v/=/; s/^WEAVER_VERSION/weaver_version/' >> "$GITHUB_OUTPUT"
+
+      - name: Install Weaver
+        uses: open-telemetry/weaver/.github/actions/setup-weaver@f8e1b42fbd1e09df5263c26b7df6011eaafd454d
+        with:
+          version: ${{ steps.versions.outputs.weaver_version }}
+
+      - name: Check registry
+        env:
+          POLICY: ${{ steps.versions.outputs.POLICY_REPO_URL }}@${{ steps.versions.outputs.POLICY_REPO_REF }}[policies/check]
+        run: >
+          weaver registry check -r ./model --v2
+          --policy "$POLICY"
+          --diagnostic-format gh_workflow_command
+
+      - name: Package resolved registry
+        run: make package
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: resolved-registry
+          path: .build/package

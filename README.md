@@ -27,6 +27,30 @@ This registry covers the `focus.*` namespace only. Conventions in any other name
 
 The full Scope is in [02-scope.md](02-scope.md). That file is the "Scope.md" that the Community Specification License (§9.13) refers to, and it sets the limits of the patent commitments made under that License.
 
+## The registry
+
+The registry is a federated OpenTelemetry semantic-convention registry, written in Weaver's `definition/2` YAML and validated with [OpenTelemetry Weaver](https://github.com/open-telemetry/weaver). It defines no new signals. It adds attributes to signals OpenTelemetry already defines:
+
+- **Cost and Usage scope:** `focus.service_provider.name`, `focus.billing_account.id`, `focus.sub_account.id`, `focus.resource.id` and `focus.service.name`, with `gen_ai.response.model` reused for the model.
+- **Value scope:** `focus.workload.id`, `focus.task.id` and `focus.outcome.id`.
+
+See [docs/attributes.md](docs/attributes.md) for each attribute and [docs/placement.md](docs/placement.md) for where each goes.
+
+| Path | Contents |
+|---|---|
+| [model/manifest.yaml](model/manifest.yaml) | Registry name, schema URL and its dependency on the OTel GenAI registry, which in turn depends on core OTel semantic conventions |
+| [model/focus/registry.yaml](model/focus/registry.yaml) | The `focus.*` attributes and attribute groups, each annotated with its FOCUS reference |
+| [model/focus/refinements.yaml](model/focus/refinements.yaml) | Signal-specific placement rules, as refinements of GenAI spans and metrics |
+| [docs/](docs/) | Attribute reference and placement rules |
+| [versions.env](versions.env), [Makefile](Makefile) | Weaver and policy pins; `make check` and `make package` |
+| [.github/workflows/weaver-check.yaml](.github/workflows/weaver-check.yaml) | Runs `weaver registry check` with OTel's naming and stability policies on every pull request |
+
+To validate locally, install Weaver (or use Docker) and run:
+
+```bash
+make check
+```
+
 ## How a `focus.*` convention is registered
 
 ```mermaid
