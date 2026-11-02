@@ -20,7 +20,7 @@ body:
     id: details
     attributes:
       label: Details
-      description: Describe your question or the problem. Link to the relevant identifier, file or pull request where applicable.
+      description: Describe your question or the problem. Link to the relevant convention, file or pull request where applicable.
     validations:
       required: true
 
