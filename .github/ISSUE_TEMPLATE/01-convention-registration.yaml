@@ -1,0 +1,94 @@
+name: Convention registration (FOCUS Submitters)
+description: Register, change or deprecate a FOCUS WG-approved focus.* convention.
+title: "Spec Change: focus."
+labels: ["spec_change"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **This form is for FOCUS Submitters only.** It records a `focus.*` convention that the FOCUS Working Group has already approved. Open it after the FOCUS WG vote, not before: the decision record is required.
+
+        The YAML definition should already be drafted and passing checks on the `wg-staging` branch. To suggest a new convention, use the **Convention proposal** form instead. To help draft one before the vote, open a pull request against `wg-staging`.
+
+        After opening this issue, open a pull request from the approved `wg-staging` content that links to it.
+
+  - type: dropdown
+    id: change-type
+    attributes:
+      label: Type of change
+      options:
+        - New convention
+        - Change to a registered convention
+        - Deprecation of a registered convention
+    validations:
+      required: true
+
+  - type: input
+    id: attribute
+    attributes:
+      label: Attribute
+      description: The full attribute name, in the focus.* namespace.
+      placeholder: focus.
+    validations:
+      required: true
+
+  - type: input
+    id: decision-record
+    attributes:
+      label: FOCUS WG decision record
+      description: Link to the minutes, issue or decision in which the FOCUS WG approved this convention. This is required, so open this issue only after the vote.
+    validations:
+      required: true
+
+  - type: input
+    id: focus-reference
+    attributes:
+      label: FOCUS reference
+      description: FOCUS version and requirement ID of the column, FOCUS Attribute or requirement, or FOCUS WG-approved companion specification / decision record. Reference the requirement; do not copy FOCUS specification text.
+      placeholder: e.g., FOCUS 1.2, requirement ID (or companion spec reference)
+    validations:
+      required: true
+
+  - type: input
+    id: replaces
+    attributes:
+      label: Replaces / deprecates
+      description: For changes and deprecations, the registered convention this replaces or deprecates. Registered conventions are never deleted or reused.
+      placeholder: None
+
+  - type: textarea
+    id: definition
+    attributes:
+      label: Proposed definition
+      description: Type, unit, stability, description and any other fields of the semantic-convention entry.
+      render: yaml
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale
+      description: Why this convention is needed and what telemetry it links to FOCUS data.
+    validations:
+      required: true
+
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility considerations
+      description: Impact on existing conventions, OpenTelemetry semantic conventions, and implementers.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: The FOCUS WG has approved this convention, as recorded in the decision record above.
+          required: true
+        - label: The convention is within the focus.* namespace and the repository Scope (02-scope.md).
+          required: true
+        - label: FOCUS requirements are cited by version and requirement ID, or a companion specification by name, version and decision record, not copied.
+          required: true
