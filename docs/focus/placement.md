@@ -12,7 +12,7 @@
 
 <!-- tocstop -->
 
-The registry defines no new signals. These rules say where `focus.*` attributes go on signals OpenTelemetry already defines. None of them names a workload type; a workload such as "support bot" is only a value. Signal-specific rules are written as refinements in the model; see [FOCUS attributes on GenAI signals](gen-ai.md).
+The registry defines no new signals. Its placement rules, a term of its own rather than OpenTelemetry's, say where `focus.*` attributes go on signals OpenTelemetry already defines. None of them names a workload type; a workload such as "support bot" is only a value. Signal-specific rules are written as refinements in the model; see [FOCUS attributes on GenAI signals](gen-ai.md).
 
 ## Rules
 

@@ -11,7 +11,7 @@
 
 <!-- tocstop -->
 
-This page explains the OpenTelemetry (OTel) terms these conventions use, for readers who know FOCUS but not OTel. It also defines placement rule, this registry's own term. It is non-normative. Two words mean different things in FOCUS and OTel, attribute and resource; [02-scope.md](../../02-scope.md) defines how this repository uses each.
+This page explains the OpenTelemetry (OTel) terms these conventions use, for readers who know FOCUS but not OTel. It is non-normative. Two words mean different things in FOCUS and OTel, attribute and resource; [02-scope.md](../../02-scope.md) defines how this repository uses each.
 
 ## Telemetry
 
@@ -40,7 +40,6 @@ This page explains the OpenTelemetry (OTel) terms these conventions use, for rea
 | Deprecation | How a convention is retired. It is never deleted or reused; it is marked deprecated, usually naming its replacement, and stays in the registry. |
 | Federated registry | A registry maintained outside OTel that depends on OTel's registries and adds its own namespace. This repository is one. It needs no OTel approval, but it must not redefine OTel attributes. |
 | Namespace | The first segment of an attribute key, such as `gen_ai`, `cloud`, or `focus`. Each namespace has one owner, which defines every key in it. |
-| Placement rule | This registry's term, not an OTel one: a rule for which signals carry which `focus.*` attributes, such as "only low-cardinality keys go on metrics." The four rules are in [placement.md](placement.md), and the registry writes them as refinements. |
 | Refinement | One registry's addition to a signal that another registry defines. It adds attributes and their requirement levels without changing the original. For example, `focus.gen_ai.client.inference` refines GenAI's `gen_ai.client.inference` span by adding the billing-scope keys and value-attribution IDs. Instrumentation still emits the original span; the refinement's ID names it in the registry and never appears in telemetry. |
 | Registry | A set of conventions written as machine-readable YAML, from which docs and code are generated. OTel's core registry is in [open-telemetry/semantic-conventions](https://github.com/open-telemetry/semantic-conventions), and the GenAI registry is in [open-telemetry/semantic-conventions-genai](https://github.com/open-telemetry/semantic-conventions-genai). |
 | Requirement level | How strongly a signal expects an attribute. Required: always set. Conditionally required: set when a stated condition holds. Recommended: set when the value is available. Opt-in: set only when the user turns it on, usually because it is costly or high-cardinality. |
