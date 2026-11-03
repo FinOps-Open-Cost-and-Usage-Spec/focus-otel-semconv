@@ -22,7 +22,7 @@ The registry carries join keys only: the values telemetry needs to find its char
 
 ## Terminology
 
-A `focus.*` attribute carries the value of a FOCUS column on an OpenTelemetry signal. It has nothing to do with FOCUS Attributes, which are sets of requirements in the FOCUS specification. An OTel Resource (the service emitting telemetry) is not a FOCUS Resource (the billed item that ResourceId identifies). See [02-scope.md](../../02-scope.md) for the full terminology.
+A `focus.*` attribute carries the value of a FOCUS column on an OpenTelemetry signal. It has nothing to do with FOCUS Attributes, which are sets of requirements in the FOCUS specification. An OTel Resource (the service emitting telemetry) is not a FOCUS Resource (the billed item that ResourceId identifies). See [02-scope.md](../../02-scope.md) for the full terminology, and [OpenTelemetry concepts](otel-concepts.md) for OTel terms such as span, refinement, and attribute group.
 
 ## Cost and Usage scope
 

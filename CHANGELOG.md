@@ -13,5 +13,6 @@ All notable changes to the `focus.*` registry are recorded here. Each release st
 - Docs in OpenTelemetry's format: a Weaver-generated attribute registry and convention pages with generated tables, using the core semantic-conventions v1.45.0 Markdown templates.
 - Weaver check workflow with OpenTelemetry naming and stability policies, plus a `focus.*` namespace policy that rejects redefinition of OpenTelemetry attributes, with OPA unit tests.
 - Reference telemetry for the support-bot example, checked with Weaver live-check in CI.
+- A non-normative OpenTelemetry concepts page for readers new to OTel.
 - Non-normative provider mapping pages, starting with AWS.
 - Draft release steps in `RELEASING.md`.
