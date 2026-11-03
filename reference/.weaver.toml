@@ -28,14 +28,14 @@ attribute_groups = ["attributes.focus.billing_scope"]
 [[live-check.matchers]]
 id = "match.focus.gen_ai.usage_metric"
 sample_type = "metric"
-when = 'name.startsWith("gen_ai.client.inference.usage.")'
+when = 'name.startsWith("gen_ai.client.inference.usage.") || name == "gen_ai.client.embeddings.operation.input_tokens"'
 attribute_groups = ["attributes.focus.billing_scope"]
 
 # The token-usage metrics are defined as refinements, which live-check does
 # not resolve yet, so a missing metric is reported but does not fail.
 [[live-check.finding_level_overrides]]
 ids = ["missing_metric"]
-sample_names = ["gen_ai.client.inference.usage.*"]
+sample_names = ["gen_ai.client.inference.usage.*", "gen_ai.client.embeddings.operation.input_tokens"]
 level = "information"
 
 # Everything in this registry and in GenAI is at development stability.

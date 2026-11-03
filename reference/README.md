@@ -4,7 +4,7 @@ Sample telemetry that follows the `focus.*` conventions, checked against the reg
 
 | Path | Contents |
 |---|---|
-| [samples/support-bot.json](samples/support-bot.json) | The [support-bot worked example](../docs/focus/non-normative/examples-support-bot.md) as telemetry: the bot's OTel Resource, an OpenAI inference span and an input-token metric |
+| [samples/support-bot.json](samples/support-bot.json) | The [support-bot worked example](../docs/focus/non-normative/examples-support-bot.md) as telemetry: the bot's OTel Resource with its `cloud.*` attributes, the workflow span where the task starts, OpenAI embeddings and inference spans, and their input-token metrics |
 | [.weaver.toml](.weaver.toml) | Live-check matchers and finding filters |
 
 Run it with:
