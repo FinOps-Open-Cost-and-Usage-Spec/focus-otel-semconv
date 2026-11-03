@@ -67,3 +67,66 @@ metric_refinements:
       token totals can be joined to charges by billing scope and workload.
     stability: development
     attributes: *focus_metric_attributes
+
+  # Cached and reasoning tokens are usually priced differently from other
+  # tokens, so their totals need the same billing-scope keys.
+  - id: focus.gen_ai.client.inference.usage.cache_read.input_tokens
+    ref: gen_ai.client.inference.usage.cache_read.input_tokens
+    brief: >
+      Adds low-cardinality FOCUS keys to the cache-read input-token usage
+      metric, so cached-token totals can be joined to charges by billing scope
+      and workload.
+    stability: development
+    attributes: *focus_metric_attributes
+
+  - id: focus.gen_ai.client.inference.usage.cache_write.input_tokens
+    ref: gen_ai.client.inference.usage.cache_write.input_tokens
+    brief: >
+      Adds low-cardinality FOCUS keys to the cache-write input-token usage
+      metric, so cache-write totals can be joined to charges by billing scope
+      and workload.
+    stability: development
+    attributes: *focus_metric_attributes
+
+  - id: focus.gen_ai.client.inference.usage.reasoning.output_tokens
+    ref: gen_ai.client.inference.usage.reasoning.output_tokens
+    brief: >
+      Adds low-cardinality FOCUS keys to the reasoning output-token usage
+      metric, so reasoning-token totals can be joined to charges by billing
+      scope and workload.
+    stability: development
+    attributes: *focus_metric_attributes
+
+entity_refinements:
+  # Rule 1: when the emitting process is itself a billed resource, its own
+  # billing scope goes on its OTel Resource, so every signal it emits carries it.
+  - id: focus.service.instance
+    ref: service.instance
+    brief: >
+      Adds the FOCUS billing scope of a service instance that is itself a
+      billed resource, such as a container service or a VM.
+    note: |
+      Set these attributes only when the instance's own charge appears in
+      FOCUS Cost and Usage data. The billing scope of a service the instance
+      calls goes on the client span for that call, not here.
+
+      `service.instance.cost_center.id` records an internal allocation target,
+      such as a team or cost code. The `focus.*` attributes record where the
+      charge appears on the bill. Both may be set.
+    stability: development
+    description:
+      - ref: focus.service_provider.name
+        requirement_level:
+          recommended: When the instance is a billed resource.
+      - ref: focus.billing_account.id
+        requirement_level:
+          recommended: When the instance is a billed resource and the value is known from configuration.
+      - ref: focus.sub_account.id
+        requirement_level:
+          recommended: When the instance's charge is related to a sub account.
+      - ref: focus.resource.id
+        requirement_level:
+          recommended: When the instance is a billed resource.
+      - ref: focus.service.name
+        requirement_level:
+          recommended: When the instance is a billed resource.

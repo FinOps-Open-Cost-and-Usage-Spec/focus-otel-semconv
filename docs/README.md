@@ -7,8 +7,8 @@ The `focus.*` conventions join OpenTelemetry telemetry to charges in the FOCUS C
 ## Contents
 
 - [FOCUS conventions overview](focus/README.md): purpose, the two scopes, naming and reuse decisions
-- [Placement rules](focus/placement.md): where each attribute goes on resources, spans and metrics
-- [FOCUS attributes on GenAI signals](focus/gen-ai.md): refinements of the GenAI inference span and token-usage metrics
+- [Placement rules](focus/placement.md): where each attribute goes on resources, spans and metrics, including the `service.instance` refinement
+- [FOCUS attributes on GenAI signals](focus/gen-ai.md): refinements of the GenAI inference span and the input, output, cached and reasoning token-usage metrics
 - [Attribute registry](registry/README.md): every `focus.*` attribute, generated from the model
 - Non-normative: [support-bot worked example](focus/non-normative/examples-support-bot.md)
 

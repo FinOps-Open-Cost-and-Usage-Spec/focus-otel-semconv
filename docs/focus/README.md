@@ -177,6 +177,8 @@ The obstacle in the third case is exactness, not the `cloud.*` namespace, which 
 
 For `focus.workload.id`, the closest OpenTelemetry concept is `service.namespace`. It sits on the OTel Resource, so each service has exactly one, and it cannot attribute a shared service's work to the workload that called it. `gcp.apphub.workload.id` is specific to GCP and names a compute unit, and `gen_ai.agent.*` identifies a single agent.
 
+Core OpenTelemetry also defines `service.instance.cost_center.id` and `.name`, whose description mentions a billing account ID as one possible value. They record an internal allocation target, chosen by the organization. The `focus.*` billing-scope keys record where a charge appears on the bill, chosen by the invoice issuer, so both are kept.
+
 Left out entirely, because the join does not need them: region and availability zone, charge period, quantities and units, costs, SKU and pricing columns other than the model, host provider and invoice issuer.
 
 ## Open questions
@@ -193,5 +195,6 @@ For the OpenTelemetry Semantic Conventions SIG:
 - Can `cloud.account.id` and `cloud.resource_id` guarantee bill-exact values across non-cloud providers?
 - Is `service.namespace` meant to carry a workload in FOCUS's sense, or is a request-scoped `focus.workload.id` acceptable?
 - Which signal-specific rules should be formalized first with the GenAI SIG?
+- Should `service.instance.cost_center.id` stay an internal allocation target, distinct from the bill-exact `focus.billing_account.id`?
 
 [DocumentStatus]: https://opentelemetry.io/docs/specs/otel/document-status
