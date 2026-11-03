@@ -188,14 +188,19 @@ For the FOCUS Working Group:
 
 - Graduate ModelId from SkuPriceDetails to a first-class Cost and Usage column in 1.6.
 - Until then, require SkuPriceDetails.ModelId whenever a charge is for model usage.
+- Exports that follow FOCUS 1.2, including [AWS's](providers/aws.md), carry ProviderName, which ServiceProviderName replaced in 1.3. Document how joins on `focus.service_provider.name` fall back to ProviderName until those exports move to 1.3 or later.
 - Define model values as the exact model string the provider's API returns, matching `gen_ai.response.model`.
 - Document that billing-account joins assume a direct purchase. For marketplace purchases the bill carries the marketplace's billing account, which telemetry cannot know, so the join falls back to provider and service.
+- Decide whether a changed meaning always requires a new attribute, or whether `development` attributes may still change as OpenTelemetry allows.
 
 For the SemConv SIG:
 
 - Can `cloud.account.id` and `cloud.resource_id` guarantee bill-exact values across non-cloud providers? For each key in the [cloud refinement](placement.md#cloud), would the SIG rather widen the `cloud.*` attribute than have FOCUS define its own?
 - Is `service.namespace` meant to carry a workload in FOCUS's sense, or is a request-scoped `focus.workload.id` acceptable?
+- Which parts belong in the core conventions now, rather than starting federated?
 - Which signal-specific rules should be formalized first with the GenAI SIG?
+- If task and outcome data is ever reported through OpenTelemetry, such as task-completed or outcome-verified events, those would be new signals. Which SIG would own them?
+- How does an outside registry get onto OpenTelemetry's planned list of federated registries, and who approves listings?
 - Should `service.instance.cost_center.id` stay an internal allocation target, distinct from the bill-exact `focus.billing_account.id`?
 
 [DocumentStatus]: https://opentelemetry.io/docs/specs/otel/document-status
