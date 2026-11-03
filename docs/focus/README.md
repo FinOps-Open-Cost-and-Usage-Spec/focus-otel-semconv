@@ -173,7 +173,7 @@ The registry reuses an OpenTelemetry attribute wherever its meaning and its valu
 2. **Define** a distinct attribute when the word matches but the concept differs (`focus.service.name`).
 3. **Negotiate** with the SemConv SIG when the concept matches but the scope or format differs (`focus.sub_account.id`, `focus.resource.id`).
 
-The obstacle in the third case is exactness, not the `cloud.*` namespace, which is already used for private data centers. FOCUS covers SaaS and licensing as well as infrastructure, and its values must equal the bill exactly. Where a `cloud.*` attribute can guarantee that, FOCUS reuses it and deprecates the `focus.*` attribute, so providers emit one attribute rather than two.
+The obstacle in the third case is exactness, not the `cloud.*` namespace, which is already used for private data centers. FOCUS covers SaaS and licensing as well as infrastructure, and its values must equal the bill exactly. Where a `cloud.*` attribute can guarantee that, FOCUS reuses it and deprecates the `focus.*` attribute, so providers emit one attribute rather than two. The [cloud refinement](placement.md#cloud) sets each `focus.*` key beside its nearest `cloud.*` attribute, so the case for each can be judged side by side.
 
 For `focus.workload.id`, the closest OpenTelemetry concept is `service.namespace`. It sits on the OTel Resource, so each service has exactly one, and it cannot attribute a shared service's work to the workload that called it. `gcp.apphub.workload.id` is specific to GCP and names a compute unit, and `gen_ai.agent.*` identifies a single agent.
 
@@ -192,7 +192,7 @@ For the FOCUS Working Group:
 
 For the OpenTelemetry Semantic Conventions SIG:
 
-- Can `cloud.account.id` and `cloud.resource_id` guarantee bill-exact values across non-cloud providers?
+- Can `cloud.account.id` and `cloud.resource_id` guarantee bill-exact values across non-cloud providers? For each key in the [cloud refinement](placement.md#cloud), would the SIG rather widen the `cloud.*` attribute than have FOCUS define its own?
 - Is `service.namespace` meant to carry a workload in FOCUS's sense, or is a request-scoped `focus.workload.id` acceptable?
 - Which signal-specific rules should be formalized first with the GenAI SIG?
 - Should `service.instance.cost_center.id` stay an internal allocation target, distinct from the bill-exact `focus.billing_account.id`?
