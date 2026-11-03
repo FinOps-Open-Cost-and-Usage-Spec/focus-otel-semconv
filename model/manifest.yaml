@@ -3,7 +3,7 @@ name: focus
 description: >
   FOCUS Semantic Conventions for OpenTelemetry. Attributes in the focus.*
   namespace that join OpenTelemetry telemetry to FOCUS Cost and Usage charges
-  and to the Task, Outcome and Value datasets of the FOCUS value-attribution
+  and to the Task, Outcome, and Value datasets of the FOCUS value-attribution
   companion specification.
 # Placeholder until the Working Group publishes a FOCUS-domain schema URL.
 schema_url: https://focus.finops.org/schemas/otel/0.1.0-dev

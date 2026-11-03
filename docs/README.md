@@ -2,13 +2,13 @@
 
 **Status**: [Development][DocumentStatus]
 
-The `focus.*` conventions join OpenTelemetry telemetry to charges in the FOCUS Cost and Usage dataset, and from there to the tasks, outcomes and value it produced. They define no new signals. They add attributes to signals OpenTelemetry already defines.
+The `focus.*` conventions join OpenTelemetry telemetry to charges in the FOCUS Cost and Usage dataset, and from there to the tasks, outcomes, and value it produced. They define no new signals. They add attributes to signals OpenTelemetry already defines.
 
 ## Contents
 
-- [FOCUS conventions overview](focus/README.md): purpose, the two scopes, naming and reuse decisions
-- [Placement rules](focus/placement.md): where each attribute goes on resources, spans and metrics, including the `service.instance` and `cloud` refinements
-- [FOCUS attributes on GenAI signals](focus/gen-ai.md): refinements of the GenAI inference and embeddings spans, their token-usage metrics, and the workflow, agent and tool spans
+- [FOCUS conventions overview](focus/README.md): purpose, the two scopes, and naming and reusedecisions
+- [Placement rules](focus/placement.md): where each attribute goes on resources, spans, and metrics, including the `service.instance` and `cloud` refinements
+- [FOCUS attributes on GenAI signals](focus/gen-ai.md): refinements of the GenAI inference and embeddings spans, their token-usage metrics, and the workflow, agent, and tool spans
 - [Attribute registry](registry/README.md): every `focus.*` attribute, generated from the model
 - Non-normative: [support-bot worked example](focus/non-normative/examples-support-bot.md) and [provider mappings](focus/providers/README.md), starting with [AWS](focus/providers/aws.md)
 

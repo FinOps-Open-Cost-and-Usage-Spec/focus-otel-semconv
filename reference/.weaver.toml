@@ -1,35 +1,46 @@
 # Weaver live-check configuration for the reference samples.
 #
 # Weaver 0.28 does not yet match telemetry to refinements, so the samples are
-# checked against the focus.* attribute groups instead: each focus.* key must
-# exist, have the right type, and appear only where the placement rules allow.
-# Requirement levels from the refinements are not enforced here.
+# checked against the focus.* attribute groups instead. A focus.* key that is
+# not in the registry, or has the wrong type, fails the check. A key outside
+# the groups a matcher allows, such as a task ID on a metric, is reported but
+# does not fail. Requirement levels from the refinements are not enforced.
 
 [live-check]
 input_format = "json"
 search_all_attributes = true
 fail_on = "violation"
 
-# GenAI client spans and the OTel Resource may carry the billing-scope keys.
+# Workflow, agent, and tool spans carry only the value-attribution IDs (rule 3).
 [[live-check.matchers]]
-id = "match.focus.gen_ai.span"
+id = "match.focus.gen_ai.orchestration_span"
 sample_type = "span"
-when = '"gen_ai.operation.name" in attributes'
+when = '"gen_ai.operation.name" in attributes && attributes["gen_ai.operation.name"] in ["invoke_workflow", "invoke_agent", "execute_tool"]'
+attribute_groups = ["attributes.focus.value_attribution"]
+
+# Other GenAI spans, such as inference and embeddings calls, may also carry
+# the called service's billing-scope keys (rule 2).
+[[live-check.matchers]]
+id = "match.focus.gen_ai.call_span"
+sample_type = "span"
+when = '"gen_ai.operation.name" in attributes && !(attributes["gen_ai.operation.name"] in ["invoke_workflow", "invoke_agent", "execute_tool"])'
 attribute_groups = ["attributes.focus.billing_scope", "attributes.focus.value_attribution"]
+
+# The OTel Resource may carry the billing-scope keys (rule 1).
 
 [[live-check.matchers]]
 id = "match.focus.resource"
 sample_type = "resource"
 attribute_groups = ["attributes.focus.billing_scope"]
 
-# Token-usage metrics may carry the billing-scope keys and the workload only.
-# A task or outcome ID on a metric (rule 4) is reported as an improvement:
+# Token-usage metrics may carry the billing-scope keys and the workload only
+# (rule 4). A task or outcome ID on a metric is reported as an improvement:
 # live-check cannot yet raise one attribute's finding to a violation.
 [[live-check.matchers]]
 id = "match.focus.gen_ai.usage_metric"
 sample_type = "metric"
 when = 'name.startsWith("gen_ai.client.inference.usage.") || name == "gen_ai.client.embeddings.operation.input_tokens"'
-attribute_groups = ["attributes.focus.billing_scope"]
+attribute_groups = ["attributes.focus.metric_keys"]
 
 # The token-usage metrics are defined as refinements, which live-check does
 # not resolve yet, so a missing metric is reported but does not fail.

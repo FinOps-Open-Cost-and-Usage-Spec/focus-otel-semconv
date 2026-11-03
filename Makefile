@@ -35,12 +35,14 @@ generate-docs:
 	$(WEAVER) registry update-markdown -r ./model --templates '$(TEMPLATES_URL)' \
 		--target markdown --param registry_base_url=/docs/registry/ ./docs
 	# Only focus.* pages are generated here. Point generated links into
-	# OpenTelemetry's docs (other namespaces, and notes inherited from GenAI)
-	# at the published OpenTelemetry site, and drop the index link to entities,
-	# which this registry does not define.
+	# OpenTelemetry's docs (other namespaces, notes inherited from GenAI, and
+	# the registry index's naming guidance) at the published OpenTelemetry
+	# site, and drop the index link to entities, which this registry does not
+	# define.
 	find docs -name '*.md' -exec sed -i.bak -E \
 		-e 's#\(/docs/([a-z0-9/-]+)\.md(\#[a-z0-9-]+)?\)#(https://opentelemetry.io/docs/specs/semconv/\1/\2)#g' \
 		-e 's#\(https://opentelemetry.io/docs/specs/semconv/registry/attributes/focus/\)#(/docs/registry/attributes/focus.md)#g' \
+		-e 's#\]: \.\./\.\./general/([a-z0-9-]+)\.md#]: https://opentelemetry.io/docs/specs/semconv/general/\1/#g' \
 		-e '/^- \[Entities\]\(entities\/README\.md\)$$/d' {} + && find docs -name '*.bak' -delete
 
 ## check-docs: fail if generated docs are out of date

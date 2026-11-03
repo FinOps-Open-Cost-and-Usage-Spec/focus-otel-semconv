@@ -6,7 +6,7 @@ A support bot running on AWS handles ticket 4417 and calls OpenAI. Its telemetry
 
 ## AWS row: the bot's own service
 
-The bot's own service is a billed resource, so its keys sit on its OTel Resource ([rule 1](../placement.md#rules)) and the join uses provider, account and resource.
+The bot's own service is a billed resource, so its keys sit on its OTel Resource ([rule 1](../placement.md#rules)) and the join uses provider, account, and resource.
 
 ```yaml
 # OTel Resource of the bot
@@ -15,11 +15,12 @@ focus.service_provider.name: Amazon Web Services
 focus.billing_account.id: "123456789012"
 focus.sub_account.id: "210987654321"
 focus.resource.id: arn:aws:ecs:us-east-1:210987654321:service/support/bot
+focus.service.name: Amazon Elastic Container Service
 ```
 
 ## OpenAI row: the model call
 
-Pay-per-token usage has no ResourceId, so the client span carries provider, billing account and service ([rule 2](../placement.md#rules)), and `gen_ai.response.model` matches SkuPriceDetails.ModelId on the bill. The value-attribution IDs ride on the same span ([rule 3](../placement.md#rules)).
+Pay-per-token usage has no ResourceId, so the client span carries provider, billing account, and service ([rule 2](../placement.md#rules)), and `gen_ai.response.model` matches SkuPriceDetails.ModelId on the bill. The value-attribution IDs ride on the same span ([rule 3](../placement.md#rules)).
 
 ```yaml
 # gen_ai.client.inference span for the OpenAI call

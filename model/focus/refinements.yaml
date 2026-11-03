@@ -53,7 +53,7 @@ span_refinements:
     stability: development
     attributes: *focus_client_span_attributes
 
-  # Workflow, agent and tool spans are not billed calls themselves, so they
+  # Workflow, agent, and tool spans are not billed calls themselves, so they
   # carry only the value-attribution IDs (rule 3). A workflow or agent span is
   # usually where a task starts; baggage carries the IDs to the calls beneath.
   - id: focus.gen_ai.invoke_workflow.internal
@@ -192,12 +192,12 @@ entity_refinements:
         requirement_level:
           recommended: When the instance is a billed resource.
 
-  # The cloud entity already describes the provider, account and resource of
+  # The cloud entity already describes the provider, account, and resource of
   # a cloud-hosted OTel Resource. Each focus.* key is set beside its cloud.*
   # counterpart, with the reason it is not reused. This is a proposal for
-  # discussion with the SemConv SIG: where a cloud.* value can be guaranteed
-  # to equal the bill, the focus.* key would be deprecated in its favor in a
-  # later release. Until then, every focus.* key is set regardless, so
+  # discussion with the OpenTelemetry Semantic Conventions SIG: where a cloud.*
+  # value can be guaranteed to equal the bill, the focus.* key would be
+  # deprecated in its favor in a later release. Until then, every focus.* key is set regardless, so
   # consumers can depend on it.
   - id: focus.cloud
     ref: cloud

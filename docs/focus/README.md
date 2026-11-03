@@ -16,9 +16,9 @@
 
 ## Purpose
 
-`focus.*` is a small, cross-cutting set of attributes that lets any telemetry be joined to charges in the FOCUS Cost and Usage dataset, and from there to the Task, Outcome and Value datasets of the FOCUS companion specification *Value Attribution Data Architecture: Schema and Explainer* (v0.1.4).
+`focus.*` is a small, cross-cutting set of attributes that lets any telemetry be joined to charges in the FOCUS Cost and Usage dataset, and from there to the Task, Outcome, and Value datasets of the FOCUS companion specification *Value Attribution Data Architecture: Schema and Explainer* (v0.1.4).
 
-The registry carries join keys only: the values telemetry needs to find its charge or its task. Region, price, cost and quantities come from the charge once the join is made. Usage measurements, such as token counts, stay in the domain conventions that already define them, such as `gen_ai.*`.
+The registry carries join keys only: the values telemetry needs to find its charge or its task. Region, price, cost, and quantities come from the charge once the join is made. Usage measurements, such as token counts, stay in the domain conventions that already define them, such as `gen_ai.*`.
 
 ## Terminology
 
@@ -26,7 +26,7 @@ A `focus.*` attribute carries the value of a FOCUS column on an OpenTelemetry si
 
 ## Cost and Usage scope
 
-These attributes locate a telemetry record's charge. FOCUS references are to FOCUS 1.4 unless noted, and are also recorded in each attribute's `annotations.focus` in the model.
+These attributes locate a telemetry record's charge. The placement rules call them the billing-scope keys, and the model groups them as `attributes.focus.billing_scope`. FOCUS references are to FOCUS 1.4 unless noted, and are also recorded in each attribute's `annotations.focus` in the model.
 
 | Attribute | FOCUS column (section) | Nearest OTel attribute | Decision |
 |---|---|---|---|
@@ -74,7 +74,7 @@ carries the marketplace's billing account, which telemetry cannot know.
 **[2] `focus.resource.id`:** `cloud.resource_id` identifies the monitored resource, which can differ
 from the billed one: an Azure function rather than its function app, a
 Lambda ARN that includes a version, or ECS telemetry that names a task,
-container or instance. This attribute MUST carry the billed resource.
+container, or instance. This attribute MUST carry the billed resource.
 
 Leave this attribute unset when the charge is not tied to a resource,
 such as pay-per-token model usage.
@@ -93,7 +93,7 @@ ResourceId is unique only within a service provider, so joins on
 `focus.resource.id` also require this attribute.
 
 **[5] `focus.sub_account.id`:** A sub account is the account a resource belongs to, such as an AWS member
-account, an Azure subscription or a GCP project. This is the same level
+account, an Azure subscription, or a GCP project. This is the same level
 as `cloud.account.id`.
 
 **Open question:** this attribute may be deprecated in favor of
@@ -106,11 +106,11 @@ across all providers, including SaaS.
 
 ## Value scope
 
-These attributes link a telemetry record to the work it served.
+These attributes link a telemetry record to the work it served. The placement rules call them the value-attribution IDs, and the model groups them as `attributes.focus.value_attribution`.
 
 | Attribute | Links to | Known at runtime? | On metrics? | Decision |
 |---|---|---|---|---|
-| [`focus.workload.id`](/docs/registry/attributes/focus.md) | All datasets, for portfolio rollups | Almost always, from configuration | Yes | Define, pending SemConv SIG review |
+| [`focus.workload.id`](/docs/registry/attributes/focus.md) | All datasets, for portfolio rollups | Almost always, from the caller's configuration, then propagated in baggage | Yes | Define, pending review by the OpenTelemetry Semantic Conventions (SemConv) SIG |
 | [`focus.task.id`](/docs/registry/attributes/focus.md) | Task dataset | Usually, as an existing business key | No | Define |
 | [`focus.outcome.id`](/docs/registry/attributes/focus.md) | Outcome dataset, and Value through it | Often not; linked later through the Task dataset | No | Define; optional on spans |
 
@@ -123,7 +123,7 @@ Value itself is never part of telemetry. It is reached through Outcome, in the V
 
 **Status:** ![Development](https://img.shields.io/badge/-development-blue)
 
-IDs that link a telemetry record to the workload, task and outcome it served. Set on spans and propagated in baggage.
+IDs that link a telemetry record to the workload, task, and outcome it served. Set on spans and propagated in baggage.
 
 **Attributes:**
 
@@ -141,7 +141,7 @@ dataset, which records each task's OutcomeId.
 This attribute MUST NOT be set on metrics.
 
 **[2] `focus.task.id`:** A task is the unit of work that cost is apportioned to, such as a support
-ticket, pull request or batch job. It is usually an existing business key
+ticket, pull request, or batch job. It is usually an existing business key
 known at runtime.
 
 This attribute MUST NOT be set on metrics, since one value per task
@@ -150,8 +150,9 @@ would create unbounded metric series.
 **[3] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because it is set per request and propagated
-in baggage so that shared services attribute their work to the caller.
+workload (one deployment), because the caller sets it from configuration on
+each request and propagates it in baggage, so that shared services
+attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -179,7 +180,7 @@ For `focus.workload.id`, the closest OpenTelemetry concept is `service.namespace
 
 Core OpenTelemetry also defines `service.instance.cost_center.id` and `.name`, whose description mentions a billing account ID as one possible value. They record an internal allocation target, chosen by the organization. The `focus.*` billing-scope keys record where a charge appears on the bill, chosen by the invoice issuer, so both are kept.
 
-Left out entirely, because the join does not need them: region and availability zone, charge period, quantities and units, costs, SKU and pricing columns other than the model, host provider and invoice issuer.
+Left out entirely, because the join does not need them: region and availability zone; charge period; quantities and units; costs; SKU and pricing columns other than the model; host provider; and invoice issuer.
 
 ## Open questions
 
@@ -190,7 +191,7 @@ For the FOCUS Working Group:
 - Define model values as the exact model string the provider's API returns, matching `gen_ai.response.model`.
 - Document that billing-account joins assume a direct purchase. For marketplace purchases the bill carries the marketplace's billing account, which telemetry cannot know, so the join falls back to provider and service.
 
-For the OpenTelemetry Semantic Conventions SIG:
+For the SemConv SIG:
 
 - Can `cloud.account.id` and `cloud.resource_id` guarantee bill-exact values across non-cloud providers? For each key in the [cloud refinement](placement.md#cloud), would the SIG rather widen the `cloud.*` attribute than have FOCUS define its own?
 - Is `service.namespace` meant to carry a workload in FOCUS's sense, or is a request-scoped `focus.workload.id` acceptable?

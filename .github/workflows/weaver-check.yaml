@@ -4,7 +4,8 @@ name: Weaver registry check
 # into the OTel registries it depends on, OTel's naming and stability policies,
 # and policies/focus_namespace.rego, which rejects any attribute outside focus.*
 # and so any redefinition of an existing OTel attribute. Also runs the unit
-# tests for that policy and live-checks the reference telemetry samples.
+# tests for that policy, live-checks the reference telemetry samples, checks
+# that generated docs are up to date, and uploads the resolved registry.
 
 on:
   pull_request:

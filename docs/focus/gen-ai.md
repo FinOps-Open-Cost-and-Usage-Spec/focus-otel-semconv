@@ -7,7 +7,7 @@
 - [Inference span](#inference-span)
 - [Embeddings span](#embeddings-span)
 - [Token-usage metrics](#token-usage-metrics)
-- [Workflow, agent and tool spans](#workflow-agent-and-tool-spans)
+- [Workflow, agent, and tool spans](#workflow-agent-and-tool-spans)
 
 <!-- tocstop -->
 
@@ -132,7 +132,7 @@ Instrumentations SHOULD document the list of errors they report.
 **[5] `focus.resource.id`:** `cloud.resource_id` identifies the monitored resource, which can differ
 from the billed one: an Azure function rather than its function app, a
 Lambda ARN that includes a version, or ECS telemetry that names a task,
-container or instance. This attribute MUST carry the billed resource.
+container, or instance. This attribute MUST carry the billed resource.
 
 Leave this attribute unset when the charge is not tied to a resource,
 such as pay-per-token model usage.
@@ -201,7 +201,7 @@ ResourceId is unique only within a service provider, so joins on
 `focus.resource.id` also require this attribute.
 
 **[19] `focus.sub_account.id`:** A sub account is the account a resource belongs to, such as an AWS member
-account, an Azure subscription or a GCP project. This is the same level
+account, an Azure subscription, or a GCP project. This is the same level
 as `cloud.account.id`.
 
 **Open question:** this attribute may be deprecated in favor of
@@ -209,7 +209,7 @@ as `cloud.account.id`.
 across all providers, including SaaS.
 
 **[20] `focus.task.id`:** A task is the unit of work that cost is apportioned to, such as a support
-ticket, pull request or batch job. It is usually an existing business key
+ticket, pull request, or batch job. It is usually an existing business key
 known at runtime.
 
 This attribute MUST NOT be set on metrics, since one value per task
@@ -218,8 +218,9 @@ would create unbounded metric series.
 **[21] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because it is set per request and propagated
-in baggage so that shared services attribute their work to the caller.
+workload (one deployment), because the caller sets it from configuration on
+each request and propagates it in baggage, so that shared services
+attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -601,7 +602,7 @@ Instrumentations SHOULD document the list of errors they report.
 **[5] `focus.resource.id`:** `cloud.resource_id` identifies the monitored resource, which can differ
 from the billed one: an Azure function rather than its function app, a
 Lambda ARN that includes a version, or ECS telemetry that names a task,
-container or instance. This attribute MUST carry the billed resource.
+container, or instance. This attribute MUST carry the billed resource.
 
 Leave this attribute unset when the charge is not tied to a resource,
 such as pay-per-token model usage.
@@ -632,7 +633,7 @@ ResourceId is unique only within a service provider, so joins on
 `focus.resource.id` also require this attribute.
 
 **[11] `focus.sub_account.id`:** A sub account is the account a resource belongs to, such as an AWS member
-account, an Azure subscription or a GCP project. This is the same level
+account, an Azure subscription, or a GCP project. This is the same level
 as `cloud.account.id`.
 
 **Open question:** this attribute may be deprecated in favor of
@@ -640,7 +641,7 @@ as `cloud.account.id`.
 across all providers, including SaaS.
 
 **[12] `focus.task.id`:** A task is the unit of work that cost is apportioned to, such as a support
-ticket, pull request or batch job. It is usually an existing business key
+ticket, pull request, or batch job. It is usually an existing business key
 known at runtime.
 
 This attribute MUST NOT be set on metrics, since one value per task
@@ -649,8 +650,9 @@ would create unbounded metric series.
 **[13] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because it is set per request and propagated
-in baggage so that shared services attribute their work to the caller.
+workload (one deployment), because the caller sets it from configuration on
+each request and propagates it in baggage, so that shared services
+attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -808,8 +810,9 @@ ResourceId is unique only within a service provider, so joins on
 **[9] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because it is set per request and propagated
-in baggage so that shared services attribute their work to the caller.
+workload (one deployment), because the caller sets it from configuration on
+each request and propagates it in baggage, so that shared services
+attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -981,8 +984,9 @@ ResourceId is unique only within a service provider, so joins on
 **[9] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because it is set per request and propagated
-in baggage so that shared services attribute their work to the caller.
+workload (one deployment), because the caller sets it from configuration on
+each request and propagates it in baggage, so that shared services
+attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -1154,8 +1158,9 @@ ResourceId is unique only within a service provider, so joins on
 **[9] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because it is set per request and propagated
-in baggage so that shared services attribute their work to the caller.
+workload (one deployment), because the caller sets it from configuration on
+each request and propagates it in baggage, so that shared services
+attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -1325,8 +1330,9 @@ ResourceId is unique only within a service provider, so joins on
 **[9] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because it is set per request and propagated
-in baggage so that shared services attribute their work to the caller.
+workload (one deployment), because the caller sets it from configuration on
+each request and propagates it in baggage, so that shared services
+attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -1496,8 +1502,9 @@ ResourceId is unique only within a service provider, so joins on
 **[9] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because it is set per request and propagated
-in baggage so that shared services attribute their work to the caller.
+workload (one deployment), because the caller sets it from configuration on
+each request and propagates it in baggage, so that shared services
+attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -1663,8 +1670,9 @@ ResourceId is unique only within a service provider, so joins on
 **[9] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because it is set per request and propagated
-in baggage so that shared services attribute their work to the caller.
+workload (one deployment), because the caller sets it from configuration on
+each request and propagates it in baggage, so that shared services
+attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -1705,9 +1713,9 @@ This attribute is low-cardinality and MAY be set on metrics.
 <!-- END AUTOGENERATED TEXT -->
 <!-- endsemconv -->
 
-## Workflow, agent and tool spans
+## Workflow, agent, and tool spans
 
-Workflow, agent and tool spans are not billed calls, so they carry no billing scope. They carry the value-attribution IDs (rule 3). A workflow or agent span is usually where a task starts, so it is the natural place to set `focus.task.id`; baggage then carries the IDs to the inference and embeddings calls beneath it. A call to a remote agent carries the IDs so the remote agent's work is attributed to the caller's task.
+Workflow, agent, and tool spans are not billed calls, so they carry no billing scope. They carry the value-attribution IDs (rule 3). A workflow or agent span is usually where a task starts, so it is the natural place to set `focus.task.id`; baggage then carries the IDs to the inference and embeddings calls beneath it. A call to a remote agent carries the IDs so the remote agent's work is attributed to the caller's task.
 
 <!-- semconv focus.gen_ai.invoke_workflow.internal -->
 <!-- NOTE: THIS TEXT IS AUTOGENERATED. DO NOT EDIT BY HAND. -->
@@ -1803,7 +1811,7 @@ Semantic conventions for individual Generative AI frameworks SHOULD document
 what `gen_ai.workflow.name` means in the context of that framework.
 
 **[6] `focus.task.id`:** A task is the unit of work that cost is apportioned to, such as a support
-ticket, pull request or batch job. It is usually an existing business key
+ticket, pull request, or batch job. It is usually an existing business key
 known at runtime.
 
 This attribute MUST NOT be set on metrics, since one value per task
@@ -1812,8 +1820,9 @@ would create unbounded metric series.
 **[7] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because it is set per request and propagated
-in baggage so that shared services attribute their work to the caller.
+workload (one deployment), because the caller sets it from configuration on
+each request and propagates it in baggage, so that shared services
+attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -1962,7 +1971,7 @@ This attribute specifies the output modality and not the actual output format. F
 Additional output format details may be recorded in the future in the `gen_ai.output.{type}.*` attributes.
 
 **[8] `focus.task.id`:** A task is the unit of work that cost is apportioned to, such as a support
-ticket, pull request or batch job. It is usually an existing business key
+ticket, pull request, or batch job. It is usually an existing business key
 known at runtime.
 
 This attribute MUST NOT be set on metrics, since one value per task
@@ -1971,8 +1980,9 @@ would create unbounded metric series.
 **[9] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because it is set per request and propagated
-in baggage so that shared services attribute their work to the caller.
+workload (one deployment), because the caller sets it from configuration on
+each request and propagates it in baggage, so that shared services
+attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -2292,7 +2302,7 @@ Additional output format details may be recorded in the future in the `gen_ai.ou
 **[10] `server.port`:** When observed from the client side, and when communicating through an intermediary, `server.port` SHOULD represent the server port behind any intermediaries, for example proxies, if it's available.
 
 **[11] `focus.task.id`:** A task is the unit of work that cost is apportioned to, such as a support
-ticket, pull request or batch job. It is usually an existing business key
+ticket, pull request, or batch job. It is usually an existing business key
 known at runtime.
 
 This attribute MUST NOT be set on metrics, since one value per task
@@ -2301,8 +2311,9 @@ would create unbounded metric series.
 **[12] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because it is set per request and propagated
-in baggage so that shared services attribute their work to the caller.
+workload (one deployment), because the caller sets it from configuration on
+each request and propagates it in baggage, so that shared services
+attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -2639,7 +2650,7 @@ libraries.
 if and only if one was supplied.
 
 **[6] `focus.task.id`:** A task is the unit of work that cost is apportioned to, such as a support
-ticket, pull request or batch job. It is usually an existing business key
+ticket, pull request, or batch job. It is usually an existing business key
 known at runtime.
 
 This attribute MUST NOT be set on metrics, since one value per task
@@ -2648,8 +2659,9 @@ would create unbounded metric series.
 **[7] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because it is set per request and propagated
-in baggage so that shared services attribute their work to the caller.
+workload (one deployment), because the caller sets it from configuration on
+each request and propagates it in baggage, so that shared services
+attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 

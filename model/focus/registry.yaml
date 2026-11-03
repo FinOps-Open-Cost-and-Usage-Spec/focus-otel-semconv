@@ -68,7 +68,7 @@ attributes:
       it appears in the FOCUS SubAccountId column.
     note: |
       A sub account is the account a resource belongs to, such as an AWS member
-      account, an Azure subscription or a GCP project. This is the same level
+      account, an Azure subscription, or a GCP project. This is the same level
       as `cloud.account.id`.
 
       **Open question:** this attribute may be deprecated in favor of
@@ -94,7 +94,7 @@ attributes:
       `cloud.resource_id` identifies the monitored resource, which can differ
       from the billed one: an Azure function rather than its function app, a
       Lambda ARN that includes a version, or ECS telemetry that names a task,
-      container or instance. This attribute MUST carry the billed resource.
+      container, or instance. This attribute MUST carry the billed resource.
 
       Leave this attribute unset when the charge is not tied to a resource,
       such as pay-per-token model usage.
@@ -128,7 +128,7 @@ attributes:
         section: '3.1.56'
         decision_record: null
 
-  # Value scope: join downstream to tasks, outcomes and value.
+  # Value scope: join downstream to tasks, outcomes, and value.
 
   - key: focus.task.id
     type: string
@@ -136,7 +136,7 @@ attributes:
     brief: The identifier of the task that this work was done for.
     note: |
       A task is the unit of work that cost is apportioned to, such as a support
-      ticket, pull request or batch job. It is usually an existing business key
+      ticket, pull request, or batch job. It is usually an existing business key
       known at runtime.
 
       This attribute MUST NOT be set on metrics, since one value per task
@@ -180,8 +180,9 @@ attributes:
       A workload may span many services and share services with other
       workloads. It differs from `service.name` (one deployed application),
       `service.namespace` (fixed per service on the Resource) and a Kubernetes
-      workload (one deployment), because it is set per request and propagated
-      in baggage so that shared services attribute their work to the caller.
+      workload (one deployment), because the caller sets it from configuration on
+      each request and propagates it in baggage, so that shared services
+      attribute their work to the caller.
 
       This attribute is low-cardinality and MAY be set on metrics.
     examples: ['support-bot', 'coding-agent']
@@ -192,7 +193,7 @@ attributes:
         dataset: All
         column: WorkloadId
         decision_record: null
-        open_question: Pending SemConv SIG review against service.namespace.
+        open_question: Pending OpenTelemetry Semantic Conventions SIG review against service.namespace.
 
 attribute_groups:
   - id: attributes.focus.billing_scope
@@ -212,10 +213,26 @@ attribute_groups:
   - id: attributes.focus.value_attribution
     visibility: public
     brief: >
-      IDs that link a telemetry record to the workload, task and outcome it
+      IDs that link a telemetry record to the workload, task, and outcome it
       served. Set on spans and propagated in baggage.
     stability: development
     attributes:
       - ref: focus.workload.id
       - ref: focus.task.id
       - ref: focus.outcome.id
+
+  - id: attributes.focus.metric_keys
+    visibility: public
+    brief: >
+      The FOCUS keys that may be set on metrics: the billing-scope keys and the
+      workload. Task and outcome IDs are left out, since one value per task
+      would create unbounded metric series.
+    stability: development
+    attributes:
+      - ref: focus.service_provider.name
+      - ref: focus.billing_account.id
+      - ref: focus.sub_account.id
+      - ref: focus.resource.id
+      - ref: focus.service.name
+      - ref: gen_ai.response.model
+      - ref: focus.workload.id

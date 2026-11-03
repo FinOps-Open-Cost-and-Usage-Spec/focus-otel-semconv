@@ -20,7 +20,7 @@ How to fill the `focus.*` keys so telemetry from AWS workloads joins to the AWS 
 | `focus.billing_account.id` | BillingAccountId | **Unconfirmed:** expected to be the management (payer) account ID | Configuration; the Organizations API is callable only from the management account | None |
 | `focus.sub_account.id` | SubAccountId | **Unconfirmed:** expected to be the member account ID that owns the resource | Resource detectors | `cloud.account.id`, the same account. Set both even if the values match |
 | `focus.resource.id` | ResourceId | **Unconfirmed:** expected to be the resource ARN | Derived from detector values; see [below](#resource-ids-by-service) | `cloud.resource_id`, which names the monitored resource |
-| `focus.service.name` | ServiceName | **Unconfirmed:** expected to be the full service name, such as `Amazon Bedrock` | Configuration, or a lookup from the detected platform | None |
+| `focus.service.name` | ServiceName | **Unconfirmed:** expected to be the full service name, such as `Amazon Bedrock` | Configuration, or a lookup from the detected platform | `cloud.platform` (`aws_ecs`), a fixed ID that is not the bill's display value |
 | `gen_ai.response.model` | SkuPriceDetails.ModelId | **Unconfirmed** for Bedrock | Bedrock instrumentation | Itself |
 
 ## Resource IDs by service
@@ -30,7 +30,7 @@ The billed resource can differ from the one telemetry describes. Each rule deriv
 | Service | Telemetry reports | Billed resource | Rule |
 |---|---|---|---|
 | AWS Lambda | `cloud.resource_id`: the function ARN, which can include a version or alias | The function | Strip the version or alias suffix |
-| Amazon ECS | Task, container or instance ARNs (`aws.ecs.*`) | Depends on the launch type: Fargate tasks are billed per task; EC2 launch bills the instances | Use the task ARN on Fargate and the EC2 instance ID otherwise |
+| Amazon ECS | Task, container, or instance ARNs (`aws.ecs.*`) | Depends on the launch type: Fargate tasks are billed per task; EC2 launch bills the instances | Use the task ARN on Fargate and the EC2 instance ID otherwise |
 | Amazon EKS | Pods and nodes (`k8s.*`, `host.id`) | The cluster and its nodes | Use the cluster ARN for the control plane and the instance ID for nodes; pod-level cost is allocation, not a join |
 | Amazon Bedrock, on-demand | `gen_ai.*` on the client span | No resource; billed by service and model | Leave `focus.resource.id` unset |
 | Amazon Bedrock, provisioned throughput | The provisioned model ARN in the request | The provisioned model | Use the provisioned model ARN |

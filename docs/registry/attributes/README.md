@@ -33,4 +33,4 @@ Currently, the following namespaces exist:
 
 - [Focus](focus.md)
 
-[developers recommendations]: ../../general/naming.md#recommendations-for-application-developers
+[developers recommendations]: https://opentelemetry.io/docs/specs/semconv/general/naming/#recommendations-for-application-developers

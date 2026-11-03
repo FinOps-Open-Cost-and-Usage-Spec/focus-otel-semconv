@@ -25,11 +25,11 @@ The check fails on any violation:
 It reports, without failing:
 
 - an OpenTelemetry attribute outside the `focus.*` groups, such as `gen_ai.operation.name`;
-- a task or outcome ID on a metric, which [placement rule 4](../docs/focus/placement.md#rules) forbids. Weaver cannot yet raise one attribute's finding to a violation.
+- a `focus.*` key where the [placement rules](../docs/focus/placement.md#rules) do not allow it: a billing-scope key on a workflow, agent, or tool span, or a task or outcome ID on a metric. Weaver cannot yet raise one attribute's finding to a violation.
 
 ## Limits
 
-Weaver 0.28 does not match telemetry to refinements. Live-check finds no span type or metric for `focus.gen_ai.client.inference` or the token-usage refinements, so samples are compared with the `focus.*` attribute groups instead. As a result, requirement levels from the refinements are not enforced: a span missing `focus.service_provider.name` passes. When Weaver resolves refinements, the matchers should name them as signals.
+Weaver 0.28 does not match telemetry to refinements. Live-check finds no signal for any refinement, so samples are compared with the `focus.*` attribute groups instead. As a result, requirement levels from the refinements are not enforced: a span missing `focus.service_provider.name` passes. When Weaver resolves refinements, the matchers should name them as signals.
 
 ## Adding a sample
 
