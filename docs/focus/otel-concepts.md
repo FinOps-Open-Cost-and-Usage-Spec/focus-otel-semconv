@@ -36,7 +36,7 @@ This page explains the OpenTelemetry (OTel) terms these conventions use, for rea
 
 | Term | Meaning |
 |---|---|
-| Attribute group | A named list of attributes, with no signal of its own. A group can be included in signals, rendered as a table in docs, or used by live-check as the keys a sample may carry. This registry has three: `attributes.focus.billing_scope`, `attributes.focus.value_attribution`, and `attributes.focus.metric_keys`. |
+| Attribute group | A named list of attributes, with no signal of its own. A group can be included in signals, rendered as a table in docs, or used by live-check as the keys a sample may carry. A group can also set each attribute's requirement level, so signals that share a set reference one group instead of repeating it. This registry has three public groups, `attributes.focus.billing_scope`, `attributes.focus.value_attribution`, and `attributes.focus.metric_keys`, and internal groups that its refinements share. |
 | Deprecation | How a convention is retired. It is never deleted or reused; it is marked deprecated, usually naming its replacement, and stays in the registry. |
 | Federated registry | A registry maintained outside OTel that depends on OTel's registries and adds its own namespace. This repository is one. It needs no OTel approval, but it must not redefine OTel attributes. |
 | Namespace | The first segment of an attribute key, such as `gen_ai`, `cloud`, or `focus`. Each namespace has one owner, which defines every key in it. |

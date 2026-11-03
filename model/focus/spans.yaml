@@ -1,0 +1,105 @@
+file_format: definition/2
+
+# Span placement rules, written as refinements of GenAI spans. They add focus.*
+# attributes; they define no new spans. Each refinement is a proposal until
+# agreed with the owning SIG. See docs/focus/placement.md.
+#
+# The internal groups below hold each shared set of attributes with its
+# requirement levels, so refinements that share a set reference it once.
+
+attribute_groups:
+  # Rule 2: the billing scope of a called service goes on the client span for
+  # the call.
+  - id: attributes.focus.billing_scope.client
+    visibility: internal
+    attributes:
+      - ref: focus.service_provider.name
+        requirement_level: recommended
+      - ref: focus.billing_account.id
+        requirement_level:
+          recommended: When known from configuration.
+      - ref: focus.sub_account.id
+        requirement_level:
+          recommended: When the charge is related to a sub account.
+      - ref: focus.resource.id
+        requirement_level:
+          conditionally_required: >
+            When the called model is billed as a resource, such as provisioned
+            throughput. Unset for pay-per-token usage.
+      - ref: focus.service.name
+        requirement_level: recommended
+
+  # Rule 3: value-attribution IDs go on spans and travel in baggage.
+  - id: attributes.focus.value_attribution.span
+    visibility: internal
+    attributes:
+      - ref: focus.workload.id
+        requirement_level: recommended
+      - ref: focus.task.id
+        requirement_level:
+          recommended: When the task is known at runtime.
+      - ref: focus.outcome.id
+        requirement_level: opt_in
+
+span_refinements:
+  - id: focus.gen_ai.client.inference
+    ref: gen_ai.client.inference
+    brief: >
+      Adds FOCUS billing-scope keys and value-attribution IDs to the GenAI
+      inference client span, so each model call can be joined to its charge
+      and to the task it served.
+    stability: development
+    attributes:
+      - ref_group: attributes.focus.billing_scope.client
+      - ref_group: attributes.focus.value_attribution.span
+
+  # Embeddings are billed per token like inference, so the call carries the
+  # same keys.
+  - id: focus.gen_ai.client.embeddings
+    ref: gen_ai.client.embeddings
+    brief: >
+      Adds FOCUS billing-scope keys and value-attribution IDs to the GenAI
+      embeddings client span, so each embeddings call can be joined to its
+      charge and to the task it served.
+    stability: development
+    attributes:
+      - ref_group: attributes.focus.billing_scope.client
+      - ref_group: attributes.focus.value_attribution.span
+
+  # Workflow, agent, and tool spans are not billed calls themselves, so they
+  # carry only the value-attribution IDs (rule 3). A workflow or agent span is
+  # usually where a task starts; baggage carries the IDs to the calls beneath.
+  - id: focus.gen_ai.invoke_workflow.internal
+    ref: gen_ai.invoke_workflow.internal
+    brief: >
+      Adds FOCUS value-attribution IDs to the GenAI workflow span, usually the
+      root of the work done for a task.
+    stability: development
+    attributes:
+      - ref_group: attributes.focus.value_attribution.span
+
+  - id: focus.gen_ai.invoke_agent.internal
+    ref: gen_ai.invoke_agent.internal
+    brief: >
+      Adds FOCUS value-attribution IDs to the span for an agent invoked in
+      process.
+    stability: development
+    attributes:
+      - ref_group: attributes.focus.value_attribution.span
+
+  - id: focus.gen_ai.invoke_agent.client
+    ref: gen_ai.invoke_agent.client
+    brief: >
+      Adds FOCUS value-attribution IDs to the span for a call to a remote
+      agent, so the remote agent's work is attributed to the caller's task.
+    stability: development
+    attributes:
+      - ref_group: attributes.focus.value_attribution.span
+
+  - id: focus.gen_ai.execute_tool.internal
+    ref: gen_ai.execute_tool.internal
+    brief: >
+      Adds FOCUS value-attribution IDs to the tool execution span.
+    stability: development
+    attributes:
+      - ref_group: attributes.focus.value_attribution.span
