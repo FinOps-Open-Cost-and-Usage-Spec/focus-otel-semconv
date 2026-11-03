@@ -1,8 +1,9 @@
 file_format: definition/2
 
-# Metric placement rules, written as refinements of GenAI token-usage metrics.
-# They add focus.* attributes; they define no new metrics. Each refinement is a
-# proposal until agreed with the owning SIG. See docs/focus/placement.md.
+# Rules for which GenAI token-usage metrics carry which focus.* attributes,
+# written as refinements of those metrics. They add attributes; they define no
+# new metrics. Each refinement is a proposal until agreed with the owning SIG.
+# See docs/focus/where-attributes-go.md.
 
 attribute_groups:
   # Rule 4: only low-cardinality keys go on metrics, never task or outcome IDs.

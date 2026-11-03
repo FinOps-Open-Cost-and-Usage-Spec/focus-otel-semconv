@@ -34,7 +34,7 @@ The registry is a federated OpenTelemetry semantic-convention registry, written 
 - **Cost and Usage scope** (billing-scope keys): `focus.service_provider.name`, `focus.billing_account.id`, `focus.sub_account.id`, `focus.resource.id`, and `focus.service.name`, with `gen_ai.response.model` reused for the model.
 - **Value scope** (value-attribution IDs): `focus.workload.id`, `focus.task.id`, and `focus.outcome.id`.
 
-Start with the [documentation index](docs/README.md): the [overview](docs/focus/README.md), the [rules for where each attribute goes](docs/focus/placement.md), and the generated [attribute registry](docs/registry/attributes/focus.md).
+Start with the [documentation index](docs/README.md): the [overview](docs/focus/README.md), the [rules for where each attribute goes](docs/focus/where-attributes-go.md), and the generated [attribute registry](docs/registry/attributes/focus.md).
 
 | Path | Contents |
 |---|---|

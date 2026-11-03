@@ -25,7 +25,7 @@ The check fails on any violation:
 It reports, without failing:
 
 - an OpenTelemetry attribute outside the `focus.*` groups, such as `gen_ai.operation.name`;
-- a `focus.*` key where the [placement rules](../docs/focus/placement.md#rules) do not allow it: a billing-scope key on a workflow, agent, or tool span, or a task or outcome ID on a metric. Weaver cannot yet raise one attribute's finding to a violation.
+- a `focus.*` key where the [rules for where attributes go](../docs/focus/where-attributes-go.md#rules) do not allow it: a billing-scope key on a workflow, agent, or tool span, or a task or outcome ID on a metric. Weaver cannot yet raise one attribute's finding to a violation.
 
 ## Limits
 

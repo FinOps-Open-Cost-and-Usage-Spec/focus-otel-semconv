@@ -1,8 +1,9 @@
 file_format: definition/2
 
-# Resource placement rules, written as refinements of core entities. They add
-# focus.* attributes; they define no new entities. Each refinement is a
-# proposal until agreed with the owning SIG. See docs/focus/placement.md.
+# Rules for which focus.* attributes go on an OTel Resource, written as
+# refinements of core entities. They add attributes; they define no new
+# entities. Each refinement is a proposal until agreed with the owning SIG. See
+# docs/focus/where-attributes-go.md.
 #
 # Each entity sets its own conditions, so the two share no attribute group.
 

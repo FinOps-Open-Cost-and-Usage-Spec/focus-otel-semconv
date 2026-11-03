@@ -1,8 +1,9 @@
 file_format: definition/2
 
-# Span placement rules, written as refinements of GenAI spans. They add focus.*
-# attributes; they define no new spans. Each refinement is a proposal until
-# agreed with the owning SIG. See docs/focus/placement.md.
+# Rules for which GenAI spans carry which focus.* attributes, written as
+# refinements of those spans. They add attributes; they define no new spans.
+# Each refinement is a proposal until agreed with the owning SIG. See
+# docs/focus/where-attributes-go.md.
 #
 # The internal groups below hold each shared set of attributes with its
 # requirement levels, so refinements that share a set reference it once.

@@ -11,7 +11,7 @@
 
 <!-- tocstop -->
 
-These refinements apply the [placement rules](placement.md) to signals defined by the [OpenTelemetry GenAI semantic conventions](https://github.com/open-telemetry/semantic-conventions-genai). They add `focus.*` attributes and change nothing else. Each is a proposal until agreed with the GenAI SIG.
+These refinements apply the [rules for where attributes go](where-attributes-go.md) to signals defined by the [OpenTelemetry GenAI semantic conventions](https://github.com/open-telemetry/semantic-conventions-genai). They add `focus.*` attributes and change nothing else. Each is a proposal until agreed with the GenAI SIG.
 
 ## Inference span
 

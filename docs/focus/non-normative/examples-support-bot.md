@@ -6,7 +6,7 @@ A support bot running on AWS handles ticket 4417 and calls OpenAI. Its telemetry
 
 ## AWS row: the bot's own service
 
-The bot's own service is a billed resource, so its keys sit on its OTel Resource ([rule 1](../placement.md#rules)) and the join uses provider, account, and resource.
+The bot's own service is a billed resource, so its keys sit on its OTel Resource ([rule 1](../where-attributes-go.md#rules)) and the join uses provider, account, and resource.
 
 ```yaml
 # OTel Resource of the bot
@@ -20,7 +20,7 @@ focus.service.name: Amazon Elastic Container Service
 
 ## OpenAI row: the model call
 
-Pay-per-token usage has no ResourceId, so the client span carries provider, billing account, and service ([rule 2](../placement.md#rules)), and `gen_ai.response.model` matches SkuPriceDetails.ModelId on the bill. The value-attribution IDs ride on the same span ([rule 3](../placement.md#rules)).
+Pay-per-token usage has no ResourceId, so the client span carries provider, billing account, and service ([rule 2](../where-attributes-go.md#rules)), and `gen_ai.response.model` matches SkuPriceDetails.ModelId on the bill. The value-attribution IDs ride on the same span ([rule 3](../where-attributes-go.md#rules)).
 
 ```yaml
 # gen_ai.client.inference span for the OpenAI call
@@ -33,7 +33,7 @@ focus.workload.id: support-bot
 focus.task.id: ticket-4417
 ```
 
-The token-usage metric for the same call carries no task or outcome ID ([rule 4](../placement.md#rules)).
+The token-usage metric for the same call carries no task or outcome ID ([rule 4](../where-attributes-go.md#rules)).
 
 ```yaml
 # gen_ai.client.inference.usage.input_tokens metric

@@ -22,11 +22,11 @@ The registry carries join keys only: the values telemetry needs to find its char
 
 ## Terminology
 
-A `focus.*` attribute carries the value of a FOCUS column on an OpenTelemetry signal. It has nothing to do with FOCUS Attributes, which are sets of requirements in the FOCUS specification. An OTel Resource (the service emitting telemetry) is not a FOCUS Resource (the billed item that ResourceId identifies). The [placement rules](placement.md) are this registry's rules for which signals carry which `focus.*` attributes, a term of its own rather than OpenTelemetry's. See [02-scope.md](../../02-scope.md) for the full terminology, and [OpenTelemetry concepts](otel-concepts.md) for OTel terms such as span, refinement, and attribute group.
+A `focus.*` attribute carries the value of a FOCUS column on an OpenTelemetry signal. It has nothing to do with FOCUS Attributes, which are sets of requirements in the FOCUS specification. An OTel Resource (the service emitting telemetry) is not a FOCUS Resource (the billed item that ResourceId identifies). See [02-scope.md](../../02-scope.md) for the full terminology, and [OpenTelemetry concepts](otel-concepts.md) for OTel terms such as span, refinement, and attribute group.
 
 ## Cost and Usage scope
 
-These attributes locate a telemetry record's charge. The placement rules call them the billing-scope keys, and the model groups them as `attributes.focus.billing_scope`. FOCUS references are to FOCUS 1.4 unless noted, and are also recorded in each attribute's `annotations.focus` in the model.
+These attributes locate a telemetry record's charge. The [rules for where attributes go](where-attributes-go.md) call them the billing-scope keys, and the model groups them as `attributes.focus.billing_scope`. FOCUS references are to FOCUS 1.4 unless noted, and are also recorded in each attribute's `annotations.focus` in the model.
 
 | Attribute | FOCUS column (section) | Nearest OTel attribute | Decision |
 |---|---|---|---|
@@ -106,7 +106,7 @@ across all providers, including SaaS.
 
 ## Value scope
 
-These attributes link a telemetry record to the work it served. The placement rules call them the value-attribution IDs, and the model groups them as `attributes.focus.value_attribution`.
+These attributes link a telemetry record to the work it served. Those rules call them the value-attribution IDs, and the model groups them as `attributes.focus.value_attribution`.
 
 | Attribute | Links to | Known at runtime? | On metrics? | Decision |
 |---|---|---|---|---|
@@ -174,7 +174,7 @@ The registry reuses an OpenTelemetry attribute wherever its meaning and its valu
 2. **Define** a distinct attribute when the word matches but the concept differs (`focus.service.name`).
 3. **Negotiate** with the SemConv SIG when the concept matches but the scope or format differs (`focus.sub_account.id`, `focus.resource.id`).
 
-The obstacle in the third case is exactness, not the `cloud.*` namespace, which is already used for private data centers. FOCUS covers SaaS and licensing as well as infrastructure, and its values must equal the bill exactly. Where a `cloud.*` attribute can guarantee that, FOCUS reuses it and deprecates the `focus.*` attribute, so providers emit one attribute rather than two. The [cloud refinement](placement.md#cloud) sets each `focus.*` key beside its nearest `cloud.*` attribute, so the case for each can be judged side by side.
+The obstacle in the third case is exactness, not the `cloud.*` namespace, which is already used for private data centers. FOCUS covers SaaS and licensing as well as infrastructure, and its values must equal the bill exactly. Where a `cloud.*` attribute can guarantee that, FOCUS reuses it and deprecates the `focus.*` attribute, so providers emit one attribute rather than two. The [cloud refinement](where-attributes-go.md#cloud) sets each `focus.*` key beside its nearest `cloud.*` attribute, so the case for each can be judged side by side.
 
 For `focus.workload.id`, the closest OpenTelemetry concept is `service.namespace`. It sits on the OTel Resource, so each service has exactly one, and it cannot attribute a shared service's work to the workload that called it. `gcp.apphub.workload.id` is specific to GCP and names a compute unit, and `gen_ai.agent.*` identifies a single agent.
 
@@ -195,7 +195,7 @@ For the FOCUS Working Group:
 
 For the SemConv SIG:
 
-- Can `cloud.account.id` and `cloud.resource_id` guarantee bill-exact values across non-cloud providers? For each key in the [cloud refinement](placement.md#cloud), would the SIG rather widen the `cloud.*` attribute than have FOCUS define its own?
+- Can `cloud.account.id` and `cloud.resource_id` guarantee bill-exact values across non-cloud providers? For each key in the [cloud refinement](where-attributes-go.md#cloud), would the SIG rather widen the `cloud.*` attribute than have FOCUS define its own?
 - Is `service.namespace` meant to carry a workload in FOCUS's sense, or is a request-scoped `focus.workload.id` acceptable?
 - Which parts belong in the core conventions now, rather than starting federated?
 - Which signal-specific rules should be formalized first with the GenAI SIG?
