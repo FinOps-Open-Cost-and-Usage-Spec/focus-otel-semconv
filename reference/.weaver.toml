@@ -1,0 +1,43 @@
+# Weaver live-check configuration for the reference samples.
+#
+# Weaver 0.28 does not yet match telemetry to refinements, so the samples are
+# checked against the focus.* attribute groups instead: each focus.* key must
+# exist, have the right type, and appear only where the placement rules allow.
+# Requirement levels from the refinements are not enforced here.
+
+[live-check]
+input_format = "json"
+search_all_attributes = true
+fail_on = "violation"
+
+# GenAI client spans and the OTel Resource may carry the billing-scope keys.
+[[live-check.matchers]]
+id = "match.focus.gen_ai.span"
+sample_type = "span"
+when = '"gen_ai.operation.name" in attributes'
+attribute_groups = ["attributes.focus.billing_scope", "attributes.focus.value_attribution"]
+
+[[live-check.matchers]]
+id = "match.focus.resource"
+sample_type = "resource"
+attribute_groups = ["attributes.focus.billing_scope"]
+
+# Token-usage metrics may carry the billing-scope keys and the workload only.
+# A task or outcome ID on a metric (rule 4) is reported as an improvement:
+# live-check cannot yet raise one attribute's finding to a violation.
+[[live-check.matchers]]
+id = "match.focus.gen_ai.usage_metric"
+sample_type = "metric"
+when = 'name.startsWith("gen_ai.client.inference.usage.")'
+attribute_groups = ["attributes.focus.billing_scope"]
+
+# The token-usage metrics are defined as refinements, which live-check does
+# not resolve yet, so a missing metric is reported but does not fail.
+[[live-check.finding_level_overrides]]
+ids = ["missing_metric"]
+sample_names = ["gen_ai.client.inference.usage.*"]
+level = "information"
+
+# Everything in this registry and in GenAI is at development stability.
+[[live-check.finding_filters]]
+exclude = ["not_stable"]

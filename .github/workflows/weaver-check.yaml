@@ -3,7 +3,8 @@ name: Weaver registry check
 # Validates the focus.* registry with OpenTelemetry Weaver: schema, references
 # into the OTel registries it depends on, OTel's naming and stability policies,
 # and policies/focus_namespace.rego, which rejects any attribute outside focus.*
-# and so any redefinition of an existing OTel attribute.
+# and so any redefinition of an existing OTel attribute. Also runs the unit
+# tests for that policy and live-checks the reference telemetry samples.
 
 on:
   pull_request:
@@ -47,6 +48,17 @@ jobs:
           --policy "$POLICY"
           --policy ./policies
           --diagnostic-format gh_workflow_command
+
+      - name: Install OPA
+        uses: open-policy-agent/setup-opa@b2b258e089860efaadaaf71bf6e3aecb4a3eeff1 # v2.4.0
+        with:
+          version: ${{ steps.versions.outputs.OPA_VERSION }}
+
+      - name: Test policies
+        run: make test-policies
+
+      - name: Live-check reference samples
+        run: make live-check
 
       - name: Check generated docs are up to date
         run: make check-docs

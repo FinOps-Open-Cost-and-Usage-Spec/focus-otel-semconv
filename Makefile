@@ -1,6 +1,7 @@
 include versions.env
 
 WEAVER ?= weaver
+OPA ?= opa
 POLICY := $(POLICY_REPO_URL)@$(POLICY_REPO_REF)[policies/check]
 SCHEMA_URI := https://focus.finops.org/schemas/otel/0.1.0-dev/resolved.yaml
 
@@ -11,11 +12,20 @@ ifeq ($(WEAVER),docker-weaver)
 WEAVER := $(DOCKER_WEAVER)
 endif
 
-.PHONY: check package generate-docs check-docs clean
+.PHONY: check test-policies live-check package generate-docs check-docs clean
 
 ## check: validate the registry against OTel's policies and this registry's own
 check:
 	$(WEAVER) registry check -r ./model --v2 --policy '$(POLICY)' --policy ./policies
+
+## test-policies: run the unit tests for this registry's own policies
+test-policies:
+	$(OPA) test --explain fails ./policies ./policies_test
+
+## live-check: check the reference telemetry samples against the registry
+live-check:
+	$(WEAVER) registry live-check -r ./model --v2 --config reference/.weaver.toml \
+		--input-source reference/samples/support-bot.json --no-stream
 
 # The core templates read Weaver's v1 resolved schema, so docs targets omit --v2.
 ## generate-docs: regenerate docs/registry and every <!-- semconv --> block
