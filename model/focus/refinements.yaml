@@ -18,7 +18,7 @@ span_refinements:
       inference client span, so each model call can be joined to its charge
       and to the task it served.
     stability: development
-    attributes:
+    attributes: &focus_client_span_attributes
       - ref: focus.service_provider.name
         requirement_level: recommended
       - ref: focus.billing_account.id
@@ -41,6 +41,58 @@ span_refinements:
           recommended: When the task is known at runtime.
       - ref: focus.outcome.id
         requirement_level: opt_in
+
+  # Embeddings are billed per token like inference, so the call carries the
+  # same keys.
+  - id: focus.gen_ai.client.embeddings
+    ref: gen_ai.client.embeddings
+    brief: >
+      Adds FOCUS billing-scope keys and value-attribution IDs to the GenAI
+      embeddings client span, so each embeddings call can be joined to its
+      charge and to the task it served.
+    stability: development
+    attributes: *focus_client_span_attributes
+
+  # Workflow, agent and tool spans are not billed calls themselves, so they
+  # carry only the value-attribution IDs (rule 3). A workflow or agent span is
+  # usually where a task starts; baggage carries the IDs to the calls beneath.
+  - id: focus.gen_ai.invoke_workflow.internal
+    ref: gen_ai.invoke_workflow.internal
+    brief: >
+      Adds FOCUS value-attribution IDs to the GenAI workflow span, usually the
+      root of the work done for a task.
+    stability: development
+    attributes: &focus_value_attribution_ids
+      - ref: focus.workload.id
+        requirement_level: recommended
+      - ref: focus.task.id
+        requirement_level:
+          recommended: When the task is known at runtime.
+      - ref: focus.outcome.id
+        requirement_level: opt_in
+
+  - id: focus.gen_ai.invoke_agent.internal
+    ref: gen_ai.invoke_agent.internal
+    brief: >
+      Adds FOCUS value-attribution IDs to the span for an agent invoked in
+      process.
+    stability: development
+    attributes: *focus_value_attribution_ids
+
+  - id: focus.gen_ai.invoke_agent.client
+    ref: gen_ai.invoke_agent.client
+    brief: >
+      Adds FOCUS value-attribution IDs to the span for a call to a remote
+      agent, so the remote agent's work is attributed to the caller's task.
+    stability: development
+    attributes: *focus_value_attribution_ids
+
+  - id: focus.gen_ai.execute_tool.internal
+    ref: gen_ai.execute_tool.internal
+    brief: >
+      Adds FOCUS value-attribution IDs to the tool execution span.
+    stability: development
+    attributes: *focus_value_attribution_ids
 
 metric_refinements:
   - id: focus.gen_ai.client.inference.usage.input_tokens
@@ -94,6 +146,15 @@ metric_refinements:
       Adds low-cardinality FOCUS keys to the reasoning output-token usage
       metric, so reasoning-token totals can be joined to charges by billing
       scope and workload.
+    stability: development
+    attributes: *focus_metric_attributes
+
+  - id: focus.gen_ai.client.embeddings.operation.input_tokens
+    ref: gen_ai.client.embeddings.operation.input_tokens
+    brief: >
+      Adds low-cardinality FOCUS keys to the embeddings input-token metric, so
+      exact token totals can be joined to charges by billing scope and
+      workload.
     stability: development
     attributes: *focus_metric_attributes
 
