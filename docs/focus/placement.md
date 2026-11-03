@@ -113,7 +113,7 @@ ResourceId is unique only within a service provider, so joins on
 account, an Azure subscription or a GCP project. This is the same level
 as `cloud.account.id`.
 
-**Open question:** this attribute may be withdrawn in favor of
+**Open question:** this attribute may be deprecated in favor of
 `cloud.account.id` if OpenTelemetry can guarantee bill-exact values
 across all providers, including SaaS.
 
@@ -126,13 +126,13 @@ across all providers, including SaaS.
 
 ## Cloud
 
-For a cloud-hosted resource, the same keys are also written as a refinement of the core `cloud` entity, so each `focus.*` key sits beside the `cloud.*` attribute nearest to it. The note on the refinement gives the reason each is not reused. This refinement is a proposal for discussion with the SemConv SIG: wherever a `cloud.*` value can be guaranteed to equal the bill, the `focus.*` key should be withdrawn in its favor.
+For a cloud-hosted resource, the same keys are also written as a refinement of the core `cloud` entity, so each `focus.*` key sits beside the `cloud.*` attribute nearest to it. The note on the refinement gives the reason each is not reused. This refinement is a proposal for discussion with the SemConv SIG: wherever a `cloud.*` value can be guaranteed to equal the bill, the `focus.*` key would be deprecated in its favor in a later release. Until then, every `focus.*` key is set even when its value matches the `cloud.*` attribute, so consumers can depend on it.
 
 | `focus.*` key | Nearest `cloud.*` attribute | Why it is not reused |
 |---|---|---|
 | `focus.service_provider.name` | `cloud.provider` | A fixed list of IDs such as `aws`; the bill uses the provider's name, and FOCUS covers SaaS and data-center providers too |
 | `focus.billing_account.id` | None | `cloud.*` has no account the bill is issued to, such as an AWS management account |
-| `focus.sub_account.id` | `cloud.account.id` | The same level. Kept only until `cloud.account.id` is shown to equal SubAccountId for every provider |
+| `focus.sub_account.id` | `cloud.account.id` | The same level, but not yet shown to equal SubAccountId for every provider |
 | `focus.resource.id` | `cloud.resource_id` | The monitored resource, which can differ from the billed one, such as a Lambda ARN with a version |
 | `focus.service.name` | `cloud.platform` | A fixed list of IDs such as `aws_ecs`; the bill uses the service's name, such as Amazon Elastic Container Service |
 
@@ -161,13 +161,13 @@ Set these only when the resource's own charge appears in FOCUS Cost and Usage da
 | Description | [`focus.resource.id`](/docs/registry/attributes/focus.md) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` When the resource is billed. | string | The identifier of the billed resource, exactly as it appears in the FOCUS ResourceId column. [3] | `arn:aws:ecs:us-east-1:210987654321:service/support/bot` |
 | Description | [`focus.service.name`](/docs/registry/attributes/focus.md) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` When the resource is billed. | string | The display name of the billed service offering, exactly as it appears in the FOCUS ServiceName column. [4] | `Amazon Bedrock`; `OpenAI API` |
 | Description | [`focus.service_provider.name`](/docs/registry/attributes/focus.md) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` When the resource is billed. | string | The name of the entity that provides the billed resource or service, exactly as it appears in the FOCUS ServiceProviderName column. [5] | `Amazon Web Services`; `Microsoft`; `OpenAI` |
-| Description | [`focus.sub_account.id`](/docs/registry/attributes/focus.md) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` [6] | string | The service-provider-assigned identifier of the sub account, exactly as it appears in the FOCUS SubAccountId column. [7] | `210987654321`; `my-gcp-project` |
-| Other | [`cloud.account.id`](https://opentelemetry.io/docs/specs/semconv/registry/attributes/cloud/) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | The cloud account ID the resource is assigned to. [8] | `111111111111`; `opentelemetry`; `22222222-2222-2222-2222-222222222222` |
-| Other | [`cloud.availability_zone`](https://opentelemetry.io/docs/specs/semconv/registry/attributes/cloud/) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Cloud regions often have multiple, isolated locations known as zones to increase availability. Availability zone represents the zone where the resource is running. [9] | `us-east-1c` |
-| Other | [`cloud.platform`](https://opentelemetry.io/docs/specs/semconv/registry/attributes/cloud/) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | The cloud platform in use. [10] | `akamai_cloud.compute`; `alibaba_cloud_ecs`; `alibaba_cloud_fc` [(see more)](#cloud-platform-values) |
+| Description | [`focus.sub_account.id`](/docs/registry/attributes/focus.md) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` When the resource is billed. | string | The service-provider-assigned identifier of the sub account, exactly as it appears in the FOCUS SubAccountId column. [6] | `210987654321`; `my-gcp-project` |
+| Other | [`cloud.account.id`](https://opentelemetry.io/docs/specs/semconv/registry/attributes/cloud/) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | The cloud account ID the resource is assigned to. [7] | `111111111111`; `opentelemetry`; `22222222-2222-2222-2222-222222222222` |
+| Other | [`cloud.availability_zone`](https://opentelemetry.io/docs/specs/semconv/registry/attributes/cloud/) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Cloud regions often have multiple, isolated locations known as zones to increase availability. Availability zone represents the zone where the resource is running. [8] | `us-east-1c` |
+| Other | [`cloud.platform`](https://opentelemetry.io/docs/specs/semconv/registry/attributes/cloud/) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | The cloud platform in use. [9] | `akamai_cloud.compute`; `alibaba_cloud_ecs`; `alibaba_cloud_fc` [(see more)](#cloud-platform-values) |
 | Other | [`cloud.provider`](https://opentelemetry.io/docs/specs/semconv/registry/attributes/cloud/) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Name of the cloud provider. | `akamai_cloud`; `alibaba_cloud`; `aws` [(see more)](#cloud-provider-values) |
-| Other | [`cloud.region`](https://opentelemetry.io/docs/specs/semconv/registry/attributes/cloud/) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | The geographical region within a cloud provider. When associated with a resource, this attribute specifies the region where the resource operates. When calling services or APIs deployed on a cloud, this attribute identifies the region where the called destination is deployed. [11] | `us-central1`; `us-east-1` |
-| Other | [`cloud.resource_id`](https://opentelemetry.io/docs/specs/semconv/registry/attributes/cloud/) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Cloud provider-specific native identifier of the monitored cloud resource (e.g. an [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) on AWS, a [fully qualified resource ID](https://learn.microsoft.com/rest/api/resources/resources/get-by-id) on Azure, a [full resource name](https://google.aip.dev/122#full-resource-names) on GCP) [12] | `arn:aws:lambda:REGION:ACCOUNT_ID:function:my-function`; `//run.googleapis.com/projects/PROJECT_ID/locations/LOCATION_ID/services/SERVICE_ID`; `/subscriptions/<SUBSCRIPTION_GUID>/resourceGroups/<RG>/providers/Microsoft.Web/sites/<FUNCAPP>/functions/<FUNC>` |
+| Other | [`cloud.region`](https://opentelemetry.io/docs/specs/semconv/registry/attributes/cloud/) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | The geographical region within a cloud provider. When associated with a resource, this attribute specifies the region where the resource operates. When calling services or APIs deployed on a cloud, this attribute identifies the region where the called destination is deployed. [10] | `us-central1`; `us-east-1` |
+| Other | [`cloud.resource_id`](https://opentelemetry.io/docs/specs/semconv/registry/attributes/cloud/) | ![Development](https://img.shields.io/badge/-development-blue) | `Recommended` | string | Cloud provider-specific native identifier of the monitored cloud resource (e.g. an [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) on AWS, a [fully qualified resource ID](https://learn.microsoft.com/rest/api/resources/resources/get-by-id) on Azure, a [full resource name](https://google.aip.dev/122#full-resource-names) on GCP) [11] | `arn:aws:lambda:REGION:ACCOUNT_ID:function:my-function`; `//run.googleapis.com/projects/PROJECT_ID/locations/LOCATION_ID/services/SERVICE_ID`; `/subscriptions/<SUBSCRIPTION_GUID>/resourceGroups/<RG>/providers/Microsoft.Web/sites/<FUNCAPP>/functions/<FUNC>` |
 
 **[1] `focus.billing_account.id`:** When the resource is billed and the value is known from configuration.
 
@@ -200,25 +200,23 @@ and its value MUST equal the bill exactly.
 ResourceId is unique only within a service provider, so joins on
 `focus.resource.id` also require this attribute.
 
-**[6] `focus.sub_account.id`:** When the resource is billed and `cloud.account.id` does not equal SubAccountId.
-
-**[7] `focus.sub_account.id`:** A sub account is the account a resource belongs to, such as an AWS member
+**[6] `focus.sub_account.id`:** A sub account is the account a resource belongs to, such as an AWS member
 account, an Azure subscription or a GCP project. This is the same level
 as `cloud.account.id`.
 
-**Open question:** this attribute may be withdrawn in favor of
+**Open question:** this attribute may be deprecated in favor of
 `cloud.account.id` if OpenTelemetry can guarantee bill-exact values
 across all providers, including SaaS.
 
-**[8] `cloud.account.id`:** For Azure, this is the subscription ID.
+**[7] `cloud.account.id`:** For Azure, this is the subscription ID.
 
-**[9] `cloud.availability_zone`:** Availability zones are called "zones" on Alibaba Cloud and Google Cloud.
+**[8] `cloud.availability_zone`:** Availability zones are called "zones" on Alibaba Cloud and Google Cloud.
 
-**[10] `cloud.platform`:** The prefix of the service SHOULD match the one specified in `cloud.provider`.
+**[9] `cloud.platform`:** The prefix of the service SHOULD match the one specified in `cloud.provider`.
 
-**[11] `cloud.region`:** Refer to your provider's docs to see the available regions, for example [Alibaba Cloud regions](https://www.alibabacloud.com/help/doc-detail/40654.htm), [AWS regions](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/), [Azure regions](https://azure.microsoft.com/global-infrastructure/geographies/), [Google Cloud regions](https://cloud.google.com/about/locations), or [Tencent Cloud regions](https://www.tencentcloud.com/document/product/213/6091).
+**[10] `cloud.region`:** Refer to your provider's docs to see the available regions, for example [Alibaba Cloud regions](https://www.alibabacloud.com/help/doc-detail/40654.htm), [AWS regions](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/), [Azure regions](https://azure.microsoft.com/global-infrastructure/geographies/), [Google Cloud regions](https://cloud.google.com/about/locations), or [Tencent Cloud regions](https://www.tencentcloud.com/document/product/213/6091).
 
-**[12] `cloud.resource_id`:** On some cloud providers, it may not be possible to determine the full ID at startup,
+**[11] `cloud.resource_id`:** On some cloud providers, it may not be possible to determine the full ID at startup,
 so it may be necessary to set `cloud.resource_id` as a span attribute instead.
 
 The exact value to use for `cloud.resource_id` depends on the cloud provider.

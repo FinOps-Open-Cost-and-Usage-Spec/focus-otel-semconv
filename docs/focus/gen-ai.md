@@ -204,7 +204,7 @@ ResourceId is unique only within a service provider, so joins on
 account, an Azure subscription or a GCP project. This is the same level
 as `cloud.account.id`.
 
-**Open question:** this attribute may be withdrawn in favor of
+**Open question:** this attribute may be deprecated in favor of
 `cloud.account.id` if OpenTelemetry can guarantee bill-exact values
 across all providers, including SaaS.
 
@@ -635,7 +635,7 @@ ResourceId is unique only within a service provider, so joins on
 account, an Azure subscription or a GCP project. This is the same level
 as `cloud.account.id`.
 
-**Open question:** this attribute may be withdrawn in favor of
+**Open question:** this attribute may be deprecated in favor of
 `cloud.account.id` if OpenTelemetry can guarantee bill-exact values
 across all providers, including SaaS.
 

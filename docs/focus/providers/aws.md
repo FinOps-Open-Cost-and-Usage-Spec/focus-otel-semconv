@@ -18,7 +18,7 @@ How to fill the `focus.*` keys so telemetry from AWS workloads joins to the AWS 
 |---|---|---|---|---|
 | `focus.service_provider.name` | ServiceProviderName | **Unconfirmed.** The AWS FOCUS 1.2 export documents ProviderName, not ServiceProviderName, and gives no literal value | Configuration | `cloud.provider` (`aws`), a fixed ID that is not the bill's display value |
 | `focus.billing_account.id` | BillingAccountId | **Unconfirmed:** expected to be the management (payer) account ID | Configuration; the Organizations API is callable only from the management account | None |
-| `focus.sub_account.id` | SubAccountId | **Unconfirmed:** expected to be the member account ID that owns the resource | Resource detectors | `cloud.account.id`, the same account. If its values match the export, it can replace this key for AWS |
+| `focus.sub_account.id` | SubAccountId | **Unconfirmed:** expected to be the member account ID that owns the resource | Resource detectors | `cloud.account.id`, the same account. Set both even if the values match |
 | `focus.resource.id` | ResourceId | **Unconfirmed:** expected to be the resource ARN | Derived from detector values; see [below](#resource-ids-by-service) | `cloud.resource_id`, which names the monitored resource |
 | `focus.service.name` | ServiceName | **Unconfirmed:** expected to be the full service name, such as `Amazon Bedrock` | Configuration, or a lookup from the detected platform | None |
 | `gen_ai.response.model` | SkuPriceDetails.ModelId | **Unconfirmed** for Bedrock | Bedrock instrumentation | Itself |
@@ -38,7 +38,7 @@ The billed resource can differ from the one telemetry describes. Each rule deriv
 ## Open items
 
 - Confirm each **unconfirmed** value against a FOCUS export.
-- Confirm whether `cloud.account.id` always equals SubAccountId. If it does, AWS is the first provider for which `focus.sub_account.id` could reuse it, which answers one of the [open questions](../README.md#open-questions).
+- Confirm whether `cloud.account.id` always equals SubAccountId for AWS. That is evidence toward one of the [open questions](../README.md#open-questions): `focus.sub_account.id` can be deprecated in favor of `cloud.account.id` only once the two match for every provider, never provider by provider.
 - The AWS export follows FOCUS 1.2, which predates ServiceProviderName. Joins on `focus.service_provider.name` need ProviderName as a stand-in until AWS publishes a later version.
 
 [DocumentStatus]: https://opentelemetry.io/docs/specs/otel/document-status

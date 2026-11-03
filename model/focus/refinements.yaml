@@ -196,7 +196,9 @@ entity_refinements:
   # a cloud-hosted OTel Resource. Each focus.* key is set beside its cloud.*
   # counterpart, with the reason it is not reused. This is a proposal for
   # discussion with the SemConv SIG: where a cloud.* value can be guaranteed
-  # to equal the bill, the focus.* key should be withdrawn in its favor.
+  # to equal the bill, the focus.* key would be deprecated in its favor in a
+  # later release. Until then, every focus.* key is set regardless, so
+  # consumers can depend on it.
   - id: focus.cloud
     ref: cloud
     brief: >
@@ -212,7 +214,8 @@ entity_refinements:
         account the bill is issued to, such as an AWS management account.
       - `focus.sub_account.id` is the same level as `cloud.account.id`. It is
         kept only until `cloud.account.id` is shown to equal SubAccountId for
-        every provider.
+        every provider. Until then it is set even when the two values match,
+        so consumers can depend on it.
       - `focus.resource.id` is the billed resource. `cloud.resource_id` is the
         monitored one, which can differ, such as a Lambda ARN with a version.
       - `focus.service.name` is the billed service offering, such as
@@ -231,7 +234,7 @@ entity_refinements:
           recommended: When the resource is billed and the value is known from configuration.
       - ref: focus.sub_account.id
         requirement_level:
-          recommended: When the resource is billed and `cloud.account.id` does not equal SubAccountId.
+          recommended: When the resource is billed.
       - ref: focus.resource.id
         requirement_level:
           recommended: When the resource is billed.
