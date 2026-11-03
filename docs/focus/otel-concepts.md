@@ -29,7 +29,7 @@ This page explains the OpenTelemetry (OTel) terms these conventions use, for rea
 | Sampling | Keeping only a share of traces to limit volume. Because traces are usually sampled and metrics are not, exact usage totals come from metrics, and spans supply proportions. |
 | Signal | A kind of telemetry. The main signals are traces, metrics, and logs. These conventions define no new signals; they add attributes to existing ones. |
 | Span | One timed operation, such as a model call or an agent step, with a name, a start and end time, and attributes. |
-| Span kind | The role of a span. A client span is an outgoing call to another service, such as a model provider's API; an internal span is work within one process, such as a workflow or agent step. The placement rules use this distinction: a called service's billing scope goes on the client span. |
+| Span kind | The role of a span. A client span is an outgoing call to another service, such as a model provider's API; an internal span is work within one process, such as a workflow or agent step. This registry's [placement rules](placement.md) use this distinction: a called service's billing scope goes on the client span. |
 | Trace | The tree of spans that one request produces as it moves through services, linked by a shared trace ID. |
 
 ## Semantic conventions
