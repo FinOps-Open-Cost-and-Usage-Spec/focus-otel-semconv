@@ -310,7 +310,7 @@ The rules assume an ID is known when the span is created. That holds for some ID
 - **`focus.task.id`:** usually known at runtime, because it is typically an existing business key such as a ticket, pull request, or job ID. When it is not, it is linked afterward by mapping an attribute the span already carries, such as the trace ID or a business key, to the task in the Task dataset.
 - **`focus.outcome.id`:** often not known at runtime, because outcomes are verified later, such as a deflection confirmed days afterward or a pull request that survives its SLA window. It is linked through the Task dataset, which records each task's OutcomeId.
 
-Linking after the fact means joining downstream, not editing telemetry. Exported spans cannot change, so late links are made at ingest, through Collector or backend enrichment from a lookup, or in the Telemetry dataset. Spans that are never linked roll up as `UNLINKED_SCRAP`.
+Linking after the fact means joining downstream, not editing telemetry. Exported spans cannot change, so late links are made at ingest, through Collector or backend enrichment from a lookup, or in the Telemetry dataset. Spans that are never linked roll up as `UNLINKED`.
 
 The practical minimum at runtime is therefore `focus.workload.id` and `focus.task.id`. `focus.outcome.id` is needed on spans only for a direct path from telemetry to outcomes, used when a team does not track tasks.
 
@@ -322,7 +322,7 @@ Spans are not joined to the bill one by one. They are aggregated into the Teleme
 - **Keys:** each row is grouped by the billing-scope keys, the model, and the value-attribution IDs, over a window aligned to the FOCUS charge period.
 - **Measures:** traces are usually sampled and metrics are not, so exact usage totals come from metrics labeled by workload and billing scope, while sampled spans supply per-task proportions.
 - **Joins:** rows join to Cost and Usage on the billing-scope keys and charge period, and to Task and Outcome on `focus.task.id` and `focus.outcome.id`. EffectiveCost is then apportioned across the tasks sharing a scope.
-- **Unlinked work:** spans with no task ID roll up with TaskId and OutcomeId set to `UNLINKED_SCRAP`, so all cost still reconciles.
+- **Unlinked work:** spans with no task ID roll up with TaskId and OutcomeId set to `UNLINKED`, so all cost still reconciles.
 
 Weighting and apportionment formulas are out of scope for this registry. They belong to the companion specification.
 
