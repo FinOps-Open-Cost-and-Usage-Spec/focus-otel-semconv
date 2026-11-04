@@ -321,9 +321,9 @@ Spans are not joined to the bill one by one. They are aggregated into the Teleme
 - **Grain:** leaf inference and tool spans are rolled up into hourly or daily windows, and span and trace IDs are dropped.
 - **Keys:** each row is grouped by the billing-scope keys, the model, and the value-attribution IDs, over a window aligned to the FOCUS charge period.
 - **Measures:** traces are usually sampled and metrics are not, so exact usage totals come from metrics labeled by workload and billing scope, while sampled spans supply per-task proportions.
-- **Joins:** rows join to Cost and Usage on the billing-scope keys and charge period, and to Task and Outcome on `focus.task.id` and `focus.outcome.id`. EffectiveCost is then apportioned across the tasks sharing a scope.
+- **Joins:** rows join to Cost and Usage on the billing-scope keys and charge period, and to Task and Outcome on `focus.task.id` and `focus.outcome.id`. EffectiveCost is then allocated across the tasks sharing a scope. This is shared cost allocation done by the practitioner, distinct from FOCUS's split cost allocation, which the data generator calculates in Cost and Usage.
 - **Unlinked work:** spans with no task ID roll up with TaskId and OutcomeId set to `UNLINKED`, so all cost still reconciles.
 
-Weighting and apportionment formulas are out of scope for this registry. They belong to the companion specification.
+Weighting and allocation formulas are out of scope for this registry. They belong to the companion specification.
 
 [DocumentStatus]: https://opentelemetry.io/docs/specs/otel/document-status

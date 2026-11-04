@@ -208,7 +208,7 @@ as `cloud.account.id`.
 `cloud.account.id` if OpenTelemetry can guarantee bill-exact values
 across all providers, including SaaS.
 
-**[20] `focus.task.id`:** A task is the unit of work that cost is apportioned to, such as a support
+**[20] `focus.task.id`:** A task is the unit of work that cost is allocated to, such as a support
 ticket, pull request, or batch job. It is usually an existing business key
 known at runtime.
 
@@ -640,7 +640,7 @@ as `cloud.account.id`.
 `cloud.account.id` if OpenTelemetry can guarantee bill-exact values
 across all providers, including SaaS.
 
-**[12] `focus.task.id`:** A task is the unit of work that cost is apportioned to, such as a support
+**[12] `focus.task.id`:** A task is the unit of work that cost is allocated to, such as a support
 ticket, pull request, or batch job. It is usually an existing business key
 known at runtime.
 
@@ -1810,7 +1810,7 @@ available for a given framework, this attribute MUST NOT be captured by default.
 Semantic conventions for individual Generative AI frameworks SHOULD document
 what `gen_ai.workflow.name` means in the context of that framework.
 
-**[6] `focus.task.id`:** A task is the unit of work that cost is apportioned to, such as a support
+**[6] `focus.task.id`:** A task is the unit of work that cost is allocated to, such as a support
 ticket, pull request, or batch job. It is usually an existing business key
 known at runtime.
 
@@ -1970,7 +1970,7 @@ libraries.
 This attribute specifies the output modality and not the actual output format. For example, if an image is requested, the actual output could be a URL pointing to an image file.
 Additional output format details may be recorded in the future in the `gen_ai.output.{type}.*` attributes.
 
-**[8] `focus.task.id`:** A task is the unit of work that cost is apportioned to, such as a support
+**[8] `focus.task.id`:** A task is the unit of work that cost is allocated to, such as a support
 ticket, pull request, or batch job. It is usually an existing business key
 known at runtime.
 
@@ -2301,7 +2301,7 @@ Additional output format details may be recorded in the future in the `gen_ai.ou
 
 **[10] `server.port`:** When observed from the client side, and when communicating through an intermediary, `server.port` SHOULD represent the server port behind any intermediaries, for example proxies, if it's available.
 
-**[11] `focus.task.id`:** A task is the unit of work that cost is apportioned to, such as a support
+**[11] `focus.task.id`:** A task is the unit of work that cost is allocated to, such as a support
 ticket, pull request, or batch job. It is usually an existing business key
 known at runtime.
 
@@ -2649,7 +2649,7 @@ libraries.
 **[5] `gen_ai.tool.call.id`:** This attribute SHOULD be set to the identifier received from the model or provider
 if and only if one was supplied.
 
-**[6] `focus.task.id`:** A task is the unit of work that cost is apportioned to, such as a support
+**[6] `focus.task.id`:** A task is the unit of work that cost is allocated to, such as a support
 ticket, pull request, or batch job. It is usually an existing business key
 known at runtime.
 

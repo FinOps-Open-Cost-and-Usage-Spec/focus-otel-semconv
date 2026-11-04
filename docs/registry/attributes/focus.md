@@ -62,7 +62,7 @@ as `cloud.account.id`.
 `cloud.account.id` if OpenTelemetry can guarantee bill-exact values
 across all providers, including SaaS.
 
-**[7] `focus.task.id`:** A task is the unit of work that cost is apportioned to, such as a support
+**[7] `focus.task.id`:** A task is the unit of work that cost is allocated to, such as a support
 ticket, pull request, or batch job. It is usually an existing business key
 known at runtime.
 

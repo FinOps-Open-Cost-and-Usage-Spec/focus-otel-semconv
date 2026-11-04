@@ -135,7 +135,7 @@ attributes:
     stability: development
     brief: The identifier of the task that this work was done for.
     note: |
-      A task is the unit of work that cost is apportioned to, such as a support
+      A task is the unit of work that cost is allocated to, such as a support
       ticket, pull request, or batch job. It is usually an existing business key
       known at runtime.
 

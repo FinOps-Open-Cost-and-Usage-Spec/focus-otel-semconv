@@ -140,7 +140,7 @@ dataset, which records each task's OutcomeId.
 
 This attribute MUST NOT be set on metrics.
 
-**[2] `focus.task.id`:** A task is the unit of work that cost is apportioned to, such as a support
+**[2] `focus.task.id`:** A task is the unit of work that cost is allocated to, such as a support
 ticket, pull request, or batch job. It is usually an existing business key
 known at runtime.
 
