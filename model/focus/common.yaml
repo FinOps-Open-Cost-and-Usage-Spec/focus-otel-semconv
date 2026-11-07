@@ -1,0 +1,55 @@
+file_format: definition/2
+
+# Public attribute groups: named sets of focus.* keys, defined once and used
+# by reference.
+#
+# - The docs render each group as a table (docs/focus/README.md).
+# - Live-check compares samples with these groups (reference/.weaver.toml),
+#   since Weaver 0.28 does not match telemetry to refinements.
+#
+# They must stay public: Weaver drops internal groups when it resolves a
+# registry, so live-check could not see them. Requirement levels belong to the
+# refinements in spans.yaml, metrics.yaml, and entities.yaml, not to these
+# groups.
+
+attribute_groups:
+  - id: attributes.focus.billing_scope
+    visibility: public
+    brief: >
+      Billing-scope keys that locate a telemetry record's charge in the FOCUS
+      Cost and Usage dataset.
+    stability: development
+    attributes:
+      - ref: focus.service_provider.name
+      - ref: focus.billing_account.id
+      - ref: focus.sub_account.id
+      - ref: focus.resource.id
+      - ref: focus.service.name
+      - ref: gen_ai.response.model
+
+  - id: attributes.focus.value_attribution
+    visibility: public
+    brief: >
+      IDs that link a telemetry record to the workload, task, and outcome it
+      served. Set on spans and propagated in baggage.
+    stability: development
+    attributes:
+      - ref: focus.workload.id
+      - ref: focus.task.id
+      - ref: focus.outcome.id
+
+  - id: attributes.focus.metric_keys
+    visibility: public
+    brief: >
+      The FOCUS keys that may be set on metrics: the billing-scope keys and the
+      workload. Task and outcome IDs are left out, since one value per task
+      would create unbounded metric series.
+    stability: development
+    attributes:
+      - ref: focus.service_provider.name
+      - ref: focus.billing_account.id
+      - ref: focus.sub_account.id
+      - ref: focus.resource.id
+      - ref: focus.service.name
+      - ref: gen_ai.response.model
+      - ref: focus.workload.id
