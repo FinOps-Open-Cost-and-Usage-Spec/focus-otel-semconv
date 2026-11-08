@@ -18,7 +18,7 @@ body:
     id: need
     attributes:
       label: Telemetry need
-      description: What telemetry (metric, span or resource) do you want to link to FOCUS data, and why?
+      description: What telemetry (span, metric, log or resource) do you want to link to FOCUS data, and why?
     validations:
       required: true
 
@@ -26,7 +26,7 @@ body:
     id: focus-data
     attributes:
       label: Related FOCUS data
-      description: Which FOCUS columns, FOCUS Attributes or requirements does this relate to? Give the FOCUS version and requirement ID where you can.
+      description: Which FOCUS columns or requirements does this relate to? Give the FOCUS version and requirement ID where you can.
     validations:
       required: true
 
@@ -41,7 +41,7 @@ body:
   - type: input
     id: suggested-name
     attributes:
-      label: Suggested attribute name (optional)
+      label: Suggested convention name (optional)
       placeholder: focus.
 
   - type: textarea
