@@ -8,48 +8,48 @@ Pull requests without the Contributor License Agreement checkbox ticked will not
 
 <!-- Tick one. -->
 
-- [ ] New `focus.*` identifier registration (submitted by a FOCUS Submitter after FOCUS WG approval)
-- [ ] Change to or deprecation of a registered identifier (submitted by a FOCUS Submitter after FOCUS WG approval)
-- [ ] Editorial or repository change (typos, documentation, CI). This must not change any identifier definition
+- [ ] New `focus.*` convention registration (submitted by a FOCUS Submitter after FOCUS WG approval)
+- [ ] Change to or deprecation of a registered convention (submitted by a FOCUS Submitter after FOCUS WG approval)
+- [ ] Editorial or repository change (typos, documentation, CI). This must not change any convention definition
 
 ## Related issue
 
-<!-- Every identifier registration, change or deprecation must link its issue. Editorial changes may skip this. -->
+<!-- Every convention registration, change or deprecation must link its issue. Editorial changes may skip this. -->
 
 Closes #
 
-## Identifier details
+## Convention details
 
-<!-- Required for identifier registrations, changes and deprecations. Delete this section for editorial changes. -->
+<!-- Required for convention registrations, changes and deprecations. Delete this section for editorial changes. -->
 
-- **Identifier:** `focus.`
-- **FOCUS WG decision record:** <!-- link to the minutes, issue or decision that approved this identifier -->
-- **FOCUS reference:** <!-- FOCUS version and requirement ID (e.g. FOCUS 1.2, requirement ID), or a FOCUS WG-approved companion specification by name, version and decision record. Reference the requirement; do not copy FOCUS specification text. -->
+- **Convention name:** `focus.`
+- **FOCUS WG decision record:** <!-- link to the minutes, issue or decision that approved this convention -->
+- **FOCUS reference:** <!-- FOCUS version and requirement ID of the column or requirement (e.g. FOCUS 1.2, requirement ID), or a FOCUS WG-approved companion specification by name, version and decision record. Reference the requirement; do not copy FOCUS specification text. -->
 - **Replaces / deprecates:** <!-- for changes and deprecations only; otherwise "None" -->
 
 ### Rationale
 
-<!-- Why this identifier is needed and what telemetry it links to FOCUS data. -->
+<!-- Why this convention is needed and what telemetry it links to FOCUS data. -->
 
 ### Compatibility considerations
 
-<!-- Impact on existing identifiers, OpenTelemetry semantic conventions, and implementers. -->
+<!-- Impact on existing conventions, OpenTelemetry semantic conventions, and implementers. -->
 
 ## Submitter checklist
 
 - [ ] The change is within the `focus.*` namespace and the [Scope](https://github.com/FinOps-Open-Cost-and-Usage-Spec/focus-otel-semconv/blob/main/02-scope.md).
 - [ ] FOCUS requirements are cited by version and requirement ID, or a FOCUS WG-approved companion specification by name, version and decision record, not copied.
 - [ ] Any reviewer suggestions adopted are written in my own words, not copied from the reviewer's text.
-- [ ] No registered identifier is deleted or reused (deprecation only).
+- [ ] No registered convention is deleted or reused (deprecation only).
 
 ## OpenTelemetry review record
 
-<!-- Completed by the Editor before merge, for identifier registrations, changes and deprecations. Delete this section for editorial changes. -->
+<!-- Completed by the Editor before merge, for convention registrations, changes and deprecations. Delete this section for editorial changes. -->
 
-- **Review window opened:** <!-- date this pull request was opened -->
-- **Outcome:** <!-- reviewed and no objection / reviewed with changes, now addressed / objection, resolved by the Maintainer (link) / no review within 7 days, follow-up sent (link) -->
+- **Review requested:** <!-- date this pull request was opened -->
+- **Outcome:** <!-- reviewed and no objection / reviewed with changes, now addressed / objection, resolved by the Maintainer (link) / no review before consensus, follow-up sent (link) -->
 
-- [ ] The OpenTelemetry review outcome above is recorded, or the 7-day window closed without a review and the follow-up is linked.
+- [ ] The OpenTelemetry review outcome above is recorded, or no review was received before consensus and the follow-up is linked.
 
 ## Contributor License Agreement
 
