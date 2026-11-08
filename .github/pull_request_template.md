@@ -22,9 +22,9 @@ Closes #
 
 <!-- Required for convention registrations, changes and deprecations. Delete this section for editorial changes. -->
 
-- **Attribute:** `focus.`
+- **Convention name:** `focus.`
 - **FOCUS WG decision record:** <!-- link to the minutes, issue or decision that approved this convention -->
-- **FOCUS reference:** <!-- FOCUS version and requirement ID of the column, FOCUS Attribute or requirement (e.g. FOCUS 1.2, requirement ID), or a FOCUS WG-approved companion specification by name, version and decision record. Reference the requirement; do not copy FOCUS specification text. -->
+- **FOCUS reference:** <!-- FOCUS version and requirement ID of the column or requirement (e.g. FOCUS 1.2, requirement ID), or a FOCUS WG-approved companion specification by name, version and decision record. Reference the requirement; do not copy FOCUS specification text. -->
 - **Replaces / deprecates:** <!-- for changes and deprecations only; otherwise "None" -->
 
 ### Rationale
@@ -47,7 +47,7 @@ Closes #
 <!-- Completed by the Editor before merge, for convention registrations, changes and deprecations. Delete this section for editorial changes. -->
 
 - **Review window opened:** <!-- date this pull request was opened -->
-- **Outcome:** <!-- reviewed and no objection / reviewed with changes, now addressed / objection, resolved by the Maintainer (link) / no review within 7 days, follow-up sent (link) -->
+- **Outcome:** <!-- reviewed and no objection / reviewed with changes, now addressed / objection, resolved by the Maintainer (link) / no review before consensus, follow-up sent (link) -->
 
 - [ ] The OpenTelemetry review outcome above is recorded, or the 7-day window closed without a review and the follow-up is linked.
 
