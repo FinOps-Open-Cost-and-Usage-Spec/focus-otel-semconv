@@ -78,7 +78,7 @@ Every decision is recorded in the issue or pull request, including decisions tak
 
 ## Participating
 
-Anyone can take part in this repository.
+Anyone can take part in this repository, including people and organizations outside FOCUS. Anyone can propose a `focus.*` convention, but registering one requires FOCUS WG approval and a pull request from a FOCUS Submitter.
 
 | You want to… | How | CLA needed? |
 |---|---|---|
