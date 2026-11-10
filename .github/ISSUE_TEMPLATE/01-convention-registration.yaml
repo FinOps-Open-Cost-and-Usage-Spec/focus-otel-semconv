@@ -24,10 +24,10 @@ body:
       required: true
 
   - type: input
-    id: attribute
+    id: convention-name
     attributes:
-      label: Attribute
-      description: The full attribute name, in the focus.* namespace.
+      label: Convention name
+      description: The full name of the attribute or attribute group, in the focus.* namespace.
       placeholder: focus.
     validations:
       required: true
@@ -44,7 +44,7 @@ body:
     id: focus-reference
     attributes:
       label: FOCUS reference
-      description: FOCUS version and requirement ID of the column, FOCUS Attribute or requirement, or FOCUS WG-approved companion specification / decision record. Reference the requirement; do not copy FOCUS specification text.
+      description: FOCUS version and requirement ID of the column or requirement, or FOCUS WG-approved companion specification / decision record. Reference the requirement; do not copy FOCUS specification text.
       placeholder: e.g., FOCUS 1.2, requirement ID (or companion spec reference)
     validations:
       required: true

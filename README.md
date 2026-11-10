@@ -1,6 +1,6 @@
 # FOCUS Semantic Conventions for OpenTelemetry (`focus.*`)
 
-This repository is the official registry of `focus.*` conventions: OpenTelemetry semantic conventions that link OpenTelemetry telemetry (metrics, spans and resources) to [FOCUS](https://focus.finops.org) cost, usage, and value-attribution / unit-economics data. Registering conventions here does not change the FOCUS dataset itself.
+This repository is the official registry of `focus.*` conventions: OpenTelemetry semantic conventions that link OpenTelemetry telemetry (spans, metrics, logs and resources) to [FOCUS](https://focus.finops.org) cost, usage, and value-attribution / unit-economics data. Registering conventions here does not change the FOCUS dataset itself.
 
 FOCUS owns the meaning of each convention. The focus-otel-semconv Working Group approves and publishes the registry under the Community Specification. The OpenTelemetry Semantic Conventions SIG designates reviewers who check each convention for consistency with OpenTelemetry semantic conventions and tooling (Weaver).
 
@@ -15,11 +15,7 @@ A convention is a pointer to the FOCUS specification. It does not restate or rep
 
 ## Terminology
 
-This repository uses three terms with a fixed meaning:
-
-- **Attribute:** as in OpenTelemetry, a named field on a resource, span or metric. The registry's Weaver YAML uses the same term.
-- **FOCUS Attribute:** as in FOCUS, a set of requirements that applies across columns and datasets. It is always written in full and capitalized, never as "attribute" alone.
-- **Convention:** anything this registry defines, such as an attribute.
+The terms used in this repository are defined in [Terminology](02-scope.md#terminology).
 
 ## Scope
 
@@ -102,7 +98,7 @@ The branch a convention passes through decides which agreement its drafting is m
 1. **Drafting on `wg-staging`.** The YAML definition is authored on the long-lived `wg-staging` branch in this repository, so that CI and Weaver lint run against the real artifact. Anyone taking part in the FOCUS WG can propose changes to `wg-staging` by pull request, under the Contributor License Agreement checkbox, linked to the Convention proposal issue where there is one. Work on `wg-staging` is drafting only: nothing there is registered, and the branch is never merged into `main` as a whole.
 2. **FOCUS WG approval.** The FOCUS Working Group reviews the YAML on `wg-staging` and decides whether to approve it, through its own process under the FOCUS WG Charter. The decision is written up as the FOCUS WG decision record.
 3. **Registration issue.** With the FOCUS WG's approval recorded, a FOCUS Submitter opens a convention registration issue in this repository, linking the FOCUS WG decision record and the approved `wg-staging` content.
-4. **Pull request.** A FOCUS Submitter opens a pull request from the approved `wg-staging` content to `main`, linked to the issue and the FOCUS WG decision record. Opening this pull request starts the OpenTelemetry review window. The pull request describes the convention, its rationale, compatibility considerations and the related FOCUS column, FOCUS Attribute or requirement, cited by FOCUS version and requirement ID, or the FOCUS WG-approved companion specification it comes from, by name, version and decision record. FOCUS specification text is referenced, not copied. The pull request must confirm the Contributor License Agreement (see [Contributing](#contributing)).
+4. **Pull request.** A FOCUS Submitter opens a pull request from the approved `wg-staging` content to `main`, linked to the issue and the FOCUS WG decision record. Opening this pull request starts the OpenTelemetry review window. The pull request describes the convention, its rationale, compatibility considerations and the related FOCUS column or requirement, cited by FOCUS version and requirement ID, or the FOCUS WG-approved companion specification it comes from, by name, version and decision record. FOCUS specification text is referenced, not copied. The pull request must confirm the Contributor License Agreement (see [Contributing](#contributing)).
 5. **Automated checks.** GitHub Actions validates the pull request: CLA confirmation, schema compliance, uniqueness, references and the other registry rules.
 6. **OpenTelemetry review.** OpenTelemetry reviewers check the convention for consistency with OpenTelemetry semantic conventions. They are expected to review it within 15 days of submission. If no review is received in that time, a FOCUS Submitter follows up with the OpenTelemetry reviewers for a response. Reviewers may comment, request changes or object. An objection is considered when consensus is determined. It is not an automatic veto (see [Consensus, objections and appeals](#consensus-objections-and-appeals)). The outcome, including a window that closed without a review, is recorded in the OpenTelemetry review record in the pull request, so that the review is auditable after the fact.
 7. **Suggested changes go back to the FOCUS WG.** Any change suggested by a third party, including the OpenTelemetry reviewers, goes back to the FOCUS WG for discussion, review and approval. The revision is made on `wg-staging` so the checks run against it. Once the FOCUS WG has approved the revised convention, a FOCUS Submitter updates the pull request and the OpenTelemetry reviewers review it a second time.
@@ -115,7 +111,7 @@ Every decision is recorded in the issue or pull request, including decisions tak
 
 ## Participating
 
-Anyone can take part in this repository.
+Anyone can take part in this repository, including people and organizations outside FOCUS. Anyone can propose a `focus.*` convention, but registering one requires FOCUS WG approval and a pull request from a FOCUS Submitter.
 
 | You want to… | How | CLA needed? |
 |---|---|---|

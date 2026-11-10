@@ -22,9 +22,9 @@ Closes #
 
 <!-- Required for convention registrations, changes and deprecations. Delete this section for editorial changes. -->
 
-- **Attribute:** `focus.`
+- **Convention name:** `focus.`
 - **FOCUS WG decision record:** <!-- link to the minutes, issue or decision that approved this convention -->
-- **FOCUS reference:** <!-- FOCUS version and requirement ID of the column, FOCUS Attribute or requirement (e.g. FOCUS 1.2, requirement ID), or a FOCUS WG-approved companion specification by name, version and decision record. Reference the requirement; do not copy FOCUS specification text. -->
+- **FOCUS reference:** <!-- FOCUS version and requirement ID of the column or requirement (e.g. FOCUS 1.2, requirement ID), or a FOCUS WG-approved companion specification by name, version and decision record. Reference the requirement; do not copy FOCUS specification text. -->
 - **Replaces / deprecates:** <!-- for changes and deprecations only; otherwise "None" -->
 
 ### Rationale
