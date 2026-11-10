@@ -218,9 +218,10 @@ would create unbounded metric series.
 **[21] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because the caller sets it from configuration on
-each request and propagates it in baggage, so that shared services
-attribute their work to the caller.
+workload (one deployment), because it is set per request: the service
+where a request starts sets it from configuration and propagates it in
+baggage, and services downstream use the value they receive, so that
+shared services attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -650,9 +651,10 @@ would create unbounded metric series.
 **[13] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because the caller sets it from configuration on
-each request and propagates it in baggage, so that shared services
-attribute their work to the caller.
+workload (one deployment), because it is set per request: the service
+where a request starts sets it from configuration and propagates it in
+baggage, and services downstream use the value they receive, so that
+shared services attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -810,9 +812,10 @@ ResourceId is unique only within a service provider, so joins on
 **[9] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because the caller sets it from configuration on
-each request and propagates it in baggage, so that shared services
-attribute their work to the caller.
+workload (one deployment), because it is set per request: the service
+where a request starts sets it from configuration and propagates it in
+baggage, and services downstream use the value they receive, so that
+shared services attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -984,9 +987,10 @@ ResourceId is unique only within a service provider, so joins on
 **[9] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because the caller sets it from configuration on
-each request and propagates it in baggage, so that shared services
-attribute their work to the caller.
+workload (one deployment), because it is set per request: the service
+where a request starts sets it from configuration and propagates it in
+baggage, and services downstream use the value they receive, so that
+shared services attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -1158,9 +1162,10 @@ ResourceId is unique only within a service provider, so joins on
 **[9] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because the caller sets it from configuration on
-each request and propagates it in baggage, so that shared services
-attribute their work to the caller.
+workload (one deployment), because it is set per request: the service
+where a request starts sets it from configuration and propagates it in
+baggage, and services downstream use the value they receive, so that
+shared services attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -1330,9 +1335,10 @@ ResourceId is unique only within a service provider, so joins on
 **[9] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because the caller sets it from configuration on
-each request and propagates it in baggage, so that shared services
-attribute their work to the caller.
+workload (one deployment), because it is set per request: the service
+where a request starts sets it from configuration and propagates it in
+baggage, and services downstream use the value they receive, so that
+shared services attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -1502,9 +1508,10 @@ ResourceId is unique only within a service provider, so joins on
 **[9] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because the caller sets it from configuration on
-each request and propagates it in baggage, so that shared services
-attribute their work to the caller.
+workload (one deployment), because it is set per request: the service
+where a request starts sets it from configuration and propagates it in
+baggage, and services downstream use the value they receive, so that
+shared services attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -1670,9 +1677,10 @@ ResourceId is unique only within a service provider, so joins on
 **[9] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because the caller sets it from configuration on
-each request and propagates it in baggage, so that shared services
-attribute their work to the caller.
+workload (one deployment), because it is set per request: the service
+where a request starts sets it from configuration and propagates it in
+baggage, and services downstream use the value they receive, so that
+shared services attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -1820,9 +1828,10 @@ would create unbounded metric series.
 **[7] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because the caller sets it from configuration on
-each request and propagates it in baggage, so that shared services
-attribute their work to the caller.
+workload (one deployment), because it is set per request: the service
+where a request starts sets it from configuration and propagates it in
+baggage, and services downstream use the value they receive, so that
+shared services attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -1980,9 +1989,10 @@ would create unbounded metric series.
 **[9] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because the caller sets it from configuration on
-each request and propagates it in baggage, so that shared services
-attribute their work to the caller.
+workload (one deployment), because it is set per request: the service
+where a request starts sets it from configuration and propagates it in
+baggage, and services downstream use the value they receive, so that
+shared services attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -2311,9 +2321,10 @@ would create unbounded metric series.
 **[12] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because the caller sets it from configuration on
-each request and propagates it in baggage, so that shared services
-attribute their work to the caller.
+workload (one deployment), because it is set per request: the service
+where a request starts sets it from configuration and propagates it in
+baggage, and services downstream use the value they receive, so that
+shared services attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 
@@ -2659,9 +2670,10 @@ would create unbounded metric series.
 **[7] `focus.workload.id`:** A workload may span many services and share services with other
 workloads. It differs from `service.name` (one deployed application),
 `service.namespace` (fixed per service on the Resource) and a Kubernetes
-workload (one deployment), because the caller sets it from configuration on
-each request and propagates it in baggage, so that shared services
-attribute their work to the caller.
+workload (one deployment), because it is set per request: the service
+where a request starts sets it from configuration and propagates it in
+baggage, and services downstream use the value they receive, so that
+shared services attribute their work to the caller.
 
 This attribute is low-cardinality and MAY be set on metrics.
 

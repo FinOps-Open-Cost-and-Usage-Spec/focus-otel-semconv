@@ -145,7 +145,7 @@ attributes:
     annotations:
       focus:
         companion_specification: 'Value Attribution Data Architecture: Schema and Explainer'
-        companion_version: '0.1.4'
+        companion_version: '0.1.6'
         dataset: Task
         column: TaskId
         decision_record: null
@@ -165,7 +165,7 @@ attributes:
     annotations:
       focus:
         companion_specification: 'Value Attribution Data Architecture: Schema and Explainer'
-        companion_version: '0.1.4'
+        companion_version: '0.1.6'
         dataset: Outcome
         column: OutcomeId
         decision_record: null
@@ -180,16 +180,17 @@ attributes:
       A workload may span many services and share services with other
       workloads. It differs from `service.name` (one deployed application),
       `service.namespace` (fixed per service on the Resource) and a Kubernetes
-      workload (one deployment), because the caller sets it from configuration on
-      each request and propagates it in baggage, so that shared services
-      attribute their work to the caller.
+      workload (one deployment), because it is set per request: the service
+      where a request starts sets it from configuration and propagates it in
+      baggage, and services downstream use the value they receive, so that
+      shared services attribute their work to the caller.
 
       This attribute is low-cardinality and MAY be set on metrics.
     examples: ['support-bot', 'coding-agent']
     annotations:
       focus:
         companion_specification: 'Value Attribution Data Architecture: Schema and Explainer'
-        companion_version: '0.1.4'
+        companion_version: '0.1.6'
         dataset: All
         column: WorkloadId
         decision_record: null

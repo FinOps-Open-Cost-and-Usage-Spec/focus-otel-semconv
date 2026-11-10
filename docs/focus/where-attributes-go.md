@@ -9,6 +9,9 @@
 - [Cloud](#cloud)
 - [When IDs are known](#when-ids-are-known)
 - [From telemetry to the Telemetry dataset](#from-telemetry-to-the-telemetry-dataset)
+  - [Column mapping](#column-mapping)
+  - [Building and joining rows](#building-and-joining-rows)
+  - [Versioning](#versioning)
 
 <!-- tocstop -->
 
@@ -17,8 +20,8 @@ The registry defines no new signals. These rules say where `focus.*` attributes 
 ## Rules
 
 1. **Billing scope of the emitting service goes on the OTel Resource.** When a process is itself a billed resource (a container service, a VM), its billing-scope keys go on its OTel Resource, so every span, metric, and log it emits carries them.
-2. **Billing scope of a called service goes on the client span.** When a process calls a billed API or SaaS (a model provider, a managed database), that call's billing-scope keys go on the client span for the call, not on the caller's OTel Resource.
-3. **Value-attribution IDs go on spans and travel in baggage.** `focus.workload.id`, `focus.task.id`, and `focus.outcome.id` MAY be set on any span doing work for a task, and SHOULD be propagated in OTel baggage so shared services (a central search index, a guardrail service) attribute their work to the caller. `focus.outcome.id` is optional, since outcomes are usually linked later. The GenAI workflow, agent, and tool spans are written as refinements that name where a task usually starts and what it calls; see [workflow, agent, and tool spans](gen-ai.md#workflow-agent-and-tool-spans).
+2. **Billing scope of a called service goes on the client span.** When a process calls a billed API or SaaS (a model provider, a managed database), that call's billing-scope keys go on the client span for the call, not on the caller's OTel Resource. A billing-scope key set on a span overrides the OTel Resource's value for that span, and the rollup resolves this before merging the two. The client span therefore counts toward the called service's charge, and the emitting service's own charge is weighted by its remaining spans, such as the server span that handled the request.
+3. **Value-attribution IDs go on spans and travel in baggage.** `focus.workload.id`, `focus.task.id`, and `focus.outcome.id` MAY be set on any span doing work for a task, and SHOULD be propagated in OTel baggage so shared services (a central search index, a guardrail service) attribute their work to the caller. When a request arrives with `focus.workload.id` in baggage, the service uses that value for the work it does on the request, including its metrics, and propagates it unchanged; its own configured value applies only when none arrives, as for background jobs. `focus.outcome.id` is optional, since outcomes are usually linked later. Baggage is sent on outgoing requests, so deployments should decide whether to include `focus.*` baggage for calls leaving the organization, and services at the organization's edge SHOULD drop incoming `focus.*` baggage, so outside callers cannot assign cost to a workload. The GenAI workflow, agent, and tool spans are written as refinements that name where a task usually starts and what it calls; see [workflow, agent, and tool spans](gen-ai.md#workflow-agent-and-tool-spans).
 4. **Only low-cardinality keys go on metrics.** Billing-scope keys and `focus.workload.id` MAY be set on metrics; the model lists them as `attributes.focus.metric_keys`. `focus.task.id` and `focus.outcome.id` MUST NOT be, since one value per task would create unbounded metric series.
 
 ## Service instance
@@ -306,24 +309,56 @@ The following well-known definitions MUST be used if you set this attribute and 
 
 The rules assume an ID is known when the span is created. That holds for some IDs and not others.
 
-- **`focus.workload.id`:** almost always known at runtime, since the caller sets it from configuration and propagates it in baggage.
+- **`focus.workload.id`:** almost always known at runtime. The service where a request starts sets it from configuration and adds it to baggage; services downstream take it from baggage (see [rule 3](#rules)).
 - **`focus.task.id`:** usually known at runtime, because it is typically an existing business key such as a ticket, pull request, or job ID. When it is not, it is linked afterward by mapping an attribute the span already carries, such as the trace ID or a business key, to the task in the Task dataset.
 - **`focus.outcome.id`:** often not known at runtime, because outcomes are verified later, such as a deflection confirmed days afterward or a pull request that survives its SLA window. It is linked through the Task dataset, which records each task's OutcomeId.
 
 Linking after the fact means joining downstream, not editing telemetry. Exported spans cannot change, so late links are made at ingest, through Collector or backend enrichment from a lookup, or in the Telemetry dataset. Spans that are never linked roll up as `UNLINKED`.
 
-The practical minimum at runtime is therefore `focus.workload.id` and `focus.task.id`. `focus.outcome.id` is needed on spans only for a direct path from telemetry to outcomes, used when a team does not track tasks.
+The minimum depends on the attribution mode the companion specification describes. Attributing cost to each workload (its Cohort Mode) needs only the billing-scope keys and `focus.workload.id` on metrics; attributing it to each task (Atomic Mode) also needs `focus.task.id` on spans. `focus.outcome.id` is needed on spans only for a direct path from telemetry to outcomes, used when a team does not track tasks.
 
 ## From telemetry to the Telemetry dataset
 
-Spans are not joined to the bill one by one. They are aggregated into the Telemetry dataset, proposed for FOCUS 1.6 in the companion specification, which joins to cost, tasks, and outcomes.
+Spans are not joined to the bill one by one. They are aggregated into the Telemetry dataset, proposed for FOCUS 1.6 in the companion specification, which joins to cost, tasks, and outcomes. This is how per-task cost is reached without putting task IDs on metrics.
 
-- **Grain:** leaf inference and tool spans are rolled up into hourly or daily windows, and span and trace IDs are dropped.
-- **Keys:** each row is grouped by the billing-scope keys, the model, and the value-attribution IDs, over a window aligned to the FOCUS charge period.
-- **Measures:** traces are usually sampled and metrics are not, so exact usage totals come from metrics labeled by workload and billing scope, while sampled spans supply per-task proportions.
+### Column mapping
+
+Each `focus.*` key fills the Telemetry column it was named from (see [Naming](README.md#naming)), and existing OpenTelemetry attributes supply the model and the measures.
+
+| Telemetry column | Source |
+|---|---|
+| ServiceProviderName | `focus.service_provider.name` |
+| BillingAccountId | `focus.billing_account.id` |
+| SubAccountId | `focus.sub_account.id` |
+| ResourceId | `focus.resource.id` |
+| ServiceName | `focus.service.name` |
+| ModelId | `gen_ai.response.model` |
+| WorkloadId | `focus.workload.id` |
+| TaskId | `focus.task.id`; `UNLINKED` or the cohort ID when absent |
+| OutcomeId | `focus.outcome.id`; `UNLINKED` or the cohort ID when absent |
+| TelemetryPeriodStart, TelemetryPeriodEnd | Span and data point timestamps, bucketed to the window |
+| InvocationCount | Count of leaf inference and tool spans |
+| TotalDurationMs | Sum of leaf span durations |
+| InputTokenCount | `gen_ai.usage.input_tokens`, which includes cache reads and writes |
+| OutputTokenCount | `gen_ai.usage.output_tokens` |
+| CacheReadTokenCount | `gen_ai.usage.cache_read.input_tokens` |
+| CacheWriteTokenCount | `gen_ai.usage.cache_write.input_tokens` |
+| ActivityWeight | Derived in the dataset; never an attribute |
+
+Token totals come from the `gen_ai.client.inference.usage.*` metrics; the span attributes above supply per-task proportions. Human-readable names, such as TaskName and WorkloadName, never come from telemetry; they live in the Task and Outcome datasets.
+
+### Building and joining rows
+
+- **Grain:** leaf inference and tool spans are rolled up into hourly or daily windows, and span and trace IDs are dropped. Traces are usually sampled and metrics are not, so exact usage totals come from metrics labeled by workload and billing scope, while sampled spans supply per-task proportions. Proportions are only as good as the sampling behind them: they need head or probabilistic sampling, weighted by the sampling rate. Tail sampling skews them toward the traces it keeps.
+- **Keys:** each row is grouped by the billing-scope keys, the model, and the value-attribution IDs, over a window aligned to the FOCUS charge period. When a key is set on both the OTel Resource and a span, the span's value is used (see [rule 2](#rules)).
 - **Joins:** rows join to Cost and Usage on the billing-scope keys and charge period, and to Task and Outcome on `focus.task.id` and `focus.outcome.id`. EffectiveCost is then allocated across the tasks sharing a scope. This is shared cost allocation done by the practitioner, distinct from FOCUS's split cost allocation, which the data generator calculates in Cost and Usage.
-- **Unlinked work:** spans with no task ID roll up with TaskId and OutcomeId set to `UNLINKED`, so all cost still reconciles.
+- **Pools:** the join finds a pool of charges, not always a single row. A provider, service, and model pool can mix rates for input, output, and cached tokens, and rates can differ by region, so each usage measure must be weighted against the charge rows it matches.
+- **Unlinked work:** spans with no task ID roll up with TaskId and OutcomeId set to `UNLINKED`, so all cost still reconciles. In Cohort Mode, TaskId and OutcomeId carry the workload's cohort ID instead.
 
 Weighting and allocation formulas are out of scope for this registry. They belong to the companion specification.
+
+### Versioning
+
+Each registry release should state which FOCUS release its keys match, so a Telemetry dataset built from it joins to Cost and Usage exports of that release. How the two are versioned together is still open (see [Open questions](README.md#open-questions)).
 
 [DocumentStatus]: https://opentelemetry.io/docs/specs/otel/document-status
