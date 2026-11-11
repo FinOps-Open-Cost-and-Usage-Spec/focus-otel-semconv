@@ -135,7 +135,14 @@ Lambda ARN that includes a version, or ECS telemetry that names a task,
 container, or instance. This attribute MUST carry the billed resource.
 
 Leave this attribute unset when the charge is not tied to a resource,
-such as pay-per-token model usage.
+such as pay-per-token model usage. For inference billed by resource, such
+as a self-hosted engine, the serving side sets it, since the caller
+usually does not know the billed resource.
+
+Set it on the emitting service's OTel Resource or on a span, never on
+individual metric data points: a resource ID set on each measurement
+would multiply metric series within one process past SDK cardinality
+limits.
 
 **[6] `gen_ai.conversation.id`:** If and only if the instrumented library has one readily available, or the user application provides one through OpenTelemetry context or library-specific mechanisms.
 
@@ -182,6 +189,8 @@ version identifier used by that system.
 **[16] `focus.billing_account.id`:** OpenTelemetry has no billing-account concept. BillingAccountId is
 unique within the invoice issuer, not the service provider, and is
 usually supplied by configuration rather than detected at runtime.
+Joins use it only when no finer key applies, such as a sub account or a
+resource.
 
 Joins on this attribute assume a direct purchase, where the invoice
 issuer is the service provider. For marketplace purchases the bill
@@ -606,7 +615,14 @@ Lambda ARN that includes a version, or ECS telemetry that names a task,
 container, or instance. This attribute MUST carry the billed resource.
 
 Leave this attribute unset when the charge is not tied to a resource,
-such as pay-per-token model usage.
+such as pay-per-token model usage. For inference billed by resource, such
+as a self-hosted engine, the serving side sets it, since the caller
+usually does not know the billed resource.
+
+Set it on the emitting service's OTel Resource or on a span, never on
+individual metric data points: a resource ID set on each measurement
+would multiply metric series within one process past SDK cardinality
+limits.
 
 **[6] `gen_ai.request.model`:** The name of the GenAI model a request is being made to. If the model is supplied by a vendor, then the value must be the exact name of the model requested. If the model is a fine-tuned custom model, the value should have a more specific name than the base model that's been fine-tuned.
 
@@ -615,6 +631,8 @@ such as pay-per-token model usage.
 **[8] `focus.billing_account.id`:** OpenTelemetry has no billing-account concept. BillingAccountId is
 unique within the invoice issuer, not the service provider, and is
 usually supplied by configuration rather than detected at runtime.
+Joins use it only when no finer key applies, such as a sub account or a
+resource.
 
 Joins on this attribute assume a direct purchase, where the invoice
 issuer is the service provider. For marketplace purchases the bill
@@ -791,6 +809,8 @@ provider reports 300 input tokens and 100 of them are audio, record 100 as
 **[6] `focus.billing_account.id`:** OpenTelemetry has no billing-account concept. BillingAccountId is
 unique within the invoice issuer, not the service provider, and is
 usually supplied by configuration rather than detected at runtime.
+Joins use it only when no finer key applies, such as a sub account or a
+resource.
 
 Joins on this attribute assume a direct purchase, where the invoice
 issuer is the service provider. For marketplace purchases the bill
@@ -966,6 +986,8 @@ provider reports 300 input tokens and 100 of them are audio, record 100 as
 **[6] `focus.billing_account.id`:** OpenTelemetry has no billing-account concept. BillingAccountId is
 unique within the invoice issuer, not the service provider, and is
 usually supplied by configuration rather than detected at runtime.
+Joins use it only when no finer key applies, such as a sub account or a
+resource.
 
 Joins on this attribute assume a direct purchase, where the invoice
 issuer is the service provider. For marketplace purchases the bill
@@ -1141,6 +1163,8 @@ provider reports 300 input tokens and 100 of them are audio, record 100 as
 **[6] `focus.billing_account.id`:** OpenTelemetry has no billing-account concept. BillingAccountId is
 unique within the invoice issuer, not the service provider, and is
 usually supplied by configuration rather than detected at runtime.
+Joins use it only when no finer key applies, such as a sub account or a
+resource.
 
 Joins on this attribute assume a direct purchase, where the invoice
 issuer is the service provider. For marketplace purchases the bill
@@ -1314,6 +1338,8 @@ provider reports 300 input tokens and 100 of them are audio, record 100 as
 **[6] `focus.billing_account.id`:** OpenTelemetry has no billing-account concept. BillingAccountId is
 unique within the invoice issuer, not the service provider, and is
 usually supplied by configuration rather than detected at runtime.
+Joins use it only when no finer key applies, such as a sub account or a
+resource.
 
 Joins on this attribute assume a direct purchase, where the invoice
 issuer is the service provider. For marketplace purchases the bill
@@ -1487,6 +1513,8 @@ provider reports 300 input tokens and 100 of them are audio, record 100 as
 **[6] `focus.billing_account.id`:** OpenTelemetry has no billing-account concept. BillingAccountId is
 unique within the invoice issuer, not the service provider, and is
 usually supplied by configuration rather than detected at runtime.
+Joins use it only when no finer key applies, such as a sub account or a
+resource.
 
 Joins on this attribute assume a direct purchase, where the invoice
 issuer is the service provider. For marketplace purchases the bill
@@ -1656,6 +1684,8 @@ Instrumentations SHOULD document the list of errors they report.
 **[6] `focus.billing_account.id`:** OpenTelemetry has no billing-account concept. BillingAccountId is
 unique within the invoice issuer, not the service provider, and is
 usually supplied by configuration rather than detected at runtime.
+Joins use it only when no finer key applies, such as a sub account or a
+resource.
 
 Joins on this attribute assume a direct purchase, where the invoice
 issuer is the service provider. For marketplace purchases the bill

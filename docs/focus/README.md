@@ -16,7 +16,7 @@
 
 ## Purpose
 
-`focus.*` is a small, cross-cutting set of attributes that lets any telemetry be joined to charges in the FOCUS Cost and Usage dataset, and from there to the Task, Outcome, and Value datasets of the FOCUS companion specification *Value Attribution Data Architecture: Schema and Explainer* (v0.1.6). The first rules cover GenAI spans and metrics; other domains can follow.
+`focus.*` is a small, cross-cutting set of attributes that lets any telemetry be joined to charges in the FOCUS Cost and Usage dataset, and from there to the Task, Outcome, and Value datasets of the FOCUS companion specification *Value Attribution Data Architecture: Schema and Explainer* (v0.1.7). The first rules cover GenAI spans and metrics; other domains can follow.
 
 Of those datasets, only Cost and Usage exists in FOCUS today; Telemetry, Task, Outcome, and Value are proposed. The registry standardizes the keys and where they go on each signal; the datasets standardize grain, columns, and allocation (see [From telemetry to the Telemetry dataset](where-attributes-go.md#from-telemetry-to-the-telemetry-dataset)).
 
@@ -39,11 +39,10 @@ These attributes locate a telemetry record's charge. The [rules for where attrib
 | [`focus.service.name`](/docs/registry/attributes/focus.md) | ServiceName (3.1.56) | `service.name`, a different concept | Define |
 | `gen_ai.response.model` | SkuPriceDetails.ModelId (FOCUS 1.5; a first-class ModelId is proposed for 1.6) | Itself | Reuse; not a `focus.*` attribute |
 
-Every join starts from the provider and billing account. Each charge then has at most one finer key:
+Every join starts from the provider. Then:
 
-- the **resource**, when the charge is tied to one;
-- the **model**, for pay-per-token usage, where ResourceId is null; or
-- **neither**, where the join stops at the service.
+- when a charge is tied to a **resource**, the resource completes the join, since ResourceId is unique within a service provider;
+- otherwise the join uses the finest **account** key available (the sub account when present, else the billing account) and the **service**, narrowed by the **model** for pay-per-token usage.
 
 Some charges, such as a support plan or SaaS seats, have no matching telemetry at all. How those are allocated is an open question in the companion specification.
 
@@ -70,6 +69,8 @@ Billing-scope keys that locate a telemetry record's charge in the FOCUS Cost and
 **[1] `focus.billing_account.id`:** OpenTelemetry has no billing-account concept. BillingAccountId is
 unique within the invoice issuer, not the service provider, and is
 usually supplied by configuration rather than detected at runtime.
+Joins use it only when no finer key applies, such as a sub account or a
+resource.
 
 Joins on this attribute assume a direct purchase, where the invoice
 issuer is the service provider. For marketplace purchases the bill
@@ -81,7 +82,14 @@ Lambda ARN that includes a version, or ECS telemetry that names a task,
 container, or instance. This attribute MUST carry the billed resource.
 
 Leave this attribute unset when the charge is not tied to a resource,
-such as pay-per-token model usage.
+such as pay-per-token model usage. For inference billed by resource, such
+as a self-hosted engine, the serving side sets it, since the caller
+usually does not know the billed resource.
+
+Set it on the emitting service's OTel Resource or on a span, never on
+individual metric data points: a resource ID set on each measurement
+would multiply metric series within one process past SDK cardinality
+limits.
 
 **[3] `focus.service.name`:** This is not OpenTelemetry's `service.name`, which names the emitting
 application. When a charge is not tied to a resource, as with
@@ -192,7 +200,7 @@ Left out entirely, because the join does not need them: region and availability 
 For the FOCUS Billing WG:
 
 - Graduate ModelId from SkuPriceDetails to a first-class Cost and Usage column in 1.6.
-- Until then, require SkuPriceDetails.ModelId whenever a charge is for model usage.
+- Until then, require SkuPriceDetails.ModelId whenever a charge is for model usage, so pay-per-token joins do not fail silently for providers that omit it.
 - Exports that follow FOCUS 1.2, including [AWS's](providers/aws.md), carry ProviderName, which ServiceProviderName replaced in 1.3. Document how joins on `focus.service_provider.name` fall back to ProviderName until those exports move to 1.3 or later.
 - Define ModelId as the model identifier the provider exposes in its API (e.g., `gpt-5-2025-08-07`), so any telemetry that records the served model can join without a mapping. Where a provider bills at a coarser grain than its API reports, should it publish the mapping?
 - Document that billing-account joins assume a direct purchase. For marketplace purchases the bill carries the marketplace's billing account, which telemetry cannot know, so the join falls back to provider and service.
@@ -200,17 +208,22 @@ For the FOCUS Billing WG:
 - Standardize the SKU price properties that set an AI rate, such as token type and service tier, in SkuPriceDetails, so each usage measure can be matched to the charge rows priced for it.
 - Ask providers to publish the exact ServiceProviderName, ServiceName, and ModelId values they bill under, so instrumentation can set them without guessing.
 - When a span carries a task ID but no outcome ID, should the Telemetry row's OutcomeId be filled from the Task dataset or set to `UNLINKED`? Scrap Rate counts unlinked cost, so the answer changes it.
+- Discuss the Telemetry dataset's window grain (hourly or daily) and how it aligns with charge periods longer than the window, such as monthly commitments.
+- Should the Telemetry dataset also store each row's allocated cost (for example, AllocatedEffectiveCost), calculated from ActivityWeight? It would let rule-based rows carry cost without a usage signal, simplify the KPIs, and allow a check that allocated cost sums to the matched EffectiveCost for each Consumption Scope and window. It would also need recalculating when bills are restated, and dollars would still never go on telemetry signals.
 
 For the SemConv SIG:
 
 - Can `cloud.account.id` and `cloud.resource_id` guarantee bill-exact values across non-cloud providers? For each key in the [cloud refinement](where-attributes-go.md#cloud), would the SIG rather widen the `cloud.*` attribute than have FOCUS define its own?
 - Is `service.namespace` meant to carry a workload in FOCUS's sense, or is a request-scoped `focus.workload.id` acceptable?
-- Which parts belong in the core conventions now, rather than starting federated?
+- Which parts belong in the core conventions now, rather than starting federated: the billing-scope keys, the value-attribution IDs, both, or neither?
 - Which signal-specific rules should be formalized first with the GenAI SIG?
+- Is it the recommended pattern for a federated registry to depend on and refine another registry's conventions, as `focus.*` does with `gen_ai.*`?
+- Is there guidance for onboarding a federated registry, including how it gets onto OpenTelemetry's planned list and who approves listings? If not, FOCUS would help write it.
 - If task and outcome data is ever reported through OpenTelemetry, such as task-completed or outcome-verified events, those would be new signals. Which SIG would own them?
-- How does an outside registry get onto OpenTelemetry's planned list of federated registries, and who approves listings?
 - Should `service.instance.cost_center.id` stay an internal allocation target, distinct from the bill-exact `focus.billing_account.id`?
-- Can `cloud.region` carry the bill's RegionId exactly, so charges priced by region can be matched? If so, FOCUS would reuse it rather than define a `focus.*` key.
+- OpenTelemetry does not define which value wins when a key is set on both the OTel Resource and a span, and backends differ when they merge the two. These rules have the span's value win (see [rule 2](where-attributes-go.md#rules)). Does the SIG have, or would it give, guidance on this?
+- Can `cloud.region` carry the bill's RegionId exactly, so charges priced by region can be matched? On major clouds, resource detectors report the provider's own region code; in a data center or colocation site, the value is set by the operator and nothing ties it to the bill. FOCUS defines RegionId as assigned by the host provider. Would the SIG accept requiring `cloud.region` to equal that value when set for FOCUS joins, or should FOCUS define its own key?
+- In testing, vLLM started a new trace for each incoming request instead of continuing the caller's, and hosted model APIs return no spans. Would the SIG support guidance that servers continue incoming trace context and that hosted APIs return at least one server span per request, so billing keys set on the server side can be linked to the caller's task?
 
 For the FOCUS SemConv WG:
 

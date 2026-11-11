@@ -41,15 +41,16 @@ attribute_groups:
   - id: attributes.focus.metric_keys
     visibility: public
     brief: >
-      The FOCUS keys that may be set on metrics: the billing-scope keys and the
-      workload. Task and outcome IDs are left out, since one value per task
-      would create unbounded metric series.
+      The FOCUS keys that may be set on metric data points: the billing-scope
+      keys and the workload. `focus.resource.id` is left out, since it reaches
+      metrics only through the emitting service's OTel Resource, and so are
+      task and outcome IDs, since one value per task would create unbounded
+      metric series.
     stability: development
     attributes:
       - ref: focus.service_provider.name
       - ref: focus.billing_account.id
       - ref: focus.sub_account.id
-      - ref: focus.resource.id
       - ref: focus.service.name
       - ref: gen_ai.response.model
       - ref: focus.workload.id

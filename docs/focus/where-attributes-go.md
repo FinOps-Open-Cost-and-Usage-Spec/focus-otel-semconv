@@ -8,6 +8,7 @@
 - [Service instance](#service-instance)
 - [Cloud](#cloud)
 - [When IDs are known](#when-ids-are-known)
+  - [Where each key comes from](#where-each-key-comes-from)
 - [From telemetry to the Telemetry dataset](#from-telemetry-to-the-telemetry-dataset)
   - [Column mapping](#column-mapping)
   - [Building and joining rows](#building-and-joining-rows)
@@ -20,9 +21,11 @@ The registry defines no new signals. These rules say where `focus.*` attributes 
 ## Rules
 
 1. **Billing scope of the emitting service goes on the OTel Resource.** When a process is itself a billed resource (a container service, a VM), its billing-scope keys go on its OTel Resource, so every span, metric, and log it emits carries them.
-2. **Billing scope of a called service goes on the client span.** When a process calls a billed API or SaaS (a model provider, a managed database), that call's billing-scope keys go on the client span for the call, not on the caller's OTel Resource. A billing-scope key set on a span overrides the OTel Resource's value for that span, and the rollup resolves this before merging the two. The client span therefore counts toward the called service's charge, and the emitting service's own charge is weighted by its remaining spans, such as the server span that handled the request.
+2. **Billing scope of a called API goes on the client span.**
+   - When a process calls an API or SaaS billed per use (a pay-per-token model provider, a managed database), the caller knows the provider, billing account, service, and model from configuration and the response, so that call's billing-scope keys go on the client span for the call, not on the caller's OTel Resource. A billing-scope key set on a span overrides the OTel Resource's value for that span, and the rollup resolves this before merging the two. The client span therefore counts toward the called service's charge, and the emitting service's own charge is weighted by its remaining spans, such as the server span that handled the request.
+   - When the call goes to inference billed by resource, such as a self-hosted engine like vLLM or a GPU instance from a cloud or neocloud, the caller usually does not know the billed resource. The serving side supplies it, on its server span or its OTel Resource (rule 1), and the rollup links that work to the caller's task through trace context: the server span's parent is the client span. This works only when the server continues the caller's trace.
 3. **Value-attribution IDs go on spans and travel in baggage.** `focus.workload.id`, `focus.task.id`, and `focus.outcome.id` MAY be set on any span doing work for a task, and SHOULD be propagated in OTel baggage so shared services (a central search index, a guardrail service) attribute their work to the caller. When a request arrives with `focus.workload.id` in baggage, the service uses that value for the work it does on the request, including its metrics, and propagates it unchanged; its own configured value applies only when none arrives, as for background jobs. `focus.outcome.id` is optional, since outcomes are usually linked later. Baggage is sent on outgoing requests, so deployments should decide whether to include `focus.*` baggage for calls leaving the organization, and services at the organization's edge SHOULD drop incoming `focus.*` baggage, so outside callers cannot assign cost to a workload. The GenAI workflow, agent, and tool spans are written as refinements that name where a task usually starts and what it calls; see [workflow, agent, and tool spans](gen-ai.md#workflow-agent-and-tool-spans).
-4. **Only low-cardinality keys go on metrics.** Billing-scope keys and `focus.workload.id` MAY be set on metrics; the model lists them as `attributes.focus.metric_keys`. `focus.task.id` and `focus.outcome.id` MUST NOT be, since one value per task would create unbounded metric series.
+4. **Only low-cardinality keys go on metrics.** Billing-scope keys and `focus.workload.id` MAY be set on metrics; the model lists them as `attributes.focus.metric_keys`. The exception is `focus.resource.id`, which reaches metrics only through the emitting service's OTel Resource, where each process carries a single value. Set on each measurement, a resource ID would multiply series within one process past SDK cardinality limits (by default, 2,000 attribute combinations per metric), and the overflow would undercount every other breakdown. `focus.task.id` and `focus.outcome.id` MUST NOT be set on metrics, since one value per task would create unbounded metric series.
 
 ## Service instance
 
@@ -84,6 +87,8 @@ port.
 **[3] `focus.billing_account.id`:** OpenTelemetry has no billing-account concept. BillingAccountId is
 unique within the invoice issuer, not the service provider, and is
 usually supplied by configuration rather than detected at runtime.
+Joins use it only when no finer key applies, such as a sub account or a
+resource.
 
 Joins on this attribute assume a direct purchase, where the invoice
 issuer is the service provider. For marketplace purchases the bill
@@ -95,7 +100,14 @@ Lambda ARN that includes a version, or ECS telemetry that names a task,
 container, or instance. This attribute MUST carry the billed resource.
 
 Leave this attribute unset when the charge is not tied to a resource,
-such as pay-per-token model usage.
+such as pay-per-token model usage. For inference billed by resource, such
+as a self-hosted engine, the serving side sets it, since the caller
+usually does not know the billed resource.
+
+Set it on the emitting service's OTel Resource or on a span, never on
+individual metric data points: a resource ID set on each measurement
+would multiply metric series within one process past SDK cardinality
+limits.
 
 **[5] `focus.service.name`:** This is not OpenTelemetry's `service.name`, which names the emitting
 application. When a charge is not tied to a resource, as with
@@ -177,6 +189,8 @@ Set these only when the resource's own charge appears in FOCUS Cost and Usage da
 **[2] `focus.billing_account.id`:** OpenTelemetry has no billing-account concept. BillingAccountId is
 unique within the invoice issuer, not the service provider, and is
 usually supplied by configuration rather than detected at runtime.
+Joins use it only when no finer key applies, such as a sub account or a
+resource.
 
 Joins on this attribute assume a direct purchase, where the invoice
 issuer is the service provider. For marketplace purchases the bill
@@ -188,7 +202,14 @@ Lambda ARN that includes a version, or ECS telemetry that names a task,
 container, or instance. This attribute MUST carry the billed resource.
 
 Leave this attribute unset when the charge is not tied to a resource,
-such as pay-per-token model usage.
+such as pay-per-token model usage. For inference billed by resource, such
+as a self-hosted engine, the serving side sets it, since the caller
+usually does not know the billed resource.
+
+Set it on the emitting service's OTel Resource or on a span, never on
+individual metric data points: a resource ID set on each measurement
+would multiply metric series within one process past SDK cardinality
+limits.
 
 **[4] `focus.service.name`:** This is not OpenTelemetry's `service.name`, which names the emitting
 application. When a charge is not tied to a resource, as with
@@ -315,7 +336,23 @@ The rules assume an ID is known when the span is created. That holds for some ID
 
 Linking after the fact means joining downstream, not editing telemetry. Exported spans cannot change, so late links are made at ingest, through Collector or backend enrichment from a lookup, or in the Telemetry dataset. Spans that are never linked roll up as `UNLINKED`.
 
-The minimum depends on the attribution mode the companion specification describes. Attributing cost to each workload (its Cohort Mode) needs only the billing-scope keys and `focus.workload.id` on metrics; attributing it to each task (Atomic Mode) also needs `focus.task.id` on spans. `focus.outcome.id` is needed on spans only for a direct path from telemetry to outcomes, used when a team does not track tasks.
+The minimum depends on the attribution mode the companion specification describes. Attributing cost to each workload (its Cohort Mode) needs only the billing-scope keys and `focus.workload.id` on metrics (with `focus.resource.id` only on the emitting service's OTel Resource); attributing it to each task (Atomic Mode) also needs `focus.task.id` on spans. `focus.outcome.id` is needed on spans only for a direct path from telemetry to outcomes, used when a team does not track tasks.
+
+### Where each key comes from
+
+Each key can come from up to three layers: the emitter at runtime, the OpenTelemetry Collector, or the enterprise before rows enter the Telemetry dataset. Until instrumentation adopts `focus.*`, an enterprise should assume nothing arrives from upstream and plan to supply every key at the last two layers.
+
+| Attribute | Emitter at runtime | OTel Collector | Enterprise enrichment |
+|---|---|---|---|
+| `focus.service_provider.name` | Gateway, for API calls; serving side, for its own resources | Cloud resource detectors | Configuration |
+| `focus.billing_account.id` | Gateway, from configuration | Configuration only | Billing account inventory |
+| `focus.sub_account.id` | Serving side | Cloud instance metadata | Account inventory |
+| `focus.resource.id` | Serving side only | Cloud instance metadata | Resource inventory or tag lookup |
+| `focus.service.name` | Gateway, for API calls | Configuration | Configuration |
+| `gen_ai.response.model` | Gateway, from the response | Not available | Not needed |
+| `focus.workload.id` | Service where the request starts | Configuration per deployment | Mapping from service or deployment |
+| `focus.task.id` | Harness, when the business key is known | Not available | Mapping from business keys or trace IDs |
+| `focus.outcome.id` | Harness, only if the outcome already exists | Not available | Task dataset |
 
 ## From telemetry to the Telemetry dataset
 
@@ -349,7 +386,7 @@ Token totals come from the `gen_ai.client.inference.usage.*` metrics; the span a
 
 ### Building and joining rows
 
-- **Grain:** leaf inference and tool spans are rolled up into hourly or daily windows, and span and trace IDs are dropped. Traces are usually sampled and metrics are not, so exact usage totals come from metrics labeled by workload and billing scope, while sampled spans supply per-task proportions. Proportions are only as good as the sampling behind them: they need head or probabilistic sampling, weighted by the sampling rate. Tail sampling skews them toward the traces it keeps.
+- **Grain:** leaf inference and tool spans are rolled up into hourly or daily windows, and span and trace IDs are dropped. Traces are usually sampled and metrics are not, so exact usage totals come from metrics labeled by workload and billing scope (`focus.resource.id` only from the emitting service's OTel Resource), while sampled spans supply per-task proportions. Proportions are only as good as the sampling behind them: they need head or probabilistic sampling, weighted by the sampling rate. Tail sampling skews them toward the traces it keeps.
 - **Keys:** each row is grouped by the billing-scope keys, the model, and the value-attribution IDs, over a window aligned to the FOCUS charge period. When a key is set on both the OTel Resource and a span, the span's value is used (see [rule 2](#rules)).
 - **Joins:** rows join to Cost and Usage on the billing-scope keys and charge period, and to Task and Outcome on `focus.task.id` and `focus.outcome.id`. EffectiveCost is then allocated across the tasks sharing a scope. This is shared cost allocation done by the practitioner, distinct from FOCUS's split cost allocation, which the data generator calculates in Cost and Usage.
 - **Pools:** the join finds a pool of charges, not always a single row. A provider, service, and model pool can mix rates for input, output, and cached tokens, and rates can differ by region, so each usage measure must be weighted against the charge rows it matches.

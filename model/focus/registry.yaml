@@ -47,6 +47,8 @@ attributes:
       OpenTelemetry has no billing-account concept. BillingAccountId is
       unique within the invoice issuer, not the service provider, and is
       usually supplied by configuration rather than detected at runtime.
+      Joins use it only when no finer key applies, such as a sub account or a
+      resource.
 
       Joins on this attribute assume a direct purchase, where the invoice
       issuer is the service provider. For marketplace purchases the bill
@@ -97,7 +99,14 @@ attributes:
       container, or instance. This attribute MUST carry the billed resource.
 
       Leave this attribute unset when the charge is not tied to a resource,
-      such as pay-per-token model usage.
+      such as pay-per-token model usage. For inference billed by resource, such
+      as a self-hosted engine, the serving side sets it, since the caller
+      usually does not know the billed resource.
+
+      Set it on the emitting service's OTel Resource or on a span, never on
+      individual metric data points: a resource ID set on each measurement
+      would multiply metric series within one process past SDK cardinality
+      limits.
     examples: ['arn:aws:ecs:us-east-1:210987654321:service/support/bot']
     annotations:
       focus:
@@ -145,7 +154,7 @@ attributes:
     annotations:
       focus:
         companion_specification: 'Value Attribution Data Architecture: Schema and Explainer'
-        companion_version: '0.1.6'
+        companion_version: '0.1.7'
         dataset: Task
         column: TaskId
         decision_record: null
@@ -165,7 +174,7 @@ attributes:
     annotations:
       focus:
         companion_specification: 'Value Attribution Data Architecture: Schema and Explainer'
-        companion_version: '0.1.6'
+        companion_version: '0.1.7'
         dataset: Outcome
         column: OutcomeId
         decision_record: null
@@ -190,7 +199,7 @@ attributes:
     annotations:
       focus:
         companion_specification: 'Value Attribution Data Architecture: Schema and Explainer'
-        companion_version: '0.1.6'
+        companion_version: '0.1.7'
         dataset: All
         column: WorkloadId
         decision_record: null

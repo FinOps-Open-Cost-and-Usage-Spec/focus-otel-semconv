@@ -21,6 +21,8 @@
 **[1] `focus.billing_account.id`:** OpenTelemetry has no billing-account concept. BillingAccountId is
 unique within the invoice issuer, not the service provider, and is
 usually supplied by configuration rather than detected at runtime.
+Joins use it only when no finer key applies, such as a sub account or a
+resource.
 
 Joins on this attribute assume a direct purchase, where the invoice
 issuer is the service provider. For marketplace purchases the bill
@@ -39,7 +41,14 @@ Lambda ARN that includes a version, or ECS telemetry that names a task,
 container, or instance. This attribute MUST carry the billed resource.
 
 Leave this attribute unset when the charge is not tied to a resource,
-such as pay-per-token model usage.
+such as pay-per-token model usage. For inference billed by resource, such
+as a self-hosted engine, the serving side sets it, since the caller
+usually does not know the billed resource.
+
+Set it on the emitting service's OTel Resource or on a span, never on
+individual metric data points: a resource ID set on each measurement
+would multiply metric series within one process past SDK cardinality
+limits.
 
 **[4] `focus.service.name`:** This is not OpenTelemetry's `service.name`, which names the emitting
 application. When a charge is not tied to a resource, as with

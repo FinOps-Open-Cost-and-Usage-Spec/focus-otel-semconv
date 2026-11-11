@@ -46,10 +46,10 @@ Closes #
 
 <!-- Completed by the Editor before merge, for convention registrations, changes and deprecations. Delete this section for editorial changes. -->
 
-- **Review window opened:** <!-- date this pull request was opened -->
-- **Outcome:** <!-- reviewed and no objection / reviewed with changes, now addressed / objection, resolved by the Maintainer (link) / no review within 15 days, follow-up sent (link) -->
+- **Review requested:** <!-- date this pull request was opened -->
+- **Outcome:** <!-- reviewed and no objection / reviewed with changes, now addressed / objection, resolved by the Maintainer (link) / no review before consensus, follow-up sent (link) -->
 
-- [ ] The OpenTelemetry review outcome above is recorded, or the 15-day window closed without a review and the follow-up is linked.
+- [ ] The OpenTelemetry review outcome above is recorded, or no review was received before consensus and the follow-up is linked.
 
 ## Contributor License Agreement
 
