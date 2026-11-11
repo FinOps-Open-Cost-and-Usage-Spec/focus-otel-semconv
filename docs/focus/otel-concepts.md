@@ -56,7 +56,7 @@ This page explains the OpenTelemetry (OTel) terms these conventions use, for rea
 | Term | Meaning |
 |---|---|
 | Live-check | A Weaver feature that compares telemetry, real or sample, with the registry and reports keys that are unknown, mistyped, or out of place. See [reference/](../../reference/README.md). |
-| Policy | A rule that Weaver applies to a registry, written in the Rego language. This repository runs OTel's naming and stability policies and its own, which rejects any attribute outside `focus.*`. |
+| Policy | A rule that Weaver applies to a registry, written in the Rego language. This repository runs OTel's naming and stability policies and two of its own: one rejects any attribute outside `focus.*`, and one keeps task, outcome, and resource IDs off metrics. |
 | Resolved registry | A registry merged with everything it depends on into one file. A release publishes it, so tools can look up any key the release uses. |
 | Schema URL | A versioned URL that telemetry carries to name the registry version it follows. |
 | Weaver | OTel's tool for registries. It validates a registry, resolves its dependencies, generates docs and code, and checks telemetry against it. |

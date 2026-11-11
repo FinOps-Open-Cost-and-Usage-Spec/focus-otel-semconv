@@ -2,9 +2,11 @@ name: Weaver registry check
 
 # Validates the focus.* registry with OpenTelemetry Weaver: schema, references
 # into the OTel registries it depends on, OTel's naming and stability policies,
-# and policies/focus_namespace.rego, which rejects any attribute outside focus.*
-# and so any redefinition of an existing OTel attribute. Also runs the unit
-# tests for that policy, live-checks the reference telemetry samples, checks
+# and the registry's own policies: policies/focus_namespace.rego rejects any
+# attribute outside focus.*, and so any redefinition of an existing OTel
+# attribute, and policies/focus_metric_keys.rego keeps task, outcome, and
+# resource IDs off metric refinements. Also runs the unit tests for those
+# policies, live-checks the reference telemetry samples, checks
 # that generated docs are up to date, and uploads the resolved registry.
 
 on:

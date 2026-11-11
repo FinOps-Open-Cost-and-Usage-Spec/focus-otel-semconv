@@ -11,7 +11,7 @@ All notable changes to the `focus.*` registry are recorded here. Each release st
   - Value scope: `focus.workload.id`, `focus.task.id`, `focus.outcome.id` (*Value Attribution Data Architecture: Schema and Explainer* v0.1.7).
   - Refinements of the core `service.instance` and `cloud` entities, the latter setting each billing-scope key beside its nearest `cloud.*` attribute for discussion with the OpenTelemetry Semantic Conventions SIG; the GenAI inference and embeddings spans and their token-usage metrics (input, output, cache-read, cache-write, reasoning, and embeddings input); and the GenAI workflow, agent, and tool spans, which carry only the value-attribution IDs.
 - Docs in OpenTelemetry's format: a Weaver-generated attribute registry and convention pages with generated tables, using the core semantic-conventions v1.45.0 Markdown templates.
-- Weaver check workflow with OpenTelemetry naming and stability policies, plus a `focus.*` namespace policy that rejects redefinition of OpenTelemetry attributes, with OPA unit tests.
+- Weaver check workflow with OpenTelemetry naming and stability policies, plus two registry policies with OPA unit tests: a `focus.*` namespace policy that rejects redefinition of OpenTelemetry attributes, and a metric-keys policy that keeps task, outcome, and resource IDs off metric refinements.
 - Reference telemetry for the support-bot example, checked with Weaver live-check in CI.
 - A non-normative OpenTelemetry concepts page for readers new to OTel.
 - Non-normative provider mapping pages, starting with AWS.
