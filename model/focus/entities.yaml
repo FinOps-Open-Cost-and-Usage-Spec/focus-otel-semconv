@@ -1,0 +1,92 @@
+file_format: definition/2
+
+# Rules for which focus.* attributes go on an OTel Resource, written as
+# refinements of core entities. They add attributes; they define no new
+# entities. Each refinement is a proposal until agreed with the owning SIG. See
+# docs/focus/where-attributes-go.md.
+#
+# Each entity sets its own conditions, so the two share no attribute group.
+
+entity_refinements:
+  # Rule 1: when the emitting process is itself a billed resource, its own
+  # billing scope goes on its OTel Resource, so every signal it emits carries it.
+  - id: focus.service.instance
+    ref: service.instance
+    brief: >
+      Adds the FOCUS billing scope of a service instance that is itself a
+      billed resource, such as a container service or a VM.
+    note: |
+      Set these attributes only when the instance's own charge appears in
+      FOCUS Cost and Usage data. The billing scope of a service the instance
+      calls goes on the client span for that call, not here.
+
+      `service.instance.cost_center.id` records an internal allocation target,
+      such as a team or cost code. The `focus.*` attributes record where the
+      charge appears on the bill. Both may be set.
+    stability: development
+    description:
+      - ref: focus.service_provider.name
+        requirement_level:
+          recommended: When the instance is a billed resource.
+      - ref: focus.billing_account.id
+        requirement_level:
+          recommended: When the instance is a billed resource and the value is known from configuration.
+      - ref: focus.sub_account.id
+        requirement_level:
+          recommended: When the instance's charge is related to a sub account.
+      - ref: focus.resource.id
+        requirement_level:
+          recommended: When the instance is a billed resource.
+      - ref: focus.service.name
+        requirement_level:
+          recommended: When the instance is a billed resource.
+
+  # The cloud entity already describes the provider, account, and resource of
+  # a cloud-hosted OTel Resource. Each focus.* key is set beside its cloud.*
+  # counterpart, with the reason it is not reused. This is a proposal for
+  # discussion with the OpenTelemetry Semantic Conventions SIG: where a cloud.*
+  # value can be guaranteed to equal the bill, the focus.* key would be
+  # deprecated in its favor in a later release. Until then, every focus.* key is set regardless, so
+  # consumers can depend on it.
+  - id: focus.cloud
+    ref: cloud
+    brief: >
+      Adds the FOCUS billing scope of a cloud-hosted resource beside the cloud
+      attributes that describe it, where their values do not equal the bill.
+    note: |
+      Each `focus.*` key here has a nearby `cloud.*` attribute, and none is a
+      copy of it:
+
+      - `focus.service_provider.name` is the provider's name exactly as on the
+        bill. `cloud.provider` is a fixed list of IDs such as `aws`.
+      - `focus.billing_account.id` has no `cloud.*` counterpart. It is the
+        account the bill is issued to, such as an AWS management account.
+      - `focus.sub_account.id` is the same level as `cloud.account.id`. It is
+        kept only until `cloud.account.id` is shown to equal SubAccountId for
+        every provider. Until then it is set even when the two values match,
+        so consumers can depend on it.
+      - `focus.resource.id` is the billed resource. `cloud.resource_id` is the
+        monitored one, which can differ, such as a Lambda ARN with a version.
+      - `focus.service.name` is the billed service offering, such as
+        `Amazon Elastic Container Service`. `cloud.platform` is a fixed list of
+        IDs such as `aws_ecs`.
+
+      Set these only when the resource's own charge appears in FOCUS Cost and
+      Usage data.
+    stability: development
+    description:
+      - ref: focus.service_provider.name
+        requirement_level:
+          recommended: When the resource is billed.
+      - ref: focus.billing_account.id
+        requirement_level:
+          recommended: When the resource is billed and the value is known from configuration.
+      - ref: focus.sub_account.id
+        requirement_level:
+          recommended: When the resource is billed.
+      - ref: focus.resource.id
+        requirement_level:
+          recommended: When the resource is billed.
+      - ref: focus.service.name
+        requirement_level:
+          recommended: When the resource is billed.
