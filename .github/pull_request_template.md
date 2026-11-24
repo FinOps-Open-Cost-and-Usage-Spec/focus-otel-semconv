@@ -42,14 +42,11 @@ Closes #
 - [ ] Any reviewer suggestions adopted are written in my own words, not copied from the reviewer's text.
 - [ ] No registered convention is deleted or reused (deprecation only).
 
-## OpenTelemetry review record
+## OpenTelemetry review (optional)
 
-<!-- Completed by the Editor before merge, for convention registrations, changes and deprecations. Delete this section for editorial changes. -->
+<!-- OpenTelemetry review is voluntary. It is not a mandatory review period, approval requirement or publication gate. If OpenTelemetry representatives were invited and reviewed this pull request, link their comments here. Otherwise delete this section. -->
 
-- **Review requested:** <!-- date this pull request was opened -->
-- **Outcome:** <!-- reviewed and no objection / reviewed with changes, now addressed / objection, resolved by the Maintainer (link) / no review before consensus, follow-up sent (link) -->
-
-- [ ] The OpenTelemetry review outcome above is recorded, or no review was received before consensus and the follow-up is linked.
+- **Review comments:** <!-- link(s), or delete this section -->
 
 ## Contributor License Agreement
 

@@ -2,16 +2,33 @@
 
 This repository is the official registry of `focus.*` conventions: OpenTelemetry semantic conventions that link OpenTelemetry telemetry (spans, metrics, logs and resources) to [FOCUS](https://focus.finops.org) cost, usage, and value-attribution / unit-economics data. Registering conventions here does not change the FOCUS dataset itself.
 
-FOCUS owns the meaning of each convention. The focus-otel-semconv Working Group approves and publishes the registry under the Community Specification. The OpenTelemetry Semantic Conventions SIG designates reviewers who check each convention for consistency with OpenTelemetry semantic conventions and tooling (Weaver).
+FOCUS owns the meaning of each convention. The FOCUS Semantic Conventions for OpenTelemetry Working Group develops and publishes the registry under the Community Specification. Members of the OpenTelemetry community are invited to contribute and may optionally review conventions for consistency with OpenTelemetry semantic conventions and tooling (Weaver) (see [OpenTelemetry participation](#opentelemetry-participation)).
 
-The registry is developed under the [Community Specification](https://github.com/CommunitySpecification) process of the Joint Development Foundation. The FOCUS Membership Agreement adds a second Working Group charter, for the focus-otel-semconv Working Group, which uses the Community Specification option. This repository puts that charter into practice. The FOCUS Working Group keeps its existing charter.
+The registry is developed under the [Community Specification](https://github.com/CommunitySpecification/Community_Specification/tree/V1.1) process of the Joint Development Foundation. The FOCUS Membership Agreement adds a second Working Group charter, for the FOCUS Semantic Conventions for OpenTelemetry Working Group, which uses the Community Specification mode. This repository puts that charter into practice. The FOCUS Working Group, which develops the FOCUS specification, keeps its existing charter.
 
-Registration takes two approvals, connected but independent:
+Both Working Groups are part of FOCUS and operate under the same FOCUS Steering Committee, but under different licensing modes:
 
-1. **FOCUS WG Charter.** The FOCUS Working Group approves the normative FOCUS concept behind each convention, under the FOCUS WG Charter and the FOCUS license.
-2. **Community Specification.** With the FOCUS WG's agreement, a FOCUS Submitter submits the convention to this registry under the Community Specification, the Contributor License Agreement and the pull request checkbox. The focus-otel-semconv Working Group then approves it by consensus.
+1. **FOCUS WG (W3C mode).** The FOCUS Working Group approves the normative FOCUS concept behind each convention, under the FOCUS WG Charter and the FOCUS license.
+2. **This Working Group (Community Specification mode).** With the FOCUS WG's agreement, a FOCUS Submitter submits the convention to this registry under the Community Specification, the Contributor License Agreement and the pull request checkbox. This Working Group then approves it by consensus.
 
 A convention is a pointer to the FOCUS specification. It does not restate or replace any part of it.
+
+## Project governance
+
+FOCUS Semantic Conventions for OpenTelemetry is a Working Group of FOCUS, a series of Joint Development Foundation Projects, LLC.
+
+The Working Group operates under the Community Specification Mode defined in the FOCUS Working Group Charter and remains subject to the governance authority of the FOCUS Steering Committee. The applicable governance, licensing and contribution policies are identified in the Working Group Charter and the corresponding Community Specification documentation.
+
+The FOCUS Steering Committee:
+
+- appoints the Working Group Chair;
+- hears procedural appeals (see [Consensus, objections and appeals](#consensus-objections-and-appeals));
+- approves or declines final deliverables (see [Releases](#releases)); and
+- may terminate the Working Group.
+
+Technical decisions are made by community consensus within the Working Group, facilitated by the Maintainer.
+
+Organizations that want to take part in FOCUS more broadly are encouraged to become FOCUS members under the FOCUS Membership Agreement. Membership is not required to contribute to this Working Group.
 
 ## Terminology
 
@@ -74,23 +91,25 @@ flowchart TD
 
     subgraph REG["Registration: Community Specification"]
         I["Registration issue<br/>FOCUS Submitters only<br/>decision record required"]
-        PR["Pull request to main<br/>requests OTel review"]
+        PR["Pull request to main"]
         C["Automated checks<br/>CLA, schema, uniqueness"]
-        O["OpenTelemetry review<br/>advisory, no veto"]
-        M["Maintainer determines consensus"]
-        E["Editor completes the review record,<br/>approves and merges"]
-        I --> PR --> C --> O --> M --> E
+        O["Review comments<br/>anyone, including invited<br/>OpenTelemetry representatives<br/>optional"]
+        M["Maintainer facilitates<br/>community consensus"]
+        E["Editor approves and merges"]
+        I --> PR --> C --> M --> E
+        PR -.-> O
     end
 
     MAIN["main: Draft Specification"]
     REL["Approved Specification<br/>versioned release"]
+    SC["FOCUS Steering Committee<br/>approves final deliverable"]
 
     P -.->|"WG takes it forward"| B
     S --> V
     V -->|"not approved, keep drafting"| S
     V -->|"approved, decision record published"| I
-    O -->|"changes requested"| V
-    E --> MAIN --> REL
+    O -.->|"changes suggested"| V
+    E --> MAIN -->|"WG approves a release by consensus"| SC --> REL
 ```
 
 The branch a convention passes through decides which agreement its drafting is made under. Work on `wg-staging` is contributed under the Community Specification License and its Contributor License Agreement. The FOCUS WG's own review and vote happen under the FOCUS WG Charter, outside this repository.
@@ -98,14 +117,14 @@ The branch a convention passes through decides which agreement its drafting is m
 1. **Drafting on `wg-staging`.** The YAML definition is authored on the long-lived `wg-staging` branch in this repository, so that CI and Weaver lint run against the real artifact. Anyone taking part in the FOCUS WG can propose changes to `wg-staging` by pull request, under the Contributor License Agreement checkbox, linked to the Convention proposal issue where there is one. Work on `wg-staging` is drafting only: nothing there is registered, and the branch is never merged into `main` as a whole.
 2. **FOCUS WG approval.** The FOCUS Working Group reviews the YAML on `wg-staging` and decides whether to approve it, through its own process under the FOCUS WG Charter. The decision is written up as the FOCUS WG decision record.
 3. **Registration issue.** With the FOCUS WG's approval recorded, a FOCUS Submitter opens a convention registration issue in this repository, linking the FOCUS WG decision record and the approved `wg-staging` content.
-4. **Pull request.** A FOCUS Submitter opens a pull request from the approved `wg-staging` content to `main`, linked to the issue and the FOCUS WG decision record. Opening this pull request requests the OpenTelemetry review. The pull request describes the convention, its rationale, compatibility considerations and the related FOCUS column or requirement, cited by FOCUS version and requirement ID, or the FOCUS WG-approved companion specification it comes from, by name, version and decision record. FOCUS specification text is referenced, not copied. The pull request must confirm the Contributor License Agreement (see [Contributing](#contributing)).
+4. **Pull request.** A FOCUS Submitter opens a pull request from the approved `wg-staging` content to `main`, linked to the issue and the FOCUS WG decision record. The pull request describes the convention, its rationale, compatibility considerations and the related FOCUS column or requirement, cited by FOCUS version and requirement ID, or the FOCUS WG-approved companion specification it comes from, by name, version and decision record. FOCUS specification text is referenced, not copied. The pull request must confirm the Contributor License Agreement (see [Contributing](#contributing)).
 5. **Automated checks.** GitHub Actions validates the pull request: CLA confirmation, schema compliance, uniqueness, references and the other registry rules.
-6. **OpenTelemetry review.** OpenTelemetry reviewers check the convention for consistency with OpenTelemetry semantic conventions. Their review is advisory, and a federated registry needs no OpenTelemetry approval, so there is no fixed review window. A FOCUS Submitter follows up if a review is still pending when the Maintainer is ready to determine consensus. Reviewers may comment, request changes or object. An objection is considered when consensus is determined. It is not an automatic veto (see [Consensus, objections and appeals](#consensus-objections-and-appeals)). The outcome, including the absence of a review, is recorded in the OpenTelemetry review record in the pull request, so that the review is auditable after the fact.
-7. **Suggested changes go back to the FOCUS WG.** Any change suggested by a third party, including the OpenTelemetry reviewers, goes back to the FOCUS WG for discussion, review and approval. The revision is made on `wg-staging` so the checks run against it. Once the FOCUS WG has approved the revised convention, a FOCUS Submitter updates the pull request and the OpenTelemetry reviewers review it a second time.
-8. **Maintainer approval.** The Maintainer determines consensus, weighing reviews, objections and the Participants' views in good faith (Governance §2.1). If an issue remains, the Maintainer resolves it. Otherwise, the Maintainer records consensus on the pull request and marks it as approved (Contribution Policy §4.5).
-9. **Editor approval and merge.** The Editor completes the OpenTelemetry review record, gives final approval and merges the pull request. Merging is blocked without Editor approval (Contribution Policy §4.3).
+6. **Review.** Anyone may review the pull request. The Maintainer may invite OpenTelemetry representatives to review the convention for consistency with OpenTelemetry semantic conventions. That review is voluntary: it is not a mandatory review period, an approval requirement or a publication gate, and it is handled in the same way as any other reviewer's comments (see [OpenTelemetry participation](#opentelemetry-participation)). Reviewers may comment, request changes or object. An objection is considered when consensus is determined. It is not an automatic veto (see [Consensus, objections and appeals](#consensus-objections-and-appeals)).
+7. **Suggested changes go back to the FOCUS WG.** Any change suggested by a reviewer, including an OpenTelemetry representative, goes back to the FOCUS WG for discussion, review and approval. The revision is made on `wg-staging` so the checks run against it. Once the FOCUS WG has approved the revised convention, a FOCUS Submitter updates the pull request, and reviewers may review the update.
+8. **Maintainer approval.** The Maintainer facilitates and ensures community consensus, weighing reviews, objections and the Participants' views in good faith (Governance §2.1). If an issue remains, the Maintainer resolves it. Otherwise, the Maintainer records consensus on the pull request and marks it as approved (Contribution Policy §4.5).
+9. **Editor approval and merge.** The Editor gives final approval and merges the pull request. Merging is blocked without Editor approval (Contribution Policy §4.3).
 
-**A merged pull request registers the convention in the Draft Specification** on `main`. It becomes part of an Approved Specification when the Working Group approves a versioned release (see [Releases](#releases)).
+**A merged pull request registers the convention in the Draft Specification** on `main`. It becomes part of an Approved Specification when the Working Group approves a versioned release by consensus and the FOCUS Steering Committee approves it as a final deliverable (see [Releases](#releases)).
 
 Every decision is recorded in the issue or pull request, including decisions taken in meetings, so each registration has an auditable history.
 
@@ -122,6 +141,14 @@ Anyone can take part in this repository, including people and organizations outs
 | Fix an editorial or repository issue (typos, documentation, CI) | Open a pull request | Yes, via the PR checkbox |
 
 Comments and reviews are not Contributions. If reviewers' ideas are adopted, they are written into the registry in the submitter's own words, not by copying the reviewer's text.
+
+### OpenTelemetry participation
+
+Members of the OpenTelemetry community are invited to contribute to and optionally review FOCUS Semantic Conventions for OpenTelemetry.
+
+OpenTelemetry participation is subject to the same contribution and governance processes applicable to other contributors to this Working Group.
+
+OpenTelemetry review is voluntary and does not constitute a mandatory review period, approval requirement or publication gate.
 
 ### Issue forms
 
@@ -144,15 +171,28 @@ This repository does not use a CLA bot. Instead, **every pull request must tick 
 - the contribution is made under the [Community Specification Contributor License Agreement](00-contributor-license-agreement.md), and
 - the contributor is authorized to make it, including on behalf of their employer where applicable.
 
-Pull requests without a ticked checkbox will not be reviewed or merged. The Editor confirms in the approving review that the checkbox was ticked, so the acceptance stays on record after workflow logs expire. For convention registrations, the Editor also completes the OpenTelemetry review record in the pull request. By making a Contribution, you agree to the [Community Specification License](01-community-specification-license-v1.md), the [Governance Policy](05-governance.md), the [Contribution Policy](06-contributing.md) and the [Code of Conduct](08-code-of-conduct.md).
+Pull requests without a ticked checkbox will not be reviewed or merged. The Editor confirms in the approving review that the checkbox was ticked, so the acceptance stays on record after workflow logs expire. By making a Contribution, you agree to the [Community Specification License](01-community-specification-license-v1.md), the [Governance Policy](05-governance.md), the [Contribution Policy](06-contributing.md) and the [Code of Conduct](08-code-of-conduct.md).
+
+### Licensing mode
+
+Every contribution to this repository is made under the Community Specification mode: the Community Specification License and its Contributor License Agreement. This applies to everyone, including FOCUS members, OpenTelemetry participants and other external participants. The licensing framework depends on the Working Group a contribution is made to, not on who makes it: contributions to the FOCUS Working Group are made under its own W3C-mode charter instead.
+
+Meetings, issues and pull requests should make clear which Working Group the activity belongs to.
+
+### Patent exclusions
+
+A Contributor may exclude Necessary Claims from its patent licensing commitments by issuing an Exclusion Notice within 45 days of the date of that Contribution (Community Specification License §3.1). Exclusion periods are therefore rolling and apply to each Contribution separately. An Exclusion Notice is made by a pull request or commit to [03-notices.md](03-notices.md#exclusions) (License §9.7).
+
+Each Contributor is responsible for managing and submitting its own Exclusion Notices. The Working Group does not send reminders about remaining exclusion periods, and there is no release-wide IPR review equivalent to the FOCUS WG's.
 
 ## Roles
 
 | Role | Who | Responsibilities |
 |---|---|---|
-| Maintainer | _[To be named]_ | Initially proposed by FOCUS. Organize the work, determine and record consensus, resolve objections and disputes, mark pull requests as approved, coordinate appeals and publish releases |
+| Working Group Chair | _[To be named]_ | Appointed by the FOCUS Steering Committee |
+| Maintainer | _[To be named]_ | Initially proposed by FOCUS. Organize the work, facilitate and ensure community consensus and record it, resolve objections and disputes, mark pull requests as approved, coordinate appeals and publish releases |
 | Editor | [@FinOps-Open-Cost-and-Usage-Spec/focus-otel-semconv-editors](https://github.com/orgs/FinOps-Open-Cost-and-Usage-Spec/teams/focus-otel-semconv-editors) | Initially proposed by FOCUS. Make sure the registry accurately reflects the decisions made and follows the formatting and content conventions. Give final approval and merge pull requests |
-| OpenTelemetry reviewers | _[To be named]_ | Designated by the OpenTelemetry Semantic Conventions SIG. Review conventions for technical consistency with OpenTelemetry semantic conventions and tooling. No veto or separate approval authority |
+| OpenTelemetry reviewers (optional) | Invited OpenTelemetry representatives | May be invited to review conventions for technical consistency with OpenTelemetry semantic conventions and tooling. Review is voluntary and follows the same process as other contributors. No approval or blocking authority |
 | FOCUS Submitters | _[To be named]_ (at least two) | Designated by FOCUS. Submit FOCUS WG-approved conventions as issues and pull requests, and keep them moving through review. Any Submitter can act for any other |
 | Participants | Anyone who makes a Contribution under the Community Specification License | Take part in the consensus process (Governance §1.3) |
 
@@ -160,7 +200,7 @@ The FOCUS Submitter role is held by two or more people designated by FOCUS, so t
 
 ## Consensus, objections and appeals
 
-The Maintainer determines consensus and resolves any objection or dispute on a pull request. The Maintainer decides after considering the Participants' views in good faith and records the reasoning in writing on the issue or pull request. Unanimity is not required (Governance §2.1). When no issue remains, the Maintainer marks the pull request as approved, and the Editor gives final approval and merges it.
+Technical decisions are based on community consensus, which the Maintainer facilitates and ensures. The Maintainer determines consensus and resolves any objection or dispute on a pull request. The Maintainer decides after considering the Participants' views in good faith and records the reasoning in writing on the issue or pull request. Unanimity is not required (Governance §2.1). When no issue remains, the Maintainer marks the pull request as approved, and the Editor gives final approval and merges it.
 
 When a reviewer or Participant objects to a pull request, the Maintainer will do one of the following:
 
@@ -169,7 +209,9 @@ When a reviewer or Participant objects to a pull request, the Maintainer will do
 
 The Maintainer does not change a convention directly. Any change to a convention's definition, including its wording, goes back to the FOCUS WG. Repository and documentation changes (typos, README, CI) do not.
 
-Any decision may be appealed by opening an issue. The Maintainer will respond in writing within a reasonable time (Governance §2.2). The Community Specification defines no automatic appeal to the FOCUS or OpenTelemetry steering committees.
+Any decision may be appealed by opening an issue. The Maintainer will respond in writing within a reasonable time (Governance §2.2).
+
+Technical decisions based on community consensus cannot be overturned through a process appeal on technical merits alone. Procedural disputes, about how the process was followed, may be escalated to the FOCUS Steering Committee.
 
 ## Changes and deprecation
 
@@ -181,7 +223,7 @@ The Working Group will define the process for changing and deprecating conventio
 
 ## Releases
 
-The Working Group publishes versioned releases of the registry, approved by consensus (Governance §4.3, §4.4). Each release states the FOCUS specification versions it references. It is published with the Community Specification License terms, the required attribution and the disclaimer. The versioning and release policy will be defined before the first release. [RELEASING.md](RELEASING.md) drafts the mechanics.
+The Working Group publishes versioned releases of the registry, approved by consensus (Governance §4.3, §4.4). A release becomes a final deliverable once the FOCUS Steering Committee approves it; the Steering Committee may approve or decline it. The detailed Steering Committee approval process will be documented, separately from routine pull request approval and merging. Each release states the FOCUS specification versions it references. It is published with the Community Specification License terms, the required attribution and the disclaimer. The versioning and release policy will be defined before the first release. [RELEASING.md](RELEASING.md) drafts the mechanics.
 
 ## Licensing
 
@@ -191,7 +233,7 @@ The Working Group publishes versioned releases of the registry, approved by cons
 
 See [04-license.md](04-license.md) for details.
 
-Derivative works based on this registry must credit the focus-otel-semconv Working Group, including the material's name, version and source (License §1.2). Implementations do not need to give this credit.
+Derivative works based on this registry must credit the FOCUS Semantic Conventions for OpenTelemetry Working Group, including the material's name, version and source (License §1.2). Implementations do not need to give this credit.
 
 ## Notices
 
