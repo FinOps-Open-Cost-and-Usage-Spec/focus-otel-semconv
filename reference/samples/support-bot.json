@@ -1,0 +1,320 @@
+[
+  {
+    "resource": {
+      "attributes": [
+        {
+          "name": "service.name",
+          "value": "support-bot",
+          "type": "string"
+        },
+        {
+          "name": "service.instance.id",
+          "value": "627cc493-f310-47de-96bd-71410b7dec09",
+          "type": "string"
+        },
+        {
+          "name": "cloud.provider",
+          "value": "aws",
+          "type": "string"
+        },
+        {
+          "name": "cloud.platform",
+          "value": "aws_ecs",
+          "type": "string"
+        },
+        {
+          "name": "cloud.region",
+          "value": "us-east-1",
+          "type": "string"
+        },
+        {
+          "name": "cloud.account.id",
+          "value": "210987654321",
+          "type": "string"
+        },
+        {
+          "name": "cloud.resource_id",
+          "value": "arn:aws:ecs:us-east-1:210987654321:task/support/0f3e2a",
+          "type": "string"
+        },
+        {
+          "name": "focus.service_provider.name",
+          "value": "Amazon Web Services",
+          "type": "string"
+        },
+        {
+          "name": "focus.billing_account.id",
+          "value": "123456789012",
+          "type": "string"
+        },
+        {
+          "name": "focus.sub_account.id",
+          "value": "210987654321",
+          "type": "string"
+        },
+        {
+          "name": "focus.resource.id",
+          "value": "arn:aws:ecs:us-east-1:210987654321:service/support/bot",
+          "type": "string"
+        },
+        {
+          "name": "focus.service.name",
+          "value": "Amazon Elastic Container Service",
+          "type": "string"
+        }
+      ]
+    }
+  },
+  {
+    "span": {
+      "name": "invoke_workflow support-ticket",
+      "kind": "internal",
+      "attributes": [
+        {
+          "name": "gen_ai.operation.name",
+          "value": "invoke_workflow",
+          "type": "string"
+        },
+        {
+          "name": "gen_ai.provider.name",
+          "value": "openai",
+          "type": "string"
+        },
+        {
+          "name": "focus.workload.id",
+          "value": "support-bot",
+          "type": "string"
+        },
+        {
+          "name": "focus.task.id",
+          "value": "ticket-4417",
+          "type": "string"
+        }
+      ]
+    }
+  },
+  {
+    "span": {
+      "name": "embeddings text-embedding-3-small",
+      "kind": "client",
+      "attributes": [
+        {
+          "name": "gen_ai.operation.name",
+          "value": "embeddings",
+          "type": "string"
+        },
+        {
+          "name": "gen_ai.provider.name",
+          "value": "openai",
+          "type": "string"
+        },
+        {
+          "name": "gen_ai.request.model",
+          "value": "text-embedding-3-small",
+          "type": "string"
+        },
+        {
+          "name": "gen_ai.usage.input_tokens",
+          "value": 240,
+          "type": "int"
+        },
+        {
+          "name": "focus.service_provider.name",
+          "value": "OpenAI",
+          "type": "string"
+        },
+        {
+          "name": "focus.billing_account.id",
+          "value": "org-AbC123",
+          "type": "string"
+        },
+        {
+          "name": "focus.service.name",
+          "value": "OpenAI API",
+          "type": "string"
+        },
+        {
+          "name": "focus.workload.id",
+          "value": "support-bot",
+          "type": "string"
+        },
+        {
+          "name": "focus.task.id",
+          "value": "ticket-4417",
+          "type": "string"
+        }
+      ]
+    }
+  },
+  {
+    "span": {
+      "name": "chat gpt-5",
+      "kind": "client",
+      "attributes": [
+        {
+          "name": "gen_ai.operation.name",
+          "value": "chat",
+          "type": "string"
+        },
+        {
+          "name": "gen_ai.provider.name",
+          "value": "openai",
+          "type": "string"
+        },
+        {
+          "name": "gen_ai.request.model",
+          "value": "gpt-5",
+          "type": "string"
+        },
+        {
+          "name": "gen_ai.response.model",
+          "value": "gpt-5-2025-08-07",
+          "type": "string"
+        },
+        {
+          "name": "gen_ai.usage.input_tokens",
+          "value": 1200,
+          "type": "int"
+        },
+        {
+          "name": "gen_ai.usage.output_tokens",
+          "value": 310,
+          "type": "int"
+        },
+        {
+          "name": "focus.service_provider.name",
+          "value": "OpenAI",
+          "type": "string"
+        },
+        {
+          "name": "focus.billing_account.id",
+          "value": "org-AbC123",
+          "type": "string"
+        },
+        {
+          "name": "focus.service.name",
+          "value": "OpenAI API",
+          "type": "string"
+        },
+        {
+          "name": "focus.workload.id",
+          "value": "support-bot",
+          "type": "string"
+        },
+        {
+          "name": "focus.task.id",
+          "value": "ticket-4417",
+          "type": "string"
+        }
+      ]
+    }
+  },
+  {
+    "metric": {
+      "name": "gen_ai.client.embeddings.operation.input_tokens",
+      "instrument": "histogram",
+      "unit": "{token}",
+      "data_points": [
+        {
+          "value": 240,
+          "attributes": [
+            {
+              "name": "gen_ai.operation.name",
+              "value": "embeddings",
+              "type": "string"
+            },
+            {
+              "name": "gen_ai.provider.name",
+              "value": "openai",
+              "type": "string"
+            },
+            {
+              "name": "gen_ai.request.model",
+              "value": "text-embedding-3-small",
+              "type": "string"
+            },
+            {
+              "name": "focus.service_provider.name",
+              "value": "OpenAI",
+              "type": "string"
+            },
+            {
+              "name": "focus.billing_account.id",
+              "value": "org-AbC123",
+              "type": "string"
+            },
+            {
+              "name": "focus.service.name",
+              "value": "OpenAI API",
+              "type": "string"
+            },
+            {
+              "name": "focus.workload.id",
+              "value": "support-bot",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "metric": {
+      "name": "gen_ai.client.inference.usage.input_tokens",
+      "instrument": "counter",
+      "unit": "{token}",
+      "data_points": [
+        {
+          "value": 1200,
+          "attributes": [
+            {
+              "name": "gen_ai.operation.name",
+              "value": "chat",
+              "type": "string"
+            },
+            {
+              "name": "gen_ai.provider.name",
+              "value": "openai",
+              "type": "string"
+            },
+            {
+              "name": "gen_ai.token.modality",
+              "value": "text",
+              "type": "string"
+            },
+            {
+              "name": "gen_ai.request.model",
+              "value": "gpt-5",
+              "type": "string"
+            },
+            {
+              "name": "gen_ai.response.model",
+              "value": "gpt-5-2025-08-07",
+              "type": "string"
+            },
+            {
+              "name": "focus.service_provider.name",
+              "value": "OpenAI",
+              "type": "string"
+            },
+            {
+              "name": "focus.billing_account.id",
+              "value": "org-AbC123",
+              "type": "string"
+            },
+            {
+              "name": "focus.service.name",
+              "value": "OpenAI API",
+              "type": "string"
+            },
+            {
+              "name": "focus.workload.id",
+              "value": "support-bot",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    }
+  }
+]
