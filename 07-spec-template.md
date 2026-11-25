@@ -16,7 +16,7 @@ In addition, we recommend using the key words "MUST", "MUST NOT", "REQUIRED", "S
  
 © _________________
 
-This specification is subject to the Community Specification License 1.0, available at [https://github.com/CommunitySpecification/1.0](https://github.com/CommunitySpecification/1.0).
+This specification is subject to the Community Specification License 1.0, available at [https://github.com/CommunitySpecification/Community_Specification/tree/V1.1](https://github.com/CommunitySpecification/Community_Specification/tree/V1.1).
 
  
 
