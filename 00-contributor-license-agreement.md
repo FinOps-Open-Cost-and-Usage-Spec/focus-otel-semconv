@@ -1,14 +1,14 @@
 # Community Specification Contributor License Agreement 1.0
 
-By making a Contribution to this repository, I agree to the terms of the following documents located at [https://github.com/CommunitySpecification/1.0](https://github.com/CommunitySpecification/1.0):
+By making a Contribution to this repository, I agree to the terms of the following documents located at [https://github.com/CommunitySpecification/Community_Specification/tree/V1.1](https://github.com/CommunitySpecification/Community_Specification/tree/V1.1):
 
-(a) Community Specification License 1.0 (01-community-specification-license-v1.md)
+(a) Community Specification License 1.0 ([1._Community_Specification_License-v1.md](https://github.com/CommunitySpecification/Community_Specification/blob/V1.1/1._Community_Specification_License-v1.md))
 
-(b) Community Specification Governance Policy 1.0 (05-governance.md)
+(b) Community Specification Governance Policy 1.0 ([5._Governance.md](https://github.com/CommunitySpecification/Community_Specification/blob/V1.1/5._Governance.md))
 
-(c) Community Specification Contribution Policy 1.0 (06-contributing.md)
+(c) Community Specification Contribution Policy 1.0 ([6._Contributing.md](https://github.com/CommunitySpecification/Community_Specification/blob/V1.1/6._Contributing.md))
 
-(d) Community Specification Code of Conduct (08-code-of-conduct.md)
+(d) Community Specification Code of Conduct ([8._Code_of_Conduct.md](https://github.com/CommunitySpecification/Community_Specification/blob/V1.1/8._Code_of_Conduct.md))
 
 
 In addition, for source code contributions, I certify that:
